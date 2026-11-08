@@ -1,32 +1,54 @@
-# Dev container
+# Linux development container
 
-> For maintainers. Using T3 Code? See [docs/user](../user/).
+This is a same-host Linux development mode for a T3 Code checkout used through CodeInfo2. It keeps CodeInfo2's flow, plan helpers, and agents on the host while running T3 Code tools and the app in a repository-shaped container. The host needs Node.js/npm and Docker with access to its daemon; it does not need the T3 Code Node, pnpm, Vite+, Rust, or browser toolchain.
 
-`.devcontainer/` gives you a ready-to-code Linux environment matching CI: Ubuntu 24.04, Node 26, pnpm, Rust stable, the global `vp` CLI, and the GitHub CLI. Open the repo in VS Code and "Reopen in Container", or create a GitHub Codespace. Dependency install (`vp i`), the Electron exec-bit repair, and the Vite dep-cache warmup all run automatically before you attach.
+From the T3 Code repository root, start or refresh the dedicated container and run its content setup:
 
-## What works in the container
-
-- The full dev stack: `vp run dev`, then open the pairing URL it prints through the forwarded web port (5733). The bare origin is useless without the pairing token. In VS Code the forwarded port is a true localhost, so the printed URL works as-is; in browser Codespaces the forwarded origin differs, and if the server rejects it, pass the forwarded origin via `T3CODE_DEV_ALLOWED_ORIGINS`.
-- Everything the Linux CI jobs run: focused `vp test run <files>`, `vp lint <files>`, package typechecks, `vp run build:desktop`, and the resource-monitor cargo build and tests. (`vpr` is not on PATH here; the curl installer only shims `vp`. Use `vp run <script>` or `node_modules/.bin/vpr` after install.)
-
-## State and safety
-
-`T3CODE_HOME` points at the workspace's gitignored `.t3`, so all runtime state stays inside the container workspace, mirroring the worktree default. There is no live install to damage inside a container, but the test-data rule from AGENTS.md still holds: copy data in, never point at shared state.
-
-## Caching
-
-Two named volumes keep rebuilds fast and installs off the slow macOS/Windows bind mount: the pnpm store (shared across checkouts, mounted where `vp i` keeps it) and root `node_modules` (per-container, which covers the whole `.pnpm` virtual store since workspace packages just symlink into it). Deleting a container and recreating it reuses both, so a rebuild's `vp i` is seconds, not minutes. The host sees an empty `node_modules`; run host-side tooling inside the container.
-
-## Out of scope
-
-- Windowed Electron development is host-only. Building and verifying the desktop bundle works fine in the container (CI does exactly that, headless); launching the app needs a display.
-- Mobile native builds are host-only (Xcode for iOS, Android SDK for Android). Typecheck, lint, and the mobile static checks run fine.
-- `vp run dev --share` needs a tailscale binary and a tailnet; not provisioned here.
-
-## Prebuilds
-
-Container creation from scratch does a full `vp i` plus toolchain installs, which is worth prebuilding. Codespaces prebuilds are configured in repo settings, not files, and pick this config up as-is: the heavy steps live in `onCreateCommand` and `updateContentCommand`, which prebuilds bake in. Restrict prebuilds to one region and one retained version; storage bills per region per version. Note that prebuild snapshots exclude the caching volumes, so a prebuild-first workflow may prefer dropping the mounts. Outside Codespaces, the Dev Container CLI can push a prebuilt image:
-
-```bash
-devcontainer build --workspace-folder . --push true --image-name <registry>/t3code-devcontainer:latest
+```sh
+npm run container:up
 ```
+
+Run existing commands inside it by passing their arguments unchanged:
+
+```sh
+npm run container:exec -- vp test run apps/server/src/serviceLauncher.test.ts
+npm run container:exec -- cargo build --locked --release --manifest-path native/resource-monitor/Cargo.toml
+```
+
+To run the regular dev server in the foreground and keep its output attached to the terminal:
+
+```sh
+npm run container:dev
+```
+
+Use the printed `[dev-runner]` ports and pairing URL. The standalone container uses host networking, so its loopback ports are the host's loopback ports; from CodeInfo2 on that same host, the web and server endpoints are reachable on `127.0.0.1`. Keep the printed pairing URL private and do not replace it with the bare web origin.
+
+For the VS Code/Codespaces entry point, open the repository in VS Code and choose **Dev Containers: Reopen in Container**, or create a Codespace. Its configuration forwards the web and server ports (5733 and 13773). The printed pairing URL works through VS Code's localhost forwarding; in browser Codespaces, if the forwarded origin is rejected, pass that origin through `T3CODE_DEV_ALLOWED_ORIGINS`.
+
+## Host and container boundary
+
+The launcher derives the checkout's absolute real path, owning UID/GID, and a container name from that path. It builds an Ubuntu 24.04 image with the repository's pinned Node, pnpm, and Vite+ versions, Rust stable plus rustfmt, native build tools, Python, pkg-config/libsecret, Docker CLI/Compose, Electron's Linux libraries, and headless Chromium support. The container's user matches the checkout owner. It receives the exact Docker socket group ID and bind-mounts the host Docker socket; this gives container commands access to the host Docker daemon. The socket is not replaced by a nested daemon.
+
+The checkout is bind-mounted at the same absolute path inside the container. This preserves workspace paths used by tools and CodeInfo2 while keeping repository writes owned by the host user. The launcher does not forward the host home or credentials, and sets `T3CODE_HOME` to the checkout's `.t3` with seeding disabled. It does not change Vite's HTTP or WebSocket origins.
+
+Named volumes persist root `node_modules` (including pnpm's content-addressable and virtual stores), the user's cache (including Chromium's headless browser download), `.t3` runtime state, the Cargo registry, and the resource-monitor Cargo target. Electron's installed runtime lives under `node_modules`. `npm run container:stop` stops only this checkout's labeled container; it does not delete these volumes. `npm run container:up` reuses the container and volumes when the image is unchanged. If the image changes, it replaces only the identified container and reuses the volumes. Reopening or recreating the container therefore keeps dependency and runtime state; do not remove its named volumes to restart development.
+
+The Dev Container entry point starts from the Ubuntu 24.04 Dev Containers base and adds Node, Rust, and GitHub CLI through Dev Container features. The standalone Dockerfile builds from the same Ubuntu 24.04 base with pinned toolchain build arguments. Both entry points reuse `on-create.sh` and `update-content.sh`; the standalone launcher runs `update-content.sh` before reporting readiness, so dependency installation, Electron's post-install repair, Chromium installation, and Vite's dependency-cache warmup finish first.
+
+## What works
+
+- Linux web and server development, focused tests, typechecks, lint, and headless browser tests.
+- Headless desktop bundle/build work and Rust native builds, including the resource monitor.
+- Mobile JavaScript typechecking and static checks that do not require a native mobile SDK.
+
+Windowed Electron development and device interaction remain host-side. iOS builds need macOS/Xcode; Android native builds need the Android SDK. The container does not provide a display or mobile SDK. `vp run dev --share` also needs a tailscale binary and tailnet, which are not provisioned here.
+
+## Stop and state
+
+Stop only processes started for your proof using their retained terminal sessions or captured PIDs. Stop the dedicated workspace container when you want to stop its shell environment:
+
+```sh
+npm run container:stop
+```
+
+This does not delete dependencies, cache, Cargo artifacts, or `.t3` state. The default workflow leaves the workspace container running for reuse. Avoid database migration or seeding against live `~/.t3/userdata`; this container explicitly uses isolated workspace state and disables automatic seeding.

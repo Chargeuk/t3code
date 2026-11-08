@@ -4,6 +4,8 @@ Continue autonomously with the best usable verified state; report limitations an
 
 This protocol governs every parent step. Read it from the selected T3 Code repository's `codeinfo_markdown/t3code_implement_story/shared.md`. Resolve that root from the current working folder; `CODEINFO_ROOT` locates the harness/helpers, not the application. Read fresh root/nested `AGENTS.md` guidance. The canonical selected plan and its source contract define the work; do not select another plan or carry unrelated work forward.
 
+For T3 repository commands in same-host Linux CodeInfo2 mode, run `npm run container:up`, then route each existing `vp`, `cargo`, or `node` command through `npm run container:exec -- <command> [args]`; use `npm run container:dev` for the foreground app. Keep CodeInfo2 flows, plan helpers, and agents on the host, and use the original command unchanged inside the container.
+
 The main is configured `research_agent` with persistent instance identifier `t3code_research_agent`; this same continuing main handles publication at stages 2, 9, 13, 21 and 23c. Do not create a separate publisher conversation or a new research identifier. Never reset the main conversation, including after native children. Keep original contract, scope, actual worker IDs and terminal tool outcomes, iteration/review evidence and remote limitations in the continuing main conversation; refresh facts from disk instead of trusting memory alone. Do not add runtime control files.
 
 ## Selected target and evidence

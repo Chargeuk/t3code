@@ -17,6 +17,11 @@ repository root and retain its terminal session. Use the worktree's ignored
 `.t3` state and read the actual ports and pairing URL from the dev-runner output.
 Never run against `~/.t3/userdata` or set `VITE_HTTP_URL` or `VITE_WS_URL`.
 
+For this repository's same-host Linux CodeInfo2 mode, start the foreground
+server with `npm run container:dev`; the wrapper runs the same `vp run dev`
+inside the workspace container. Retain that terminal session and use the
+container's actual `[dev-runner]` ports and pairing URL.
+
 Test with meaningful project and thread data. Read
 [references/sqlite-fixtures.md](references/sqlite-fixtures.md) only when
 inspecting or seeding SQLite. Stop the test server before direct fixture writes.
