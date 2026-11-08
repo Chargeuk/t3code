@@ -1,0 +1,606 @@
+{
+  "description": "Implement the handoff-selected T3 Code story with initial planning Stages 1–10, one implementation-first recovery loop, retained Stage 11a/completion checkpoints and subsequent native review/repair stages, using one persistent research main conversation for orchestration/publication and delegated coding/proof. The loop begins with Stage 11 implementation and immediately exits only that loop on positive fresh completion of all accepted work/local proof due at the boundary; human external testing and later formal proof/reviews are excluded from that early prerequisite. After each incomplete attempt, attempt a canonical-plan recovery record, reporting confirmed/failed/uncertain outcomes honestly; only an evidenced required external action wholly outside tools and authority permits blocked halt, even if recording fails. Otherwise reuse original research, proposal, Stage 6a critical assessment, full canonical-plan save and clean independent review/main adjudication before retrying. Pending review/save never authorizes implementation of an unreviewed revision. No arbitrary iteration or three-no-progress stop/advance rule applies; bounded individual-operation retries, ownership and safe independent recovery remain. Retain recovery and completion publication/ingestion without duplicate empty commits. Each stage assesses its own goals against fresh actual evidence, creates missing work, updates verified gaps or retains satisfactory work, and hands off outcomes and unresolved obligations. Reconcile all remaining required work and proof in the existing numbered Implementation or retrospective Tasks layout, preserving completed work, immutable original work identities, blockers and applicable evidence. At stage 4, validate the selected local plan and branch against the exact plan_path handoff. Reconcile merge, publication and ingestion results before repeating side effects. Preserve accepted testing restrictions explicitly in every applicable task Testing section as clear non-checkbox prose with complete task/story/activity scope; equivalent wording is sufficient and adequate existing wording stays intact. Stage 19 accepts that legitimate prose without a positive testing-item count; missing/empty sections or no tests exist is not an exclusion. Required native 19a retrospective and 23a/23b-pr implementation, local/PR review and repair cycles remain enabled; a human-only testing restriction does not skip a whole child. Retain real target/scope/ownership, active/unknown-writer and no-race safeguards in existing operations. Stage 19 routes only on task format, with native 19a when conversion is needed and 19b when format is usable. Stages 23a and 23b-pr are direct native steps when reached; their existing review/repair responsibilities remain. Native inputs remain data, not instruction forwarding. Human testing remains external/pending, never a pass or missing agent proof. Flow definitions are cached per root: source edits do not hot-reload a running definition. This cache behavior is user information, not a native-launch proof prerequisite. Actual operations retain their safety and ownership checks; invocation is not acceptance proof. Child failure or outer lifecycle ok never establishes completion. Native resolution retains running-repository-first/configured-default fallback, real child owner/source and T3 Code working folder.",
+  "steps": [
+    {
+      "type": "llm",
+      "label": "1. Merge origin/main into the selected story branch",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/merge_main.md and codeinfo_markdown/t3code_implement_story/shared.md from the verified T3 Code root; apply their existing merge, ownership and bounded recovery rules with this narrow preservation override. An origin/main integration must retain the selected story and its complete progress, including clean incoming replacements that Git does not flag as conflicts; ordinary application/tooling integration continues.",
+            "Immediately before this invocation's merge, freshly verify the selected story, feature branch, HEAD and repository scope. Temporarily capture a lossless baseline in continuing conversation/process memory: every current-plan.json value; the selected plan's complete content, requirements, immutable identities, implementation/testing progress, evidence/history, notes and blockers; current-task.json selection and values; active-review-cycle.json identity and the matching cycle's associated review/continuation records resolved from verified existing references/layouts. Include relevant dirty, staged and untracked protected state, writer ownership, and each protected path's presence or ABSENCE. Keep committed, index and working content/status distinct; summaries, counts or hashes alone are insufficient for restoring dirty/untracked content. Use bounded helpers for plan research rather than dumping whole plans. Do not create snapshot/handoff/state files, fields, schemas or merge drivers.",
+            "Capture a NEW baseline at every merge stage, including legitimate retrospective/plan/task/review updates made before this invocation; never restore an earlier stage's snapshot. Assess pointer identity separately: preserve unrelated/stale review/task records without adopting them as selected-story evidence, deleting their history or initializing a replacement. An absent matching protected file remains absent through integration; incoming additions must not initialize or select a different story, task or review cycle.",
+            "Compare the complete proposed merge tree/index and relevant working state with this baseline even for clean merges, incoming additions/deletions and conflict resolutions. Delegate necessary preservation/file repairs to coding_agent under the existing NO COMMIT/NO PUSH ownership rules, coordinating existing writers; keep unrelated integration changes. Retain protected content/presence and original index/worktree provenance. Do not stage ephemeral/ignored state, unrelated staged work or preexisting story edits into the integration result. Preserve the existing distinction between committable and ephemeral files; do not apply a blanket ours resolution to unrelated application/tooling files.",
+            "After delegated repairs and permitted required checks succeed or are explicitly excluded by the current selected user contract (keep human testing external/pending and run no forbidden validation), verify that baseline against the FULL proposed merge index/tree and relevant working state before main finalizes only its own Git-supported FULL integration merge commit, never a path-only commit. Reconfirm branch, current-plan values, selected plan/progress, task/review identity, continuation records and protected-file absence before relying on the handoff again, including no-op/fallback paths. Preserve recorded history; separately assess only actual source/content changes for evidence made inapplicable through the existing review/proof owners. The merge itself must never switch the active story/task or reset recorded progress.",
+            "If preservation or safe exclusion of preexisting/ephemeral work cannot be verified, report the precise blocked integration and do not use an incoming replacement handoff for target-specific mutations. Retain the base prompt's fresh fetch/retry/fallback, ancestry/no-op, main-only owned merge commit, parent/tree verification and bounded owned abort/recovery safeguards; never touch another owner's merge or discard prior work. Continue safe independent diagnosis. Preserve required native launches and their local/PR review and repair cycles, subject to actual target/scope/ownership, active/unknown-writer and no-race safeguards. Human-only testing alone never excludes a whole child. Retain Stage 19's policy-aware task-format decision and unchanged executable predicate where permitted; use source bookkeeping when format validation is forbidden. Do not add other dispatch/control mechanisms or infer native instruction delivery from input data. No push or other publication is authorized in this merge stage."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "2. Commit valid merge/story changes and try push",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "markdownFile": "t3code_implement_story/publish.md",
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "3. Best-effort reingest of the working repository",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "markdownFile": "t3code_implement_story/reingest.md",
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "4. Validate the selected local plan and branch and report its overview",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "markdownFile": "t3code_implement_story/overview.md",
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "4a. Reconcile the selected plan scope and repository guidance",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/reconcile_test_reliability.md and shared.md from that same directory in the verified T3 Code root. Retain the persistent main, existing writer ownership, stable work identities, bounded recovery and publication limits. Reconcile scope against the actual selected local plan, explicit user restrictions and applicable T3 AGENTS.md guidance. Preserve existing requirements and exclusions; do not inject product criteria or broaden authorized testing.",
+            "RETAIN explicit prohibitions and human-only testing scope. Do not restore or broaden agent-testing, test-authoring, test-repair, validation-task, retry-loop or proof obligations merely because a generic canonical criterion is absent or different. Apply future-product-story defaults only where the selected contract permits them. Forward the complete meaning and scope of the actual selected execution restriction clearly, including its actual story identity, in each applicable documentation or recovery assignment under shared.md; documentation-only assignments remain documentation-only. Keep human-reserved testing external and pending, neither passed/agent-completed nor missing agent proof or an obligation to restore. Preserve existing requirements, inventory, statuses and history; no new mechanism or approval gate."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "5. Research verified implementation and reuse",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/research.md and shared.md from that same directory in the verified T3 Code root; apply the existing research-only scope and ownership rules with this complete-inventory clarification.",
+            "Before proposing new work, establish the source-backed inventory of accepted original completed, active and pending work against the current contract. Inspect predecessor history only when explicitly linked by the selected story/plan or verified referenced provenance, using bounded helpers/sections; never infer a predecessor from nearby numbers, titles or unrelated review residue. Verify each historical item's applicability to the currently accepted requirements, retain the historical source reference and original immutable identity, and exclude abandoned experiments, unrelated work and explicitly retired obligations. No link or uncertain applicability means report that limitation, not invented history.",
+            "Hand off missing inventory separately from missing implementation: verified completed work may need tracking without being proposed or implemented again. Preserve applicable implementation/proof evidence, statuses, blockers and outstanding local/final proof; empty helper output is not absence or completion. No plan/state edits, review initialization or execution here; later existing owners reconcile the single canonical inventory. This prevents remaining-work-only research from losing accepted work already completed before the flow."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "6. Assess and present the reconciled remaining plan without saving",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/propose_plan.md and apply it with this narrow accounting clarification; the implementation proposal still contains ONLY remaining AC-required implementation/repair/proof work, and this stage still does not save, task up, execute or write files.",
+            "Each applicable task Testing section must explicitly express the complete relevant no-agent-testing AC/user restriction as clear NON-CHECKBOX prose with its task/story/activity scope, through initial planning, conversion and later task edits. Equivalent wording is sufficient; retain adequate existing wording, including completed Testing sections, without cosmetic rewriting. Reconcile contradictory active default testing checklists against the accepted scope without synthetic checkboxes, fake passes or new test work; retain immutable IDs/numbers/markers, statuses, checked implementation, actual historical proof and its provenance/history. Missing/empty Testing or no tests exist is NOT an exclusion; otherwise-applicable testing remains required for unrestricted tasks/stories. This prose-preservation instruction itself authorizes no testing or test-infrastructure changes; otherwise permitted story work follows the accepted contract.",
+            "Carry the verified complete accepted original-work inventory from bounded current/source and explicitly linked predecessor evidence into documentation, including completed, active and pending items. Distinguish a missing local inventory entry for existing work from genuinely new work. Preserve immutable source identities, original numbers/markers, statuses, checked implementation, evidence/history, blockers and outstanding proof across supported layouts/path changes. Exclude abandoned/unrelated/retired work. Do not renumber, duplicate unresolved work, propose completed implementation again or construct a parallel task section.",
+            "Hand off the remaining-work proposal AND any source-backed inventory/tracking correction separately to stage 6a for read-only assessment before stage 7, even when the implementation proposal has zero additions. A satisfactory retained implementation plan may still have missing accounting; this clarification prevents an empty proposal from suppressing required historical inventory reconciliation without expanding implementation scope."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "6a. Critically assess and revise the unsaved proposal without side effects",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Continue in this same persistent research main conversation; do not reset it, launch a reviewer or add an approval gate. Read codeinfo_markdown/t3code_implement_story/shared.md and propose_plan.md from the verified T3 Code root for their existing read-only planning guidance. Critically assess Stage 6's unsaved proposal against the current selected story's FULL accepted contract, scope, explicit user restrictions and complete verified accepted original-work inventory. Use bounded plan helpers and source sections; do not select another story or infer predecessor history from nearby numbers or unrelated state.",
+            "This stage is strictly read-only proposal work. Revise only in conversation memory. Do not save or write files, Markdown, code, configuration, handoffs, runtime/control state; task up work; commit or push; execute checks, tests, builds, typechecks, lint, formatting, manual/browser proof or the runtime flow; or delegate those operations. Read-only research, source/document/Git inspection and reading existing tests as evidence are allowed. Referenced generic instructions do not authorize side effects here. Continue autonomously with safe independent research and report precise unresolved limitations without asking the unavailable human questions.",
+            "Establish fresh evidence from actual source, helpers, callers, shared state, existing tests read only and relevant primary documentation. Before accepting an assumption that affects correctness, behavior, scope, complexity, architecture, dependencies, permission or substantial effort, verify the decision-relevant premise. Distinguish confirmed facts, supported inferences and unresolved questions; confidence, another agent's unsupported assertion and failed keyword searches do not establish facts or absence. Investigate consequential uncertainty with focused read-only follow-ups; do not turn an unknown into a guessed implementation requirement or invent a solution when the necessary evidence remains unavailable.",
+            "Apply KISS: retain production-proven code and choose the smallest coherent requirement-complete plan. Inspect existing helpers, nearby supported capabilities and their real callers before proposing additions; prefer verified reuse or minimal adaptation. Require an explicit requirement and verified gap for each addition, explaining why existing capabilities are insufficient. Extract a reusable helper only for concrete duplication, with meaningful coverage in the future assessed plan when existing coverage is insufficient and its scope permits it. Reject discretionary refactors, polish, duplicate systems, speculative defenses for impossible or unsubstantiated scenarios and unrelated fixes. Assess callers and shared state outside the immediate feature for compatibility and relevant regression risk without expanding repair scope.",
+            "Assess compatibility with existing behavior and applicable performance, responsiveness, validity and lifecycle requirements from the selected contract, current T3 AGENTS.md and verified affected code. Keep any resulting work within that scope; do not infer new product requirements, logging or fallback mechanisms, or unrelated work from this assessment.",
+            "Reconcile the complete verified accepted completed, active and pending original-work inventory against the contract and Stage 6 proposal. Preserve immutable original IDs/numbers/markers, statuses, checked implementation, applicable completed work, notes, history, evidence, blockers and outstanding local/final proof across supported layouts and path changes. Use only verified explicitly linked predecessor evidence; exclude abandoned, unrelated or explicitly retired work. Keep missing inventory/tracking distinct from missing implementation. Do not duplicate or renumber work, create a competing task section, reopen applicable completed work or propose its implementation again. Retain unresolved obligations and uncertainty honestly. A complete retained plan and zero additions are valid outcomes.",
+            "For plans being assessed, where the selected contract permits testing, follow the applicable T3 AGENTS.md and owning package procedures: focused checks for the changed behavior, meaningful coverage at the lowest affected layer, and no repo-wide checks. Run check:changed before a permitted push. Preserve intended correctness checks and required proof; propose a test or harness repair only for a verified gap within the accepted scope. This is planning guidance only, not authority to execute checks or author tests during Stage 6a, and never overrides an explicit prohibition or human-reserved testing.",
+            "Apply cleanup only when the assessed contract and T3 repository guidance require it; do not impose general cleanup on other plans. Follow T3 comment guidance and add a nearby comment only for a constraint, external quirk or invariant the code cannot show.",
+            "The selected story's latest explicit user restrictions always control over generic future-plan testing, repair and proof guidance. Preserve the complete meaning and scope of those restrictions explicitly as requirements/scope in the full output plan and every applicable later ordinary worker assignment; equivalent concise wording is sufficient; do not reinterpret them as missing proof to restore. When testing is reserved to the human, keep it external and pending, never agent-completed or a fabricated pass, and do not introduce agent testing, test-authoring, validation-only or test-repair tasks, retry loops or engine/schema changes to work around that restriction. Native inputs are data, not instruction forwarding: preserve required retrospective, implementation, local/PR review and repair children while carrying the accepted restriction into applicable task Testing prose. A human-only testing restriction alone does not suppress these children. Do not launch an operation or child that cannot obey its scope; report the precise limitation and continue safe independent work. Retain generic behavior for other selected stories.",
+            "Each applicable task Testing section must explicitly express the complete relevant no-agent-testing AC/user restriction as clear NON-CHECKBOX prose with its task/story/activity scope, through initial planning, conversion and later task edits. Equivalent wording is sufficient; retain adequate existing wording, including completed Testing sections, without cosmetic rewriting. Reconcile contradictory active default testing checklists against the accepted scope without synthetic checkboxes, fake passes or new test work; retain immutable IDs/numbers/markers, statuses, checked implementation, actual historical proof and its provenance/history. Missing/empty Testing or no tests exist is NOT an exclusion; otherwise-applicable testing remains required for unrestricted tasks/stories. This prose-preservation instruction itself authorizes no testing or test-infrastructure changes; otherwise permitted story work follows the accepted contract.",
+            "Output SEPARATELY: (a) the evidence-based critical assessment, proposed changes and reasons for each, or an explicit evidence-based no-change assessment; (b) the FULL revised implementation plan, or the FULL retained plan if no improvement is justified, including the complete accepted inventory, required remaining work, necessary source references, all still-applicable required proof and selected scope/restrictions; and (c) source-backed inventory/tracking accounting, distinct from implementation additions. Do not output only a delta or summary in place of the full plan. Make this revised-or-retained Stage 6a proposal and separate inventory accounting available for Stage 7, superseding Stage 6's proposal. Keep Stage 6a findings, rationale, recommendations and change summary OUT of the resulting plan and independent Stage 8 reviewer briefing; necessary requirements/scope and source references remain in the plan. Do not perform Stage 7 saving/tasking or Stage 8 review here."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "7. Reconcile the canonical plan and stable original work identities",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/document_plan.md. Consume ONLY Stage 6a's FULL revised-or-retained proposal and its separate source-backed inventory accounting, replacing the superseded Stage 6 proposal as input. Reconcile ALL verified accepted original work, including completed/active/pending work, even when Stage 6a's output has zero implementation additions. Missing local accounting for existing work is not new implementation; retain accepted historical work in the selected canonical plan.",
+            "Delegate only necessary corrections to the existing sequential documentation worker. Keep ONE authoritative helper-discoverable inventory in the canonical plan's existing Implementation or Tasks section. Reconcile bounded explicitly linked predecessor sources only after establishing current applicability; retain their historical references, original immutable identities/numbers/markers across layout/path changes. Preserve task statuses, checked implementation, applicable evidence/history, notes, blockers and outstanding local/final proof. Do not revive abandoned/unrelated/retired work, renumber, duplicate a task or parallel section, or reimplement completed work. If existing headings/sections are not helper-discoverable, minimally adapt that same inventory in place to the already-supported task/status/Subtasks/Testing format while retaining its identities and complete content; do not add a parser, schema, competing inventory or new handoff.",
+            "Each applicable task Testing section must explicitly express the complete relevant no-agent-testing AC/user restriction as clear NON-CHECKBOX prose with its task/story/activity scope, through initial planning, conversion and later task edits. Equivalent wording is sufficient; retain adequate existing wording, including completed Testing sections, without cosmetic rewriting. Reconcile contradictory active default testing checklists against the accepted scope without synthetic checkboxes, fake passes or new test work; retain immutable IDs/numbers/markers, statuses, checked implementation, actual historical proof and its provenance/history. Missing/empty Testing or no tests exist is NOT an exclusion; otherwise-applicable testing remains required for unrestricted tasks/stories. This prose-preservation instruction itself authorizes no testing or test-infrastructure changes; otherwise permitted story work follows the accepted contract.",
+            "Reconcile status from actual applicable item evidence: Done only after implementation and required item-level proof succeeded, In Progress when work actually began with required work/proof outstanding, To Do when not begun. Preserve completed implementation checks while proof is pending and keep reserved story-wide proof open. Do not fabricate historical starts/assignment, reset valid completed state, infer Done from metadata/launch/aggregate success, repeat confirmed publication effects, or broaden commit/push authority. Report local inventory and outstanding proof separately."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "8. Obtain a fresh read-only review and adjudicate feedback",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/review_plan.md and retain the read-only review, adjudication, scope and ownership rules. Continue the persistent parent t3code_research_agent conversation. For the independent reviewer, use codeinfo_agents.run_agent_instruction to start a NEW CLEAN research_agent with agentName research_agent, the verified working_folder and NO conversationId. Do not reset the parent or reuse its conversation as the reviewer. Request read-only review and independent terminal feedback with cited source/section evidence, unavailable-human autonomy and no edits, checks, tests, runtime execution, commits, push or selection of another story.",
+            "Brief the reviewer ONLY with the resulting FULL revised-or-retained plan, requirements, scope and necessary source references. Include the complete meaning and scope of the current selected story's explicit execution restrictions clearly, with its story identity intact, including any human-only testing restriction; these requirements override conflicting generic testing, repair or proof instructions. Forward applicable reuse constraints/checklist entries and the verified AC-to-capability-to-file/helper/call-site mapping only as requirements/scope or necessary source references within those categories. Do not forward the parent conversation, Stage 6a assessment, findings, reasoning, recommendations or change summary, or the main's opinion before review. Keep that assessment material separate from the resulting plan as well; do not embed it there to influence the independent reviewer.",
+            "Within that resulting plan, preserve the COMPLETE accepted original-work inventory and its applicability, including completed, active and pending work, retained completed evidence, blockers and outstanding proof, while new implementation remains limited to remaining required work. Historical inventory must come only from verified explicitly linked sources, exclude abandoned/unrelated/retired work, and retain immutable source identities, original numbers/markers, statuses, checked implementation, history and applicable proof/provenance across layouts/path changes. Inventory, scope and reuse references are not permission to forward Stage 6a conclusions. Main retains adjudication AFTER the independent reviewer's terminal feedback; add no approval gate.",
+            "Match any review-cycle/disposition/continuation evidence to the freshly selected story, plan/branch and actual review identity before interpreting it. Other-story review residue supplies neither completion, findings nor a blocker for this story. Preserve unrelated history and real active/uncertain-writer no-race checks; do not delete/relabel records or initialize a cycle to clear residue. Use existing review setup only in its owning phase; this clarification creates no new review initialization or control gate."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "9. Commit the reviewed plan and try push",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "markdownFile": "t3code_implement_story/publish.md",
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "10. Best-effort reingest after plan review",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "markdownFile": "t3code_implement_story/reingest.md",
+      "continueOnFailure": true
+    },
+    {
+      "type": "startLoop",
+      "label": "11. Implementation-first recovery loop",
+      "steps": [
+        {
+          "type": "llm",
+          "label": "11. Orchestrate the full story through parallel coding/proof workers",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                "This is the FIRST action of the existing implementation-first recovery loop: coordinate the WHOLE reviewed plan within this Stage 11 invocation, not one fix or one task per return. Read implement.md and shared.md's Stage 11 worker-coordination protocol. Continuously refill available capacity with ready independent investigations and exclusively assigned, non-overlapping coding work; use distinct worker conversations and actual supported parallel calls, serialize overlapping files/resources and all plan writes, and hold validation inputs stable. Reuse known streams; additional conversations must be genuinely independent, never retries or replacement of active/unknown owners. A worker/task/batch finishing does not end this invocation. Bound operations and investigations per objective, park exhausted streams, and continue safe independent work. Return terminal evidence only after all due local work is complete, or remaining work requires consequential replanning or has no safe evidence-backed next step; name the exact reason, await active calls and reconcile owners first, reserving/reporting any unresolved ownership as UNKNOWN and incomplete. Before implementation, establish the saved plan revision's required independent review, main adjudication and saved corrections from actual plan/conversation and matching terminal results: initial Stage 8 or recovery Stage 17d. Pending/unavailable/failed review or save permits safe read-only diagnosis only and an incomplete return, not implementation of that revision. Preserve existing scope, worker/NO COMMIT/NO PUSH boundaries, no-race safeguards and downstream reviews. Main alone owns authorized publication at dedicated checkpoints. Forward the complete selected execution restriction with story identity in every assignment; human testing remains external/pending. Keep the assignment register in this continuing conversation; add no state/schema/control files, scheduler, worktrees or substitute native flows. Report actual work, full remaining scope, worker outcomes and uncertainties; difficulty, return or failure establishes neither completion nor an external-only blocker.",
+                "Read codeinfo_markdown/t3code_implement_story/implement.md from that same directory. An implementation attempt spans ready work across the reviewed plan, not a single worker return; retain the full delegation, activity restrictions, exclusive-resource ownership, local-versus-reserved-proof and NO COMMIT/NO PUSH rules. Execute only verified missing work or applicable outstanding proof; retain completed implementation and evidence.",
+                "Apply shared.md's selected-contract forwarding at EVERY applicable ordinary documentation, coder, reviewer, final, recovery or PR assignment: include the complete meaning and scope of the latest explicit user execution restriction clearly with its actual selected-story identity. It overrides generic test/proof/repair defaults, including those below. If testing is forbidden, do not author or repair tests/infrastructure, run or delegate checks/proof, create validation-only/test-repair tasks or retry loops, or restore mandatory agent proof. Documentation-only work remains permitted within ownership. Record human testing as external/pending, never passed/agent-completed or missing agent proof; do not invent work to exit the loop. Preserve ordinary future-story defaults where permitted.",
+                "Each applicable task Testing section must explicitly express the complete relevant no-agent-testing AC/user restriction as clear NON-CHECKBOX prose with its task/story/activity scope, through initial planning, conversion and later task edits. Equivalent wording is sufficient; retain adequate existing wording, including completed Testing sections, without cosmetic rewriting. Reconcile contradictory active default testing checklists against the accepted scope without synthetic checkboxes, fake passes or new test work; retain immutable IDs/numbers/markers, statuses, checked implementation, actual historical proof and its provenance/history. Missing/empty Testing or no tests exist is NOT an exclusion; otherwise-applicable testing remains required for unrestricted tasks/stories. This prose-preservation instruction itself authorizes no testing or test-infrastructure changes; otherwise permitted story work follows the accepted contract.",
+                "Reconcile local accounting for the COMPLETE verified accepted original inventory, including previously completed/active/pending work, not only newly added or currently dispatched items. Preserve immutable source identities and original numbers/markers across layout/path changes. The sequential documentation worker retains the single canonical inventory and records only source-backed evidence; no parallel inventory or invented provenance.",
+                "Status follows actual applicable per-item implementation/proof, not metadata or aggregate/launch success. Keep completed implementation checks and history while required proof remains open; preserve valid Done evidence, use In Progress for actually begun unfinished work and To Do for not-started work. Do not fabricate historical starts/assignment or repeat confirmed remote effects. Other-story review residue supplies neither completion, findings nor false blockers; preserve unrelated history and real writer/no-race guards, using existing review setup only in its owning phase. Report local accounting uncertainty and continue safe independent work; no new state/schema/control mechanisms; preserve required native review/repair dispatch and genuine operation-safety safeguards, without human-testing whole-child skips."
+              ]
+            }
+          ],
+          "continueOnFailure": true
+        },
+        {
+          "type": "break",
+          "label": "16. Exit only this loop on positive fresh implementation completion",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "question": "READ ONLY, immediately after the Stage 11 terminal return and before any recovery, publication or replanning step. Return EXACTLY {\"answer\":\"yes\"} only when fresh accepted requirements/exclusions, actual current source/callers/diff, complete original inventory and matching current terminal worker results positively establish ALL implementation, required documentation/repairs and authorized local work/proof DUE at this boundary complete. Required independent PLAN review/adjudication and saved corrections for the current saved plan revision must be established, not pending/unavailable; later code/local/PR review is not an early prerequisite. Awaited terminal return, a failure, empty helper lists, checkbox/status counts, no edits or stale results alone never establish completion. Target/ownership/writer state must be safe and known; active/unknown owners or uncertain source mean {\"answer\":\"no\"}, with safe evidence recovery left to the following assessment. Human-owned external testing, later reserved formal proof and scheduled later audit/publication/reporting/local/PR reviews are NOT early prerequisites and are never fabricated as passed. A positive answer exits ONLY the nearest implementation loop, then Stage 11a, completion publication/ingestion, Stage 18a and mandatory downstream review/repair continue. Any incomplete, unknown, failed or invalid decision must not exit early; return exactly {\"answer\":\"no\"} and enter the recovery stages. No writes, tests, checks, delegation or other side effects in this payload.",
+          "breakOn": "yes",
+          "continueOnFailure": true,
+          "continueOnInvalidResponse": true,
+          "breakOnFailure": false
+        },
+        {
+          "type": "llm",
+          "label": "15. Assess the incomplete attempt and record recovery evidence",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                "Read codeinfo_markdown/t3code_implement_story/shared.md from the verified selected root and apply it.",
+                "Assess this specific incomplete Stage 11 attempt against the FULL current accepted contract, actual source/callers/shared state, current terminal worker outcomes, existing plan/proof and explicit exclusions. Establish exact remaining work, the evidenced reason the worker stopped or explicit uncertainty, authorized approaches already attempted, available alternative tools/approaches and safe independent next work. Request concise failure evidence before reading cited failure ranges. Settle/await active or uncertain-owned workers, never race or duplicate them. Unknown evidence calls for focused safe investigation, not guessing or automatic halt. Do not treat worker failure/return, difficulty, a failed approach, time, iteration count or repeated lack of progress as an external-only blocker. Per-operation retry limits remain; revise the evidenced approach or task breakdown within accepted scope instead of blindly repeating unchanged failures.",
+                "Attempt the necessary canonical-plan record through the known sequential documentation owner when feasible and await its terminal result. Record this attempt using the existing plan/conversation occurrence identity protocol: unfinished original items/IDs, source/terminal evidence, authorized attempts, evidenced cause or unknown, recovery alternatives and next owner. If a required external-only action is PROVEN, record its EXACT action and why completion needs it wholly outside available tools AND authority, with no safe authorized alternative for that dependency. Attempt/settle other independent permitted work; an unrelated outage cannot leave it unattempted. Preserve all completed work/history and human testing external/pending. Report actual plan-record applicability and confirmed, failed, unavailable or uncertain save outcomes honestly; a successful save is not a prerequisite for a proven external-only blocked stop. Main performs no code/Markdown writes here and creates no new task unless the later original planning/save process justifies genuinely new required work."
+              ]
+            }
+          ],
+          "continueOnFailure": true
+        },
+        {
+          "type": "break",
+          "label": "18. Halt the flow only for a proven required external-only action",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "question": "READ ONLY after the incomplete-attempt assessment and canonical-plan record attempt. Return EXACTLY {\"answer\":\"yes\"} to HALT THE ENTIRE FLOW BLOCKED/INCOMPLETE ONLY when fresh applicable evidence establishes completion requires an EXACT external action wholly outside BOTH available tools and authority, after safe authorized alternatives for that dependency were assessed and remaining independent permitted work was attempted/settled. Confirm the canonical-plan record was attempted when feasible under its safe protocol, reporting confirmed/failed/unavailable/uncertain outcomes honestly. A successful save is not a prerequisite for stopping on that proven external-only basis; do not invent a save result. Worker return/failure, difficulty, time/iteration count, repeated no progress, unknown evidence alone, an unrelated outage or human-reserved testing is NOT such a blocker. Active/unknown owners require settling/awaiting and safe investigation, not duplicate work or automatic halt. Otherwise return EXACTLY {\"answer\":\"no\"} for the recovery research/proposal/critical-assessment/save/independent-review cycle. Failed or invalid decision does not halt. No writes, tests, delegation, state updates or other side effects in this payload.",
+          "breakOn": "yes",
+          "continueOnFailure": true,
+          "continueOnInvalidResponse": true,
+          "breakOnFailure": false,
+          "haltFlow": true
+        },
+        {
+          "type": "llm",
+          "label": "17. Research recovery using the original Stage 5 rules",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                "Read codeinfo_markdown/t3code_implement_story/shared.md from the verified selected root and apply it.",
+                "Reuse this same flow file's ORIGINAL Stage 5 inline instructions and referenced research.md, not the removed legacy Stage 17 implementation loop. Adapt ONLY this iteration's accepted remaining scope and evidenced stop cause/unknown. Research actual source/callers/shared state and applicable primary documentation as needed, using existing read-only capabilities and bounded source sections. Reconcile all completed/active/pending accepted original work and relevant explicitly linked provenance, capabilities/helpers and feasible recovery alternatives. No writes, tests, check execution or scope expansion here. Hand off evidence and honest uncertainty for the original proposal/critical-assessment process; do not invent a new planning policy or treat unknown as absence."
+              ]
+            }
+          ],
+          "continueOnFailure": true
+        },
+        {
+          "type": "llm",
+          "label": "17a. Propose recovery using the original Stage 6 rules",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                "Read codeinfo_markdown/t3code_implement_story/shared.md from the verified selected root and apply it.",
+                "Read this flow file's ORIGINAL Stage 6 messages and existing propose_plan.md/shared.md as authoritative. Apply them unchanged except for this iteration's current remaining work and evidence from the incomplete-attempt assessment/research. Propose only missing or evidenced-gap AC-required work, retaining all completed work, immutable IDs/statuses/history/proof and exact scoped task Testing prose. Keep inventory/tracking accounting distinct from implementation additions; zero additions and a full retained plan are valid. Do not save/task up, write code/state, run checks/tests or invoke review. Pass the unsaved current proposal to the following original Stage 6a assessment, not directly to save or implementation."
+              ]
+            }
+          ],
+          "continueOnFailure": true
+        },
+        {
+          "type": "llm",
+          "label": "17b. Critically assess recovery using the original Stage 6a instructions",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                "Read codeinfo_markdown/t3code_implement_story/shared.md from the verified selected root and apply it.",
+                "Read the complete ORIGINAL Stage 6a messages in this flow file, using bounded source reads, and reuse them as the authoritative critical-assessment contract; do not duplicate them into a competing rule fork or change their KISS/reuse/compatibility/resilience/evidence requirements. Adapt only the current iteration's proposal/remaining work/accepted scope. Continue this same main conversation; no reviewer, reset, approval gate, writes or execution in this self-assessment. Output its separate evidence-based assessment/reasons, FULL revised-or-retained plan and separate accepted-inventory accounting. Keep all critique/reasoning/recommendations/change summaries OUT of the resulting plan and later clean reviewer briefing, while preserving necessary requirements/scope/source references and explicit scoped restrictions. This step does not save/task up or implement."
+              ]
+            }
+          ],
+          "continueOnFailure": true
+        },
+        {
+          "type": "llm",
+          "label": "17c. Save the full recovery plan before review",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                "Read codeinfo_markdown/t3code_implement_story/shared.md from the verified selected root and apply it.",
+                "Reuse the ORIGINAL Stage 7 messages and existing document_plan.md/shared.md for this iteration's latest Stage 6a FULL revised-or-retained plan plus separate inventory accounting, not the superseded proposal or critique. Delegate substantive Markdown to the known sequential documentation owner; preserve the single canonical plan and all completed/active/pending items, original IDs/numbers/markers, original numeric identities, exact statuses/checked implementation, history, blockers and applicable proof. Each applicable task Testing explicitly expresses the complete relevant accepted restriction as clear non-checkbox prose; retain adequate existing wording. Await actual terminal save results and confirm saved content before asking the independent reviewer; unavailable/failed/uncertain saves leave readiness pending and permit no guessed review context or implementation of an unsaved revision."
+              ]
+            }
+          ],
+          "continueOnFailure": true
+        },
+        {
+          "type": "llm",
+          "label": "17d. Independently review recovery, adjudicate and save justified corrections",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                "Read codeinfo_markdown/t3code_implement_story/shared.md from the verified selected root and apply it.",
+                "Reuse the ORIGINAL Stage 8 inline instructions and existing review_plan.md/shared.md as authoritative, with this iteration context only. First confirm the latest proposed full revised-or-retained plan is actually saved. If that candidate save is failed, unavailable, uncertain or mismatched, do NOT request review of an old/guessed revision: continue safe diagnosis, keep review/save readiness pending and permit no implementation of the unreviewed candidate. Otherwise start a NEW CLEAN research_agent reviewer via the existing run_agent_instruction mechanism with verified working_folder and NO conversationId for that initial reviewer call. Do NOT reset the parent or send the parent conversation, self-assessment/Stage 6a findings, reasoning, recommendations, change summary or main opinion. Brief ONLY the FULL resulting saved plan, accepted contract/requirements/exclusions (including the complete meaning and scope of current restrictions with actual story identity) and necessary source/reuse-capability references in those categories.",
+                "Await the actual independent terminal feedback without intermediate monitoring; retain that reviewer's real returned conversation ID for scoped follow-ups. Main then adjudicates findings against current accepted scope/source and original immutable inventory, explaining justified acceptance/rejection, and delegates only justified corrections to the sequential documentation owner. Save confirmed corrections in the canonical plan BEFORE returning to implementation. No automatic approval gate, advisory scope expansion or duplicate tasks. A pending/unavailable/failed independent review or correction save is NOT replaced by a main-only review and never establishes readiness; continue safe diagnosis and preserve its exact pending evidence so the next Stage 11 dispatch guard cannot implement the unreviewed revision. Use current plan and terminal worker results, not a new state flag or artifact. Required downstream implementation/local/PR review/repair remains scheduled; human testing stays external/pending."
+              ]
+            }
+          ],
+          "continueOnFailure": true
+        },
+        {
+          "type": "llm",
+          "label": "13/14. Publish valid recovery work and best-effort reingest",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                "Read codeinfo_markdown/t3code_implement_story/shared.md from the verified selected root and apply it.",
+                "Reuse existing publish.md and reingest.md responsibilities at this RECOVERY checkpoint: the same persistent main alone publishes valid owned work under the actual selected plan/branch, writer/merge/index and explicit-ref bounds, then attempts independent best-effort ingestion. Compare actual local/remote content before commit/push; retain existing matching commits/refs and do not create empty or duplicate commits or fabricate ingestion/publication success. Preserve unknown/active-writer no-race safeguards and per-operation retry budgets; settle owners first and report uncertain outcomes. Publication/ingestion failures do not prevent other safe independent work or turn incomplete work into completion. Workers remain NO COMMIT/NO PUSH and no additional publication authority is added here.",
+                "A checkpoint does not approve an unreviewed plan. Preserve exact independent-review/save readiness from current source and actual terminal outcomes; if still pending, the next FIRST Stage 11 action must withhold implementation of that revision and continue safe diagnosis. After this checkpoint the uncapped implementation-first loop repeats; no arbitrary iteration/no-progress rule can advance or stop incomplete work. Retain required local/PR reviews and human testing external/pending."
+              ]
+            }
+          ],
+          "continueOnFailure": true
+        }
+      ]
+    },
+    {
+      "type": "llm",
+      "label": "11a. Reconcile the implemented plan with the required format",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Goal: after positive Stage 16 completion has exited the Stage 11 implementation-first loop, before the retained completion publication/ingestion checkpoint and Stage 18a report, assess the complete canonical selected plan against both current $CODEINFO_ROOT/planning/plan_format_no_tasks.md and $CODEINFO_ROOT/planning/plan_format.md, together with applicable user, story and repository rules. This is the approved single new format-reconciliation stage, not a parser, engine, framework or schema change. Resolve the selected story and canonical plan freshly from codeInfoStatus/flow-state/current-plan.json in the verified repository; do not select a new story or task or rely on stale conversation identity. $CODEINFO_ROOT is the harness root. Read fresh applicable AGENTS guidance and both templates; template examples are illustrative, not literal content to copy, and optional or conditional fields remain optional or conditional under applicable explicit overrides.",
+            "The selected contract's latest explicit user execution restrictions override ALL following check/verification defaults. Forward their complete meaning and scope clearly with actual story identity to the existing documentation worker, including follow-ups/recovery. If checks or proof are prohibited, limit this work to permitted read-only source/template inspection and documentation edits: do not execute format/static/contract/syntax checks, prepare review-context artifacts, author tests or delegate validation. Preserve human-reserved testing as external/pending, not completed or missing agent proof, and do not add test/validation tasks or restore excluded obligations to satisfy a template. Otherwise retain the existing permitted verification procedure and writer/commit boundaries.",
+            "Each applicable task Testing section must explicitly express the complete relevant no-agent-testing AC/user restriction as clear NON-CHECKBOX prose with its task/story/activity scope, through initial planning, conversion and later task edits. Equivalent wording is sufficient; retain adequate existing wording, including completed Testing sections, without cosmetic rewriting. Reconcile contradictory active default testing checklists against the accepted scope without synthetic checkboxes, fake passes or new test work; retain immutable IDs/numbers/markers, statuses, checked implementation, actual historical proof and its provenance/history. Missing/empty Testing or no tests exist is NOT an exclusion; otherwise-applicable testing remains required for unrestricted tasks/stories. This prose-preservation instruction itself authorizes no testing or test-infrastructure changes; otherwise permitted story work follows the accepted contract.",
+            "Assessment: use existing bounded plan helpers first, then inspect the smallest relevant source sections until the COMPLETE plan has been assessed, including task metadata, all applicable story/task sections and history outside tasks. Establish a lossless before-state of meaning, immutable task identities/numbers/markers, exact statuses, checked and unchecked work, proof distinctions and limits, notes, blockers, history, source/provenance and explicit repository scope. Do not infer full template compliance from helper metadata or a successful task_count. If the plan is compliant, explicitly RETAIN it byte-for-byte without rewriting it.",
+            "Method: if conversion is needed, fully convert that same canonical plan in place to the applicable current template format while preserving the entire before-state and already developed content/history. Reconstruct only directly supported existing content. Check story Description/Overview, Acceptance Criteria and Out of Scope discovery as well as task discovery: top-level # Overview or # Acceptance criteria may be invisible to the story extractor, which accepts ##/###; legacy ### N. task headings and bullet-label Subtasks/Testing are incompatible with canonical ### Task N. headings, status/repos/dependencies/commits metadata and applicable #### sections. Normalize actual structure according to the current templates and applicable rules, not by copying example tasks, values or optional fields. Preserve existing review history, scoped outside task sections. Never renumber, change scope/identity, reset progress, discard history, create a parallel inventory, insert fictional placeholder tasks, invent missing requirements/facts/task exits/proof, add tests just to fill sections or treat formatting as proof. Substantive unsupported gaps remain explicit incomplete results rather than invented content or a claim of compliance.",
+            "Ownership: the persistent research main may perform read-only assessment and verification; delegate all Markdown writing and only contract-permitted checks to the existing sequential automated_testing_agent using the existing worker delegation mechanism and conversation for this assignment. Give it the exact conversion/preservation scope and NO COMMIT/NO PUSH boundary. Only one owner writes the plan at a time; await its terminal result before further plan writing. The main retains the original publication stages. Make no canonical handoff edits, task/review-state edits, new selection, helper/parser/dependency changes, new files or new handoff fields. Do not initialize a review cycle or execute a review here.",
+            "Verification (only where the selected user contract permits it; otherwise use the preceding read-only/documentation scope): require full applicable template compliance plus existing helpers, not task_count alone. Compare the complete expected task inventory and immutable identities/numbers/markers with the before-state; verify exact statuses and checkbox meaning, per-task metadata and applicable sections, story Description/Overview, Acceptance Criteria and Out of Scope extraction, repository scope and preservation of proof distinctions/limits, notes/blockers/history and provenance. Use existing plan_status.py, plan_sections.py and other relevant existing helpers under $CODEINFO_ROOT/scripts without changing selected handoffs/state. Exercise actual downstream review-context preparation with $CODEINFO_ROOT/scripts/prepare_review_context.py and its ordinary ignored context artifact, using its supported interface without initializing a review cycle; inspect the prepared context for the expected story Description/Overview, Acceptance Criteria, applicable Out Of Scope and verified story/repository identity/scope rather than trusting metadata alone. Verify task content separately through existing plan helpers. This ordinary ignored artifact is the existing verification output, not a new handoff or file mechanism. Delegate Markdown checks to the same sequential tester. Do not run story test suites, app runtime, a live flow or reviews merely to validate formatting, and do not author new tests.",
+            "Recovery and handoff: retain safe progress on tooling or credential outages, make no infinite retries and add no control mechanisms beyond the existing genuine operation-safety safeguards. Report precise incomplete/unavailable checks or unresolved substantive gaps without falsely claiming compliance; a helper success cannot erase them. Hand off to the completion checkpoint and Stage 18a a CREATE/UPDATE/RETAIN outcome as applicable to the verified canonical plan, conversion versus no-op, what was normalized and preserved, source/template versions, checks with actual outcomes and remaining gaps. Do not create a replacement plan to bypass an unavailable selected source. Retain the existing implementation loop, required native launches and local/PR review/repair cycles, subject to genuine operation-safety safeguards. Keep all writer roles and commit/publication boundaries. Human-reserved testing is external/pending and creates no agent proof gap; carrying its accepted restriction into each applicable task Testing as plain prose is required implementation documentation, not authority for checks or synthetic testing work."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "13. Publish valid completed implementation after Stage 11a",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read shared.md from codeinfo_markdown/t3code_implement_story in the freshly verified selected root. Continue the same persistent t3code_research_agent; retain actual worker conversation IDs, serialized writers, safe target/ownership/no-race checks and original immutable inventory/history. Forward the complete meaning and scope of the latest selected execution restriction clearly with actual story identity in every applicable ordinary assignment, with NO COMMIT/NO PUSH for workers. Main alone owns authorized publication in its dedicated stages. Preserve non-checkbox scoped restrictions in every applicable task Testing. Do not authorize selected-scope exclusions, including any prohibited testing, test authoring/repair or validation-only work, and fabricate no passes; retain normal testing behavior where the accepted contract permits it. Await actual terminal worker results without intermediate monitoring or duplicate dispatch; continue safe independent actions after unrelated failures.",
+            "Read publish.md and retain the original same-main-only publication, actual plan/branch/explicit-ref, ownership/full-index and bounded operation rules at this COMPLETION checkpoint. It follows ONLY positive Stage 16 loop exit and Stage 11a format reconciliation; use actual current source/worker/normalization evidence, never a loop cap or aggregate return. Publish only valid owned work, retaining already committed/pushed matching content without empty/duplicate commits. Unsafe/unknown writers mean no competing commit; investigate/settle safely and report honest pending publication. Nonfatal remote limitations remain separate from local implementation completion. No code/Markdown repairs, tests or broadened publication authority here."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "14. Best-effort reingest of completed implementation",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "markdownFile": "t3code_implement_story/reingest.md",
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "18a. Report positively completed implementation and remaining downstream work",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read shared.md from codeinfo_markdown/t3code_implement_story in the freshly verified selected root. Continue the same persistent t3code_research_agent; retain actual worker conversation IDs, serialized writers, safe target/ownership/no-race checks and original immutable inventory/history. Forward the complete meaning and scope of the latest selected execution restriction clearly with actual story identity in every applicable ordinary assignment, with NO COMMIT/NO PUSH for workers. Main alone owns authorized publication in its dedicated stages. Preserve non-checkbox scoped restrictions in every applicable task Testing. Do not authorize selected-scope exclusions, including any prohibited testing, test authoring/repair or validation-only work, and fabricate no passes; retain normal testing behavior where the accepted contract permits it. Await actual terminal worker results without intermediate monitoring or duplicate dispatch; continue safe independent actions after unrelated failures.",
+            "Read loop_exit.md and apply its report-only scope after Stage 11a and the retained completion publication/ingestion checkpoint. Report the actual positive immediate Stage 16 source/terminal-evidence decision and work/normalization since it, with local versus remote limitations and exact remaining owners. There is no cap-exhaustion or three-no-progress success/fallback path. A missing/invalid decision, failure, empty counts or implicit loop return never establishes completion; do not manufacture a pass or erase genuine newly evidenced gaps. Preserve Stage 18c/19 and mandatory downstream implementation/local/PR review/repair, audit/publication/reporting and permitted later formal proof as scheduled separate work. Human acceptance remains external/pending, never agent-completed. No edits, checks/tests, extra flow launch or automatic restart/resume in this report."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "18c. Merge origin/main immediately before stage 19",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/merge_main.md and codeinfo_markdown/t3code_implement_story/shared.md from the verified T3 Code root; apply their existing merge, ownership and bounded recovery rules with this narrow preservation override. An origin/main integration must retain the selected story and its complete progress, including clean incoming replacements that Git does not flag as conflicts; ordinary application/tooling integration continues.",
+            "Immediately before this invocation's merge, freshly verify the selected story, feature branch, HEAD and repository scope. Temporarily capture a lossless baseline in continuing conversation/process memory: every current-plan.json value; the selected plan's complete content, requirements, immutable identities, implementation/testing progress, evidence/history, notes and blockers; current-task.json selection and values; active-review-cycle.json identity and the matching cycle's associated review/continuation records resolved from verified existing references/layouts. Include relevant dirty, staged and untracked protected state, writer ownership, and each protected path's presence or ABSENCE. Keep committed, index and working content/status distinct; summaries, counts or hashes alone are insufficient for restoring dirty/untracked content. Use bounded helpers for plan research rather than dumping whole plans. Do not create snapshot/handoff/state files, fields, schemas or merge drivers.",
+            "Capture a NEW baseline at every merge stage, including legitimate retrospective/plan/task/review updates made before this invocation; never restore an earlier stage's snapshot. Assess pointer identity separately: preserve unrelated/stale review/task records without adopting them as selected-story evidence, deleting their history or initializing a replacement. An absent matching protected file remains absent through integration; incoming additions must not initialize or select a different story, task or review cycle.",
+            "Compare the complete proposed merge tree/index and relevant working state with this baseline even for clean merges, incoming additions/deletions and conflict resolutions. Delegate necessary preservation/file repairs to coding_agent under the existing NO COMMIT/NO PUSH ownership rules, coordinating existing writers; keep unrelated integration changes. Retain protected content/presence and original index/worktree provenance. Do not stage ephemeral/ignored state, unrelated staged work or preexisting story edits into the integration result. Preserve the existing distinction between committable and ephemeral files; do not apply a blanket ours resolution to unrelated application/tooling files.",
+            "After delegated repairs and permitted required checks succeed or are explicitly excluded by the current selected user contract (keep human testing external/pending and run no forbidden validation), verify that baseline against the FULL proposed merge index/tree and relevant working state before main finalizes only its own Git-supported FULL integration merge commit, never a path-only commit. Reconfirm branch, current-plan values, selected plan/progress, task/review identity, continuation records and protected-file absence before relying on the handoff again, including no-op/fallback paths. Preserve recorded history; separately assess only actual source/content changes for evidence made inapplicable through the existing review/proof owners. The merge itself must never switch the active story/task or reset recorded progress.",
+            "If preservation or safe exclusion of preexisting/ephemeral work cannot be verified, report the precise blocked integration and do not use an incoming replacement handoff for target-specific mutations. Retain the base prompt's fresh fetch/retry/fallback, ancestry/no-op, main-only owned merge commit, parent/tree verification and bounded owned abort/recovery safeguards; never touch another owner's merge or discard prior work. Continue safe independent diagnosis. Preserve required native launches and their local/PR review and repair cycles, subject to actual target/scope/ownership, active/unknown-writer and no-race safeguards. Human-only testing alone never excludes a whole child. Retain Stage 19's policy-aware task-format decision and unchanged executable predicate where permitted; use source bookkeeping when format validation is forbidden. Do not add other dispatch/control mechanisms or infer native instruction delivery from input data. No push or other publication is authorized in this merge stage."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "if",
+      "label": "19. Check selected plan task format before the native retrospective",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "condition": "Stage 19 decides task representation only; it does not waive required retrospective, implementation, local/PR review or repair work. First read the freshly selected accepted contract/AC and explicit user restrictions. Use existing bounded plan_status.py metadata and plan_sections.py --task-number <original-number> --section Testing retrieval (or existing task_sections source capability), without changing handoffs, to inspect each applicable task Testing section and its exact task/story/activity scope. Missing/empty sections or wording such as no tests exist is NOT an explicit testing exclusion. Where an accepted restriction applies, legitimate clear NON-CHECKBOX Testing prose explicitly expressing the complete relevant restriction is valid without testing_total > 0 or synthetic checkboxes; do not demand excluded tests. In the explicit-restriction route, use permitted read-only source/document bookkeeping to establish the ordinary structure: nonempty uniquely numbered positive tasks, titles, supported exact statuses and nonempty implementation subtasks, with each task having either its normal required testing checklist where permitted or explicit scoped accepted exclusion prose. Reconcile contradictory active testing defaults through the existing documentation owner without fake passes or erasing actual historical proof. Only in that explicit-restriction route, if the source-backed structure is usable return EXACTLY {\"answer\":\"no\"}; if normalization is required return EXACTLY {\"answer\":\"yes\"}. Do not infer exclusion or completeness from counts alone. If the selected restriction forbids format/static/contract/syntax or other validation commands, do NOT execute the command below or delegate checks; use only those permitted source/helper reads and describe the result as source-based bookkeeping, never a format-test pass. If there is no applicable explicit testing exclusion and the contract permits the normal executable format procedure, retain its unchanged predicate: run exactly the command below from the verified root and return its stdout only. On command failure/empty output return exactly {\"answer\":\"yes\"}, never an invented pass. Retain existing target/scope/ownership, active-child and no-competing-writer safeguards for actual operations; this format decision adds no dispatch gate. No tests, child/runtime execution, writes or new parser/helper/schema here.\n\n```bash\npython3 -B - <<'PY'\nimport os, sys\nusable = False\ntry:\n    sys.path.insert(0, os.path.join(os.environ[\"CODEINFO_ROOT\"], \"scripts\"))\n    from plan_status import parse_plan, resolve_plan_path\n    plan_path, _ = resolve_plan_path(None, \"codeInfoStatus/flow-state/current-plan.json\")\n    tasks = parse_plan(plan_path)\n    numbers = [task[\"number\"] for task in tasks]\n    usable = bool(tasks) and len(numbers) == len(set(numbers)) and all(\n        task[\"number\"] > 0\n        and task[\"title\"].strip()\n        and task[\"status\"] in {\"__to_do__\", \"__in_progress__\", \"__done__\"}\n        and task[\"subtasks_total\"] > 0\n        and task[\"testing_total\"] > 0\n        for task in tasks\n    )\nexcept (Exception, SystemExit) as exc:\n    print(f\"stage19 plan-format check failed: {type(exc).__name__}: {exc}\", file=sys.stderr)\nprint('{\"answer\":\"no\"}' if usable else '{\"answer\":\"yes\"}')\nPY\n```",
+      "then": [
+        {
+          "type": "subflowWave",
+          "label": "19a. Native missing retrospective on the verified target",
+          "failureMode": "best_effort",
+          "groups": [
+            {
+              "kind": "singleton",
+              "id": "t3code_document_completed_branch_story",
+              "flowName": "document_completed_branch_story"
+            }
+          ]
+        }
+      ],
+      "else": [
+        {
+          "type": "llm",
+          "label": "19b. Report retained usable task format",
+          "agentType": "research_agent",
+          "identifier": "t3code_research_agent",
+          "continueOnFailure": true,
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                "Read codeinfo_markdown/t3code_implement_story/shared.md and apply it. Goal: report the retained usable task representation established by Stage 19's actual source/helper bookkeeping or permitted executable predicate. State which source was used; do not claim a Python/format check ran when validation was prohibited. A legitimate explicit accepted testing exclusion in plain task Testing prose is valid without testing checkboxes; missing/empty prose or no tests exist does not exclude otherwise-required testing. Do not repeat the predicate or reinterpret its actual result. Retaining usable format avoids unnecessary retrospective conversion only; it does not skip required implementation, local/PR reviews or repair cycles, establish proof, or complete human acceptance. Preserve completed work, IDs, blockers and applicable proof; no invented plan or receipt. No archiving, branch switches, file edits, checks, delegation, commits or pushes. Continue stage 20's original-plan/Git-evidence audit with exact remaining obligations and owner. Preserve persistent conversations and distinguish network limitations from retained valid state."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "llm",
+      "label": "20. Assess and reconcile the canonical retrospective against the original contract",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/audit_retrospective.md and apply its existing full-contract coverage, provenance/receipt, worker, bounded recovery and native-dispatch rules with this complete-inventory clarification.",
+            "Assess requirements, statuses and proof under the actual selected contract's latest explicit execution restrictions, forwarding their complete meaning and scope clearly with actual story identity in each applicable ordinary documentation/repair/recovery assignment under shared.md. Do not restore prohibited test-authoring, testing/validation, test-repair tasks or retry loops through retrospective reconciliation. Retain human-only testing as external/pending, neither completed acceptance nor missing agent proof; preserve other stories' permitted requirements and existing ownership/publication limits.",
+            "Each applicable task Testing section must explicitly express the complete relevant no-agent-testing AC/user restriction as clear NON-CHECKBOX prose with its task/story/activity scope, through initial planning, conversion and later task edits. Equivalent wording is sufficient; retain adequate existing wording, including completed Testing sections, without cosmetic rewriting. Reconcile contradictory active default testing checklists against the accepted scope without synthetic checkboxes, fake passes or new test work; retain immutable IDs/numbers/markers, statuses, checked implementation, actual historical proof and its provenance/history. Missing/empty Testing or no tests exist is NOT an exclusion; otherwise-applicable testing remains required for unrestricted tasks/stories. This prose-preservation instruction itself authorizes no testing or test-infrastructure changes; otherwise permitted story work follows the accepted contract.",
+            "Reconcile the canonical plan against ALL accepted original completed, active and pending work, even when no new code/proof or implementation proposal exists. Use only bounded explicitly linked predecessor/archive/receipt sources after verifying current applicability; retain historical references and exclude abandoned/unrelated/retired obligations. Preserve immutable original identities/markers, original numeric identities, statuses, checked implementation, evidence/history, blockers and outstanding local/final proof across conversion or path changes. Restore verified inventory omissions through the sequential documentation worker in the same authoritative helper-supported section; never create a competing structure, renumber, duplicate or rerun completed implementation. An unavailable source stays an explicit limitation, not guessed completion.",
+            "Assess review evidence only for the freshly verified selected story, plan/branch and matching review identity. Other-story residue is neither completion, findings nor a blocker; preserve unrelated history and real active/uncertain-writer no-race safeguards. Do not initialize review/task state or delete records to clear residue; use existing review setup only in its owning phase. Carry confirmed/missing/uncertain original-item local accounting forward to the existing reconciliation owners without new remote authority here. Inventory/format completeness and native execution alone do not fulfill proof; retain Stage 19's policy-aware format handling, required retrospective where conversion is needed, required final/PR review and repair cycles and the following merge's fresh baseline. Audit actual source, accepted task Testing restrictions and authoritative child outcomes; usable retained format does not fabricate a retrospective receipt. Human-only testing never excuses required child review or implementation. Keep excluded testing external/pending without treating it as a failed test or manufacturing passes."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "20a. Merge origin/main immediately after stage 20 and before stage 21",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/merge_main.md and codeinfo_markdown/t3code_implement_story/shared.md from the verified T3 Code root; apply their existing merge, ownership and bounded recovery rules with this narrow preservation override. An origin/main integration must retain the selected story and its complete progress, including clean incoming replacements that Git does not flag as conflicts; ordinary application/tooling integration continues.",
+            "Immediately before this invocation's merge, freshly verify the selected story, feature branch, HEAD and repository scope. Temporarily capture a lossless baseline in continuing conversation/process memory: every current-plan.json value; the selected plan's complete content, requirements, immutable identities, implementation/testing progress, evidence/history, notes and blockers; current-task.json selection and values; active-review-cycle.json identity and the matching cycle's associated review/continuation records resolved from verified existing references/layouts. Include relevant dirty, staged and untracked protected state, writer ownership, and each protected path's presence or ABSENCE. Keep committed, index and working content/status distinct; summaries, counts or hashes alone are insufficient for restoring dirty/untracked content. Use bounded helpers for plan research rather than dumping whole plans. Do not create snapshot/handoff/state files, fields, schemas or merge drivers.",
+            "Capture a NEW baseline at every merge stage, including legitimate retrospective/plan/task/review updates made before this invocation; never restore an earlier stage's snapshot. Assess pointer identity separately: preserve unrelated/stale review/task records without adopting them as selected-story evidence, deleting their history or initializing a replacement. An absent matching protected file remains absent through integration; incoming additions must not initialize or select a different story, task or review cycle.",
+            "Compare the complete proposed merge tree/index and relevant working state with this baseline even for clean merges, incoming additions/deletions and conflict resolutions. Delegate necessary preservation/file repairs to coding_agent under the existing NO COMMIT/NO PUSH ownership rules, coordinating existing writers; keep unrelated integration changes. Retain protected content/presence and original index/worktree provenance. Do not stage ephemeral/ignored state, unrelated staged work or preexisting story edits into the integration result. Preserve the existing distinction between committable and ephemeral files; do not apply a blanket ours resolution to unrelated application/tooling files.",
+            "After delegated repairs and permitted required checks succeed or are explicitly excluded by the current selected user contract (keep human testing external/pending and run no forbidden validation), verify that baseline against the FULL proposed merge index/tree and relevant working state before main finalizes only its own Git-supported FULL integration merge commit, never a path-only commit. Reconfirm branch, current-plan values, selected plan/progress, task/review identity, continuation records and protected-file absence before relying on the handoff again, including no-op/fallback paths. Preserve recorded history; separately assess only actual source/content changes for evidence made inapplicable through the existing review/proof owners. The merge itself must never switch the active story/task or reset recorded progress.",
+            "If preservation or safe exclusion of preexisting/ephemeral work cannot be verified, report the precise blocked integration and do not use an incoming replacement handoff for target-specific mutations. Retain the base prompt's fresh fetch/retry/fallback, ancestry/no-op, main-only owned merge commit, parent/tree verification and bounded owned abort/recovery safeguards; never touch another owner's merge or discard prior work. Continue safe independent diagnosis. Preserve required native launches and their local/PR review and repair cycles, subject to actual target/scope/ownership, active/unknown-writer and no-race safeguards. Human-only testing alone never excludes a whole child. Retain Stage 19's policy-aware task-format decision and unchanged executable predicate where permitted; use source bookkeeping when format validation is forbidden. Do not add other dispatch/control mechanisms or infer native instruction delivery from input data. No push or other publication is authorized in this merge stage."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "21. Commit valid retrospective/fix/merge work and try push",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "markdownFile": "t3code_implement_story/publish.md",
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "22. Best-effort reingest of the current working repository",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "markdownFile": "t3code_implement_story/reingest.md",
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "22a. Read-only final prerequisite handoff",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "continueOnFailure": true,
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "READ ONLY. Freshly assess final source/target/scope/ownership and active child/writer evidence using the accepted contract and actual outcomes; retain real IDs and report safe/unsafe/unknown facts honestly. This preflight is not a launch, halt or completion gate and never skips mandatory Stage 23a implementation/local review/repair or Stage 23b-pr PR review/repair. Preserve existing operation safeguards, settle/await actual owners without competing work and continue safe independent investigation. Carry precise unresolved obligations to the existing final reconciliation responsibilities; Stages 23a and 23b-pr remain direct native steps when reached. Cached-definition content, version, provenance or nested compliance proof is not a launch prerequisite. No code/Markdown writes, tests/checks, native/runtime execution, restart/resume, new state or acceptance claims here. Human testing remains external/pending; preserve selected restrictions and all immutable inventory/history."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "subflowWave",
+      "label": "23a. Native remaining implementation/proof on the verified target",
+      "failureMode": "best_effort",
+      "groups": [
+        {
+          "kind": "singleton",
+          "id": "t3code_implement_current_plan",
+          "flowName": "implement_current_plan"
+        }
+      ]
+    },
+    {
+      "type": "llm",
+      "label": "23b. Reconcile final child and finish safe remaining work",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/reconcile_final_work.md from that same directory and retain their child/writer ownership, safe recovery, scope, cleanup, delegation and NO COMMIT/NO PUSH rules. Account for the COMPLETE accepted original inventory and applicable proof, not only tasks the final child happened to execute; aggregate/launch/metadata success never completes an item or story.",
+            "For every applicable ordinary documentation, coder, reviewer, final, recovery or PR follow-up assignment, forward the complete meaning and scope of the actual selected contract's latest explicit execution restriction clearly with actual story identity under shared.md. It overrides generic missing-proof, test-repair and retry defaults: no prohibited test/infrastructure authoring/repair, checks, proof delegation or validation-only/test-repair tasks. Human-reserved testing stays external/pending, never passed/agent-completed or missing agent proof. Retain permitted independent work, existing worker/writer/commit boundaries and future-story defaults. Native input data is not instruction forwarding. Retain required child implementation, local/PR reviews, adjudication and authorized repair cycles; human-only testing excludes the scoped testing activities, never the whole child. Reconcile authoritative actual child identities and terminal feedback without fabricated IDs, receipts or passes. Distinguish actual failed/blocked work from excluded human-owned testing; do not create test-repair retries for the latter or duplicate an active child's work. Preserve source-backed implementation and exact task Testing restrictions. Unsafe or noncompliant operations remain blocked, while safe pending implementation/review/repair proceeds through its existing owners.",
+            "Each applicable task Testing section must explicitly express the complete relevant no-agent-testing AC/user restriction as clear NON-CHECKBOX prose with its task/story/activity scope, through initial planning, conversion and later task edits. Equivalent wording is sufficient; retain adequate existing wording, including completed Testing sections, without cosmetic rewriting. Reconcile contradictory active default testing checklists against the accepted scope without synthetic checkboxes, fake passes or new test work; retain immutable IDs/numbers/markers, statuses, checked implementation, actual historical proof and its provenance/history. Missing/empty Testing or no tests exist is NOT an exclusion; otherwise-applicable testing remains required for unrestricted tasks/stories. This prose-preservation instruction itself authorizes no testing or test-infrastructure changes; otherwise permitted story work follows the accepted contract.",
+            "Reconcile the local plan inventory for verified original completed/active/pending work, even with zero new final work. Preserve original source identities/numbers/markers, statuses, checked implementation, history/evidence, blockers and outstanding proof across layouts/path changes; do not duplicate, renumber or reimplement retained work. Documentation updates remain sequential. Status follows actual applicable item implementation/proof, never fabricated historical starts or bulk Done; keep proof-pending implementation checks and reserved final proof honest.",
+            "Match review-cycle/disposition/continuation evidence to the freshly selected story, plan/branch and current review identity. Other-story residue is neither completion, findings nor a blocker; preserve unrelated history and real active/uncertain-writer no-race guards. Use existing review setup only in its owning phase, without deleting/relabeling records or initializing state to clear residue. Report local completion, retained evidence, missing/uncertain local accounting and remote limitations separately and continue safe independent recovery. No new state/schema/framework, other dispatch changes or expanded publication authority; retain required native launches and genuine operation-safety safeguards at 19, 23a and 23b-pr."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "subflowWave",
+      "label": "23b-pr. Native PR review, repair and proof on the verified target",
+      "failureMode": "best_effort",
+      "groups": [
+        {
+          "kind": "singleton",
+          "id": "t3code_pr_current_plan",
+          "flowName": "pr_current_plan"
+        }
+      ]
+    },
+    {
+      "type": "llm",
+      "label": "23c. Publish valid child and recovery work before final reporting",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/publish.md and shared.md from that same directory in the verified root. Retain existing main-only publication, target/writer ownership, full merge-index and commit/push boundaries. Reconcile actual current source, authorized completed work and the actual Stage 23a and 23b-pr native outcomes before publication; source changes do not imply human acceptance.",
+            "Reconcile both required child implementation/review/repair flows through their actual authoritative identities and terminal outcomes. Human-only testing does not skip a whole child or waive review/adjudication and authorized repairs. Report unavailable or blocked child outcomes honestly; never fabricate receipts, passes or completion. Keep explicitly excluded testing external/human-pending, not failed/missing agent proof or a reason for a test-repair loop. Preserve exact restrictions in each applicable task Testing section and forward their complete meaning and scope clearly with actual story identity in ordinary follow-up assignments. Publish only valid owned work under existing main-only authority; no child-result or publication success establishes human acceptance."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    },
+    {
+      "type": "llm",
+      "label": "24. Report actual final local, remote and native proof outcomes",
+      "agentType": "research_agent",
+      "identifier": "t3code_research_agent",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            "Read codeinfo_markdown/t3code_implement_story/finish.md and apply its existing report-only scope, separate native-child/publication outcomes and proof requirements with this complete-inventory clarification; no repairs, remote writes, review/task initialization, checks or extra flow execution here.",
+            "Final accounting covers ALL accepted original completed, active and pending work with current applicable item-level evidence, not only new work or the final child's task count. Preserve immutable source identities across layouts/path changes, checked implementation, statuses, historical evidence and outstanding local/reserved proof. For each required actually launched child, report its authoritative identity, terminal status and actual implementation/review/repair evidence. Human-only testing does not waive a whole child review or its permitted repair cycle. A child or outcome unavailable due to a genuine safety/compliance blocker remains honestly incomplete, without invented IDs, receipts, proof passes or a human-testing scope-skip claim. Keep excluded testing external/human-pending, never human acceptance complete or failed/missing agent proof. Report unresolved authorized obligations separately; metadata, helper/format counts, launch or aggregate worker success is not completion. Match review/disposition/continuation evidence to the selected story, plan/branch and actual review identity; unrelated residue is neither completion, findings nor a false blocker, while real writer/no-race limitations and unrelated history remain protected. This prevents a complete-looking remaining-work report from hiding accepted historical work or missing proof."
+          ]
+        }
+      ],
+      "continueOnFailure": true
+    }
+  ]
+}
