@@ -23,6 +23,8 @@ npm run container:dev
 
 Use the printed `[dev-runner]` ports and pairing URL. The standalone container uses host networking, so its loopback ports are the host's loopback ports; from CodeInfo2 on that same host, the web and server endpoints are reachable on `127.0.0.1`. Keep the printed pairing URL private and do not replace it with the bare web origin.
 
+For live T3 UI testing from CodeInfo2, use the [CodeInfo2 Playwright MCP procedure](../../.agents/skills/test-t3-app/SKILL.md#use-codeinfo2s-existing-playwright-mcp). Ordinary T3 workflows continue to use the built-in Browser panel described in that skill.
+
 For the VS Code/Codespaces entry point, open the repository in VS Code and choose **Dev Containers: Reopen in Container**, or create a Codespace. Its configuration forwards the web and server ports (5733 and 13773). The printed pairing URL works through VS Code's localhost forwarding; in browser Codespaces, if the forwarded origin is rejected, pass that origin through `T3CODE_DEV_ALLOWED_ORIGINS`.
 
 ## Host and container boundary
