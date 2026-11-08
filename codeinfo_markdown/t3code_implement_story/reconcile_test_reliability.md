@@ -8,4 +8,6 @@ Retain semantically equivalent accurate wording. Make only a minimal, evidence-b
 
 The documentation worker may make an authorized local plan edit through the existing `codeinfo_agents.run_agent_instruction` path, with exact selected path, scope, delta, and NO COMMIT/NO PUSH. Serialize plan writers, await the terminal result, and freshly read the affected section. Do not change code/configuration/tests, run checks, or create new work items in this stage.
 
+Dispatch any permitted documentation edit as one standalone call under shared.md's CodeInfo2 subagent rules. Include exact plan ownership and the leaf no-delegation instruction; this stage's read-only and check restrictions remain unchanged.
+
 Report the exact selected plan path, the current authority, CREATE/UPDATE/RETAIN outcome, verification result, and any precise unresolved owner/action.
