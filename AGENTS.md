@@ -77,6 +77,25 @@ The most common defect in this repo is a change that works on the path you teste
 
 ## Dev servers
 
+### CodeInfo2 Linux container workflow
+
+When CodeInfo2 operates this Linux checkout, run container commands from the T3 repository root on the host. The checkout is mounted at the same path inside the container, so edits and Git state are shared directly; there is no copy or sync step. Keep CodeInfo2, its flows, agents, and plan helpers on the host. Run T3 `vp`, `node`, and `cargo` tooling inside the container so those toolchains do not need to be installed in the CodeInfo2 environment. The host needs Node/npm and Docker. For setup details and platform limits, see [Linux development container](docs/internals/devcontainer.md).
+
+When creating or revising plans through CodeInfo2, follow [shared.md's parallel work planning](codeinfo_markdown/t3code_implement_story/shared.md#parallel-work-planning) and respect the current role, scope, no-delegation, and commit boundaries.
+
+Before agent-created delegation through CodeInfo2, when the current step permits delegation, read and apply only the [CodeInfo2 subagent rules](codeinfo_markdown/t3code_implement_story/shared.md#codeinfo2-subagent-rules) subsection for that delegation. Explicit no-delegation or only-allowed-action instructions in the current step retain precedence: this reference requires no extra read, action, eligibility gate, or proof that a native child loaded it. Preserve each native prompt's role, scope, and caller-defined commit boundary. This CodeInfo2 transport rule does not apply to ordinary T3 agent operation outside CodeInfo2.
+
+| Command                                      | Use                                                                                                                                                                                        |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npm run container:up`                       | Build or start this checkout's container, refresh its setup, and wait until dependencies and caches are ready. Initial setup takes longer; later use reuses the container and its volumes. |
+| `npm run container:exec -- <command> [args]` | Run a command from the repository root inside the container, forwarding its arguments and exit status.                                                                                     |
+| `npm run container:dev`                      | Run the existing T3 dev runner in the foreground with output attached.                                                                                                                     |
+| `npm run container:stop`                     | Stop only this checkout's container while preserving dependency, cache, Cargo, and `.t3` volumes.                                                                                          |
+
+`container:exec` always starts at the repository root. Use `vp run --filter <package> <script>` for package commands and repository-root-relative paths for `vp test run`; do not assume it changes to a package directory. For example, run a focused test with `npm run container:exec -- vp test run scripts/dev-container.test.ts`, build the web app with `npm run container:exec -- vp run --filter @t3tools/web build`, and run the required pre-push checks with `npm run container:exec -- vp run check:changed`. Keep checks focused while iterating; do not run the full suite unless requested.
+
+The source checkout and Git state are shared at the same path, while `.t3` is a named volume mounted over that path and isolated from the host checkout's `.t3`. Dependencies, caches, Cargo artifacts, and this runtime state persist across container stops. `T3CODE_HOME` points at this isolated `.t3`, with automatic seeding disabled. Leave the workspace container running for reuse. When you start the foreground dev runner, keep its terminal session so you can stop only that process; use the actual ports and pairing URL printed by `[dev-runner]`. Do not bake origins into the dev environment. This Linux container supports web/server work and headless desktop/Rust builds; windowed Electron development and mobile native builds remain host-side (see [platform limits](docs/internals/devcontainer.md#what-works)). In this CodeInfo2 mode, wrap the bare repository `vp`, `node`, and `cargo` commands in the examples below with `container:exec`; ordinary host and VS Code workflows remain as documented.
+
 - `vp i` installs. Worktrees get this from the t3.json setup script; if module resolution looks broken, it probably did not run.
 - Setup runs in the background. While `.t3/setup-running` names a live PID, wait for it and do not run `vp i`. It ends with `.t3/setup-done` or `.t3/setup-failed` (with the error tail). With no marker at all, setup never ran here, so run `vp i` yourself.
 - `vp run dev` starts server and web. In a worktree, state defaults to that worktree's gitignored `.t3`, which deliberately outranks an ambient `T3CODE_HOME` so you cannot land on shared state by accident. An explicit `--home-dir` still wins.
@@ -148,6 +167,7 @@ For mobile verification, a missing or outdated native client is an install step,
 ## Pull requests
 
 - Never make a PR unless the developer explicitly asks you to do so.
+- To open a PR, verify the push remote and its default branch with GitHub metadata, then check whether a PR already exists for the same head and base. Prefer a write-capable GitHub connector; Git alone cannot create PRs. If it is unavailable or denied, use `gh pr create` with explicit `--repo`, `--base`, and `--head` so a fork PR targets the intended repository. If `gh auth status` reports no login, try the configured Git credential helper before asking for login: capture `git credential fill`'s password internally and pass it only as `GH_TOKEN` to the `gh` child process. For example, with the verified `Chargeuk/t3code` remote, run with shell tracing disabled: `GH_TOKEN="$(printf 'protocol=https\nhost=github.com\npath=Chargeuk/t3code.git\n\n' | git credential fill | sed -n 's/^password=//p')" gh pr create --repo Chargeuk/t3code --base main --head feature-branch --title "PR title" --body-file /path/to/pr-body.md`. Never print or persist the credential, include it in command arguments, or place it in a file or log. Use `--body-file` for exact PR prose.
 - If `origin` is git.cafe, follow [GitCafe mirror](docs/operations/development.md#gitcafe-mirror-optional): push to `origin`, open and track PRs with `cafe` and their git.cafe URLs, and keep `gh` for merging.
 - Conventional commit titles, plain language: `fix(web): new threads no longer spike CPU`.
 - Body: the problem in a sentence or two, then how you fixed it. End with the model and harness that did the work.
@@ -171,6 +191,8 @@ Most code changes do not need an internal documentation change. Agents can read 
 ## Plans and work artifacts
 
 - Do not commit implementation plans, research notes, or agent scratch files. Keep temporary working material outside the worktree. `.plans/` is gitignored only as a safety net for legacy tooling.
+- **Fork override:** When a user explicitly authorizes a canonical plan in `planning/` and the relevant persisted `codeInfoStatus/flow-state/current-plan.json` handoff, that authorization overrides this section's default against committing implementation plans. Retain and publish only those authorized canonical artifacts with their implementation; keep research notes and agent scratch files outside the worktree.
+- Do not require a fabricated ticket, GitHub issue, or PR to track work.
 - Track active maintainer work in the GitHub issue or project item that owns it. External proposals follow `CONTRIBUTING.md` and belong in Ideas discussions.
 - A merged PR is the implementation record. Close or update its tracking item when the work lands; do not preserve a second checklist in the repository.
 

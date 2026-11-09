@@ -5,6 +5,10 @@
   "scripts": {
     "prepare": "vp config --no-agent",
     "dev": "node scripts/dev-runner.ts dev",
+    "container:up": "node scripts/dev-container.mjs up",
+    "container:exec": "node scripts/dev-container.mjs exec",
+    "container:dev": "node scripts/dev-container.mjs dev",
+    "container:stop": "node scripts/dev-container.mjs stop",
     "profile:startup": "node scripts/profile-startup.mjs",
     "dev:share": "node scripts/dev-runner.ts dev --share",
     "dev:server": "node scripts/dev-runner.ts dev:server",

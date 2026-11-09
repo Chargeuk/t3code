@@ -1,13 +1,14 @@
 ---
 name: test-t3-app
-description: Test T3 Code's web and desktop UI through its built-in Browser panel against isolated development state. Use for browser verification, browser pairing recovery, and test fixtures. Use test-t3-mobile for native mobile verification.
+description: Test T3 Code's web and desktop UI through the built-in Browser panel, or through the existing CodeInfo2 Playwright MCP in same-host Linux CodeInfo2 mode, against isolated development state. Use test-t3-mobile for native mobile verification.
 ---
 
 # Test T3 web and desktop
 
-Use T3's built-in Browser panel for verification. Follow the recovery steps
-below before declaring it unavailable. Do not install or switch to another
-automation system. For native mobile testing, use
+Use T3's built-in Browser panel by default. The same-host Linux CodeInfo2
+workflow may use CodeInfo2's already-configured Playwright MCP as described
+below; absence of `preview_*` tools does not block that route. Do not install
+or configure another automation system. For native mobile testing, use
 [test-t3-mobile](../test-t3-mobile/SKILL.md).
 
 ## Start the app
@@ -17,9 +18,61 @@ repository root and retain its terminal session. Use the worktree's ignored
 `.t3` state and read the actual ports and pairing URL from the dev-runner output.
 Never run against `~/.t3/userdata` or set `VITE_HTTP_URL` or `VITE_WS_URL`.
 
+For this repository's same-host Linux CodeInfo2 mode, use the container and
+server procedure in [Use CodeInfo2's existing Playwright MCP](#use-codeinfo2s-existing-playwright-mcp).
+
 Test with meaningful project and thread data. Read
 [references/sqlite-fixtures.md](references/sqlite-fixtures.md) only when
 inspecting or seeding SQLite. Stop the test server before direct fixture writes.
+
+## Use CodeInfo2's existing Playwright MCP
+
+Use this route only when CodeInfo2 operates the same-host Linux T3 checkout.
+Keep CodeInfo2 agents, flows, and helpers on the host; run T3 commands through
+the container wrappers from the T3 repository root. Reuse a healthy isolated
+dev server. Only if none is running, ensure the workspace container is ready
+with `npm run container:up` as needed, then start `npm run container:dev` and
+retain its terminal session. Use the actual web port and complete pairing URL printed by
+`[dev-runner]`; do not assume fixed ports. The container uses host networking,
+so the browser on that host reaches the printed web origin through
+`127.0.0.1`.
+
+If the server needs a fresh pairing token, run the existing CLI against the
+container's isolated state:
+
+```sh
+npm run container:exec -- node apps/server/src/bin.ts pair --base-dir .t3
+```
+
+Use the authorization already provided by the route needed for the test:
+the dev startup pairing URL has admin scopes needed for Connections settings,
+while the `pair` CLI issues standard scopes. Do not invent pairing flags or
+bypass T3 authorization.
+
+Keep the CLI output private. Do not copy tokens, cookies, or pairing URLs into
+screenshots, commits, or reports. In the configured `manual_testing_agent`
+Playwright session, inspect the available browser tools and their current input
+schemas first. Use `browser_tabs` to list tabs and create or select a dedicated
+T3 tab without disturbing others; use `browser_navigate` once with the complete
+pairing URL, then keep using the same authenticated tab. Use the available
+`browser_snapshot`, `browser_click`, `browser_type` or form-fill tool, and
+`browser_evaluate` as appropriate. Do not assume selector/reference argument
+names across tool versions. `window.t3dev.replay("showcase")` can drive a free
+Replay conversation when suitable; Replay streams simulated activity and does
+not execute its displayed file edits, shell commands, or test results. Report
+which interactions were actually exercised; a Replay and reload prove only the
+observed UI paths, not full product acceptance.
+
+Use `browser_take_screenshot`, `browser_console_messages`, and
+`browser_network_requests` for evidence. Report the screenshot path actually
+returned by the tool; if it is only inside the browser container, copy that
+captured image to the existing mounted output directory so the host can inspect
+it. Keep screenshots and reports free of credentials. Use isolated `.t3`
+runtime state, never `~/.t3/userdata`, and do not copy live history into it.
+The container's `.t3` named volume is isolated from the host checkout's `.t3`.
+Do not spend a paid model for general UI proof. Keep the server, container, and
+proof tab available for iteration; when teardown is requested, stop only
+processes started for the proof using their retained session or captured PID.
 
 ## Drive agent turns for free
 
