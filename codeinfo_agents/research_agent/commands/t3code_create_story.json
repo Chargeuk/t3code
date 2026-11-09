@@ -1,0 +1,10 @@
+{
+  "Description": "Discuss and draft a T3 local story, and on explicit request save the agreed four-section story in planning/; use verified T3 conventions and KISS while preserving explicit overrides, without branch setup or implementation actions.",
+  "items": [
+    {
+      "type": "message",
+      "role": "user",
+      "markdownFile": "t3code_create_story.md"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "Description": "Select an existing numbered T3 local story, preserve its content and progress, reconcile already applicable rules while preserving explicit overrides, and prepare or reuse its feature branch and the existing canonical current-plan handoff; commit and push only authorized setup.",
+  "items": [
+    {
+      "type": "message",
+      "role": "user",
+      "markdownFile": "t3code_set_story.md"
+    }
+  ]
+}
