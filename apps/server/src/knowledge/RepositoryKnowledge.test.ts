@@ -12,6 +12,7 @@ import * as Fiber from "effect/Fiber";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
+import * as Queue from "effect/Queue";
 import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
@@ -318,6 +319,80 @@ it.effect(
         "embedding_unavailable",
       );
       assert.equal(state.calls.length, 2);
+    }).pipe(Effect.provide(state.dependencies), Effect.scoped);
+  },
+);
+
+it.effect.each(["ingest", "remove"] as const)(
+  "processes committed %s admission when its caller is interrupted before notification",
+  (operation) => {
+    const state = setup();
+    return Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+      const root = yield* fs.makeTempDirectoryScoped({ prefix: "knowledge-admission-" });
+      yield* write(root, "README.md", Deterministic.fixtureTexts[0]);
+      const repository = yield* Repository.KnowledgeRepository;
+      const idle = yield* Queue.unbounded<void>();
+      const committed = yield* Deferred.make<Knowledge.KnowledgeRunSummary>();
+      const release = yield* Deferred.make<void>();
+      let interruptAdmission = false;
+      let returnedAfterCommit = false;
+      const repositoryOf = Repository.KnowledgeRepository.of;
+      using _repository = vi
+        .spyOn(Repository.KnowledgeRepository, "of")
+        .mockImplementation((delegate) =>
+          repositoryOf({
+            ...delegate,
+            admit: Effect.fn("Knowledge.test.admit")(function* (input) {
+              const admitted = yield* delegate.admit(input);
+              if (interruptAdmission) {
+                yield* Deferred.succeed(committed, admitted.run);
+                yield* Deferred.await(release);
+                returnedAfterCommit = true;
+              }
+              return admitted;
+            }),
+            claimOldest: Effect.fn("Knowledge.test.claimOldest")(function* (now) {
+              const run = yield* delegate.claimOldest(now);
+              if (run === null) yield* Queue.offer(idle, undefined);
+              return run;
+            }),
+          }),
+        );
+      const service = yield* open();
+      yield* Queue.take(idle);
+      const baseline = (yield* service.admit({ target: { root } })).run;
+      yield* service.waitTerminal({ runId: baseline.runId });
+      yield* Queue.take(idle);
+      interruptAdmission = true;
+      yield* write(root, "README.md", Deterministic.fixtureTexts[2]);
+      const request = yield* (
+        operation === "ingest"
+          ? service.admit({ target: { sourceId: baseline.sourceId } })
+          : service.remove({ sourceId: baseline.sourceId })
+      ).pipe(Effect.forkChild);
+      const admitted = yield* Deferred.await(committed);
+      assert.equal((yield* repository.getRun(admitted.runId)).status, "queued");
+      request.interruptUnsafe();
+      yield* Deferred.succeed(release, undefined);
+      assert.equal((yield* Fiber.await(request))._tag, "Failure");
+      assert.isTrue(returnedAfterCommit);
+      const done = yield* service.waitTerminal({ runId: admitted.runId });
+      assert.equal(done.status, "completed");
+      assert.equal(done.runId, admitted.runId);
+      const source = (yield* service.resolve({ sourceId: baseline.sourceId })).source;
+      assert.equal(source?.chunkCount, operation === "ingest" ? 1 : 0);
+      assert.equal(sdk.rows.size, operation === "ingest" ? 1 : 0);
+      if (operation === "ingest") {
+        assert.deepEqual(
+          [...sdk.rows.values()].map((row) => row.document),
+          [Deterministic.fixtureTexts[2]],
+        );
+      } else {
+        assert.deepEqual(yield* repository.files(baseline.sourceId), []);
+        assert.isNull((yield* service.list({})).embeddingIdentity);
+      }
+      assert.equal(yield* fs.readFileString(`${root}/README.md`), Deterministic.fixtureTexts[2]);
     }).pipe(Effect.provide(state.dependencies), Effect.scoped);
   },
 );

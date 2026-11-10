@@ -576,37 +576,43 @@ const make = Effect.gen(function* () {
           cause: new Error("The canonical repository root changed."),
         });
       const value = yield* config;
-      const admitted = yield* repository.admit({
-        sourceId:
-          target.source?.sourceId ?? Knowledge.KnowledgeSourceId.make(yield* random.uuidV4()),
-        runId: Knowledge.KnowledgeRunId.make(yield* random.uuidV4()),
-        root,
-        operation: "ingest",
-        embedding: value.embedding,
-        now: yield* timestamp,
-      });
-      if (admitted.changed) {
-        yield* publish;
-        yield* signal;
-      }
+      const admitted = yield* repository
+        .admit({
+          sourceId:
+            target.source?.sourceId ?? Knowledge.KnowledgeSourceId.make(yield* random.uuidV4()),
+          runId: Knowledge.KnowledgeRunId.make(yield* random.uuidV4()),
+          root,
+          operation: "ingest",
+          embedding: value.embedding,
+          now: yield* timestamp,
+        })
+        .pipe(
+          Effect.tap((result) =>
+            result.changed ? publish.pipe(Effect.andThen(signal)) : Effect.void,
+          ),
+          Effect.uninterruptible,
+        );
       return { run: admitted.run };
     },
   );
   const remove: RepositoryKnowledge["Service"]["remove"] = Effect.fn("RepositoryKnowledge.remove")(
     function* (input: Knowledge.KnowledgeRemoveInput) {
       const source = yield* sourceById(input.sourceId);
-      const admitted = yield* repository.admit({
-        sourceId: source.sourceId,
-        runId: Knowledge.KnowledgeRunId.make(yield* random.uuidV4()),
-        root: source.root,
-        operation: "remove",
-        embedding: null,
-        now: yield* timestamp,
-      });
-      if (admitted.changed) {
-        yield* publish;
-        yield* signal;
-      }
+      const admitted = yield* repository
+        .admit({
+          sourceId: source.sourceId,
+          runId: Knowledge.KnowledgeRunId.make(yield* random.uuidV4()),
+          root: source.root,
+          operation: "remove",
+          embedding: null,
+          now: yield* timestamp,
+        })
+        .pipe(
+          Effect.tap((result) =>
+            result.changed ? publish.pipe(Effect.andThen(signal)) : Effect.void,
+          ),
+          Effect.uninterruptible,
+        );
       return { run: admitted.run };
     },
   );
