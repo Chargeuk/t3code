@@ -101,6 +101,7 @@ export class EmbeddingModels extends Context.Service<
 >()("t3/knowledge/embeddings/EmbeddingModels") {}
 
 const openAiModels = ["text-embedding-3-small", "text-embedding-3-large"] as const;
+const isKnowledgeOperationError = Schema.is(Knowledge.KnowledgeOperationError);
 
 function toWebSocketUrl(value: string): string {
   if (value.startsWith("http://")) return value.replace(/^http:/i, "ws:");
@@ -109,7 +110,7 @@ function toWebSocketUrl(value: string): string {
 }
 
 function embeddingError(code: Knowledge.KnowledgeFailureCode, cause: unknown) {
-  return Schema.is(Knowledge.KnowledgeOperationError)(cause)
+  return isKnowledgeOperationError(cause)
     ? cause
     : new Knowledge.KnowledgeOperationError({ code, cause });
 }

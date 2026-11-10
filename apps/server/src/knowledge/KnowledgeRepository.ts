@@ -24,6 +24,10 @@ const encodeEmbeddingSelection = Schema.encodeEffect(EmbeddingSelectionJson);
 const encodeEmbeddingIdentity = Schema.encodeEffect(EmbeddingIdentityJson);
 const encodeCounts = Schema.encodeEffect(RunCountsJson);
 const encodeFailure = Schema.encodeEffect(RunFailureJson);
+const encodeAstFile = Schema.encodeEffect(AstFileJson);
+const encodeAstCoverage = Schema.encodeEffect(AstCoverageJson);
+const decodeEmbeddingIdentity = Schema.decodeEffect(EmbeddingIdentityJson);
+const decodeAstFile = Schema.decodeEffect(AstFileJson);
 
 const RunRow = Schema.Struct({
   admission_order: Schema.Number,
@@ -55,6 +59,13 @@ const SourceRow = Schema.Struct({
   chunk_count: Schema.Number,
   ast_coverage_json: Schema.NullOr(AstCoverageJson),
 });
+
+const decodeRunRow = Schema.decodeUnknownEffect(RunRow);
+const decodeRunSummary = Schema.decodeEffect(Knowledge.KnowledgeRunSummary);
+const decodeSourceRow = Schema.decodeUnknownEffect(SourceRow);
+const decodeSourceSummary = Schema.decodeEffect(Knowledge.KnowledgeSourceSummary);
+const decodeIndexedFiles = Schema.decodeUnknownEffect(Schema.Array(Knowledge.KnowledgeIndexedFile));
+const isKnowledgeError = Schema.is(Knowledge.KnowledgeError);
 
 const emptyCounts: Knowledge.KnowledgeRunCounts = {
   discoveredFiles: 0,
@@ -157,7 +168,7 @@ export class KnowledgeRepository extends Context.Service<
 const persistenceError = <A, E, R>(effect: Effect.Effect<A, E, R>) =>
   effect.pipe(
     Effect.mapError((cause): Knowledge.KnowledgeError =>
-      Schema.is(Knowledge.KnowledgeError)(cause)
+      isKnowledgeError(cause)
         ? cause
         : new Knowledge.KnowledgeOperationError({ code: "persistence_failed", cause }),
     ),
@@ -177,9 +188,9 @@ const make = Effect.gen(function* () {
       ORDER BY r.admission_order
     `;
     return yield* Effect.forEach(rows, (raw) =>
-      Schema.decodeUnknownEffect(RunRow)(raw).pipe(
+      decodeRunRow(raw).pipe(
         Effect.flatMap((r) =>
-          Schema.decodeEffect(Knowledge.KnowledgeRunSummary)({
+          decodeRunSummary({
             runId: r.run_id,
             sourceId: r.source_id,
             operation: r.operation,
@@ -212,11 +223,11 @@ const make = Effect.gen(function* () {
   }, persistenceError);
 
   const readSource = Effect.fn("KnowledgeRepository.readSource")(function* (raw: unknown) {
-    const row = yield* Schema.decodeUnknownEffect(SourceRow)(raw);
+    const row = yield* decodeSourceRow(raw);
     const runs = yield* sql<{
       run_id: Knowledge.KnowledgeRunId;
     }>`SELECT run_id FROM knowledge_runs WHERE source_id = ${row.source_id} ORDER BY admission_order DESC LIMIT 1`;
-    return yield* Schema.decodeEffect(Knowledge.KnowledgeSourceSummary)({
+    return yield* decodeSourceSummary({
       sourceId: row.source_id,
       root: row.root,
       createdAt: row.created_at,
@@ -243,9 +254,7 @@ const make = Effect.gen(function* () {
     const rows = yield* sql<{
       identity_json: string;
     }>`SELECT identity_json FROM knowledge_embedding_identity WHERE singleton = 1`;
-    return rows[0]
-      ? yield* Schema.decodeEffect(EmbeddingIdentityJson)(rows[0].identity_json)
-      : null;
+    return rows[0] ? yield* decodeEmbeddingIdentity(rows[0].identity_json) : null;
   }, persistenceError);
 
   const list = Effect.fn("KnowledgeRepository.list")(
@@ -391,7 +400,7 @@ const make = Effect.gen(function* () {
   ) {
     const rows =
       yield* sql`SELECT source_id AS sourceId, run_id AS runId, rel_path AS relPath, file_hash AS fileHash FROM knowledge_files WHERE source_id = ${sourceId} ORDER BY rel_path`;
-    return yield* Schema.decodeUnknownEffect(Schema.Array(Knowledge.KnowledgeIndexedFile))(rows);
+    return yield* decodeIndexedFiles(rows);
   }, persistenceError);
 
   const astFiles = Effect.fn("KnowledgeRepository.astFiles")(function* (
@@ -400,7 +409,7 @@ const make = Effect.gen(function* () {
     const rows = yield* sql<{
       payload_json: string;
     }>`SELECT payload_json FROM knowledge_ast_files WHERE source_id = ${sourceId} ORDER BY rel_path`;
-    return yield* Effect.forEach(rows, (r) => Schema.decodeEffect(AstFileJson)(r.payload_json));
+    return yield* Effect.forEach(rows, (r) => decodeAstFile(r.payload_json));
   }, persistenceError);
 
   const finalize = Effect.fn("KnowledgeRepository.finalize")(
@@ -426,10 +435,10 @@ const make = Effect.gen(function* () {
               runId: run.runId,
               cause: new Error("AST source does not match run"),
             });
-          const payloadJson = yield* Schema.encodeEffect(AstFileJson)(file);
+          const payloadJson = yield* encodeAstFile(file);
           yield* sql`INSERT INTO knowledge_ast_files(source_id, rel_path, payload_json) VALUES (${run.sourceId}, ${file.relPath}, ${payloadJson})`;
         }
-        const coverageJson = yield* Schema.encodeEffect(AstCoverageJson)(input.ast.coverage);
+        const coverageJson = yield* encodeAstCoverage(input.ast.coverage);
         yield* sql`UPDATE knowledge_sources SET ast_coverage_json = ${coverageJson} WHERE source_id = ${run.sourceId}`;
       }
       yield* sql`UPDATE knowledge_sources SET indexed_at = ${input.now}, updated_at = ${input.now}, file_count = ${input.files.length}, chunk_count = ${input.counts.chunks} WHERE source_id = ${run.sourceId}`;

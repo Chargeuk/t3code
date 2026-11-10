@@ -12,7 +12,7 @@ import { isWithinRoot } from "../workspace/KnownWorkspaces.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
 import type { KnowledgeDiscoveredFile, KnowledgeFileFilters } from "./types.ts";
 
-export const defaultFileFilters: KnowledgeFileFilters = {
+const defaultFileFilters: KnowledgeFileFilters = {
   includes: [
     "ts",
     "tsx",

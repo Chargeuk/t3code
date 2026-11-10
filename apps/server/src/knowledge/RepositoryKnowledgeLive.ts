@@ -35,6 +35,9 @@ type KnowledgeConfig = Effect.Success<
 >["knowledge"];
 const timestamp = DateTime.now.pipe(Effect.map(DateTime.formatIso));
 const terminal = Schema.is(Knowledge.KnowledgeTerminalRun);
+const decodeTerminalRun = Schema.decodeEffect(Knowledge.KnowledgeTerminalRun);
+const isKnowledgeError = Schema.is(Knowledge.KnowledgeError);
+const isChromaError = Schema.is(Chroma.ChromaError);
 const astExtensions = new Set([
   "js",
   "jsx",
@@ -52,9 +55,9 @@ const astExtensions = new Set([
 ]);
 
 function operationError(cause: unknown): Knowledge.KnowledgeError {
-  if (Schema.is(Knowledge.KnowledgeError)(cause)) return cause;
+  if (isKnowledgeError(cause)) return cause;
   return new Knowledge.KnowledgeOperationError({
-    code: Schema.is(Chroma.ChromaError)(cause) ? "vector_store_failed" : "persistence_failed",
+    code: isChromaError(cause) ? "vector_store_failed" : "persistence_failed",
     cause,
   });
 }
@@ -607,9 +610,7 @@ const make = Effect.gen(function* () {
     ).pipe(Stream.filter(terminal), Stream.runHead);
     if (Option.isNone(result))
       return yield* new Knowledge.KnowledgeNotFoundError({ entity: "run", id: input.runId });
-    return yield* Schema.decodeEffect(Knowledge.KnowledgeTerminalRun)(result.value).pipe(
-      Effect.mapError(operationError),
-    );
+    return yield* decodeTerminalRun(result.value).pipe(Effect.mapError(operationError));
   }, Effect.scoped);
 
   const embeddingModels: RepositoryKnowledge["Service"]["embeddingModels"] = Effect.fn(

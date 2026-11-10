@@ -1,10 +1,10 @@
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Stable symbol IDs use synchronous SHA-256 in the pure record builder.
-import crypto from "node:crypto";
+import * as NodeCrypto from "node:crypto";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Native query assets load through the Promise boundary wrapped by Effect.tryPromise.
-import fs from "node:fs/promises";
-import { createRequire } from "node:module";
+import * as NodeFSP from "node:fs/promises";
+import * as NodeModule from "node:module";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Native package asset paths and extension detection stay synchronous in the parser boundary.
-import path from "node:path";
+import * as NodePath from "node:path";
 import * as Effect from "effect/Effect";
 
 import * as Knowledge from "../../../../../packages/contracts/src/knowledge.ts";
@@ -34,7 +34,7 @@ type ParserModule = {
 };
 type QueryBundle = { tags: string; locals: string };
 
-const require = createRequire(import.meta.url);
+const require = NodeModule.createRequire(import.meta.url);
 const queryCache = new Map<Knowledge.KnowledgeAstLanguage, QueryBundle>();
 const packages = {
   javascript: "tree-sitter-javascript",
@@ -95,12 +95,12 @@ function sanitizeQuery(source: string) {
 }
 
 async function readPackageQuery(packageName: string, name: string) {
-  const root = path.dirname(require.resolve(`${packageName}/package.json`));
-  return readQueryFile(path.join(root, "queries", `${name}.scm`));
+  const root = NodePath.dirname(require.resolve(`${packageName}/package.json`));
+  return readQueryFile(NodePath.join(root, "queries", `${name}.scm`));
 }
 
 async function readQueryFile(file: string | URL) {
-  const source = await fs.readFile(file, "utf8");
+  const source = await NodeFSP.readFile(file, "utf8");
   if (!source.trim()) throw new Error("Tree-sitter query asset is empty");
   return sanitizeQuery(source);
 }
@@ -161,7 +161,7 @@ function createSymbolIdBase(symbol: {
 function createSymbolIdFactory() {
   const seen = new Map<string, number>();
   return (base: string) => {
-    const hash = crypto.createHash("sha256").update(base).digest("hex");
+    const hash = NodeCrypto.createHash("sha256").update(base).digest("hex");
     const count = seen.get(hash) ?? 0;
     if (count === 0) {
       seen.set(hash, 1);
@@ -615,7 +615,7 @@ function parseTree(
 
 export const parseAstSource: KnowledgeParseAstSource = Effect.fn("Knowledge.parseAstSource")(
   function* (input: KnowledgeAstParseInput) {
-    const extension = path.extname(input.relPath).slice(1).toLowerCase();
+    const extension = NodePath.extname(input.relPath).slice(1).toLowerCase();
     const language = Object.hasOwn(extensions, extension) ? extensions[extension] : undefined;
     if (!language) return { status: "skipped" } as const;
     const context = { sourceId: input.sourceId, runId: input.runId, relPath: input.relPath };

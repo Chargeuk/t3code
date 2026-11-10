@@ -25,6 +25,10 @@ export class ChromaError extends Schema.TaggedError<ChromaError>()("ChromaError"
   }
 }
 
+const isChromaError = Schema.is(ChromaError);
+const decodeChunkDocument = Schema.decodeUnknownEffect(Knowledge.KnowledgeChunkDocument);
+const decodeRetrieveResult = Schema.decodeUnknownEffect(Knowledge.KnowledgeRetrieveResult);
+
 type SourceFilter = {
   readonly sourceId: Knowledge.KnowledgeSourceId;
   readonly relPath?: string;
@@ -80,7 +84,7 @@ const decodeChunk = Effect.fnUntraced(function* (
   document: string | null | undefined,
   metadata: unknown,
 ) {
-  return yield* Schema.decodeUnknownEffect(Knowledge.KnowledgeChunkDocument)({
+  return yield* decodeChunkDocument({
     ...(typeof metadata === "object" && metadata !== null ? metadata : {}),
     chunkId: id,
     text: document,
@@ -131,7 +135,7 @@ const make = Effect.fn("Chroma.make")(function* (config: { readonly url: string 
       );
     },
     Effect.mapError((cause) =>
-      Schema.is(ChromaError)(cause) ? cause : new ChromaError({ operation: "get", cause }),
+      isChromaError(cause) ? cause : new ChromaError({ operation: "get", cause }),
     ),
   );
 
@@ -216,10 +220,10 @@ const make = Effect.fn("Chroma.make")(function* (config: { readonly url: string 
           Effect.map((chunk) => ({ chunk, distance: result.distances[0]?.[i] })),
         ),
       );
-      return yield* Schema.decodeUnknownEffect(Knowledge.KnowledgeRetrieveResult)({ matches });
+      return yield* decodeRetrieveResult({ matches });
     },
     Effect.mapError((cause) =>
-      Schema.is(ChromaError)(cause) ? cause : new ChromaError({ operation: "query", cause }),
+      isChromaError(cause) ? cause : new ChromaError({ operation: "query", cause }),
     ),
   );
 

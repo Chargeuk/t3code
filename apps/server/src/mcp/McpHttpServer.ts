@@ -1158,7 +1158,7 @@ export const layerOrchestratorToolkit = toolkitRegistration(
 
 export const layerThreadToolkit = toolkitRegistration(ThreadToolkit, ThreadHandlers.layer);
 
-export const layerKnowledgeToolkit = toolkitRegistration(
+const layerKnowledgeToolkit = toolkitRegistration(
   KnowledgeMcpToolkit.KnowledgeToolkit,
   KnowledgeMcpToolkit.layer,
 );

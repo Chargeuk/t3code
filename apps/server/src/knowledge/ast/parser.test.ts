@@ -1,7 +1,7 @@
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Asset failure tests spy on Node's real query-file read boundary.
-import fs from "node:fs/promises";
+import * as NodeFSP from "node:fs/promises";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Node SHA-256 checks the reference symbol-ID format synchronously.
-import crypto from "node:crypto";
+import * as NodeCrypto from "node:crypto";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import { vi } from "vite-plus/test";
@@ -9,6 +9,8 @@ import { vi } from "vite-plus/test";
 import * as Knowledge from "../../../../../packages/contracts/src/knowledge.ts";
 import type { KnowledgeAstParseInput, KnowledgeAstParseResult } from "../types.ts";
 import { parseAstSource } from "./parser.ts";
+
+vi.mock("node:fs/promises", { spy: true });
 
 function input(relPath: string, text: string): KnowledgeAstParseInput {
   return {
@@ -293,7 +295,7 @@ describe("Knowledge AST parser", () => {
           }),
         );
         const base = "/repo|unicode.ts|Function|café|1|8|1|39";
-        expect(symbol?.symbolId).toBe(crypto.createHash("sha256").update(base).digest("hex"));
+        expect(symbol?.symbolId).toBe(NodeCrypto.createHash("sha256").update(base).digest("hex"));
         const movedRoot = success(yield* parseAstSource({ ...file, root: "/other" }));
         const movedPath = success(yield* parseAstSource({ ...file, relPath: "other.ts" }));
         expect(movedRoot.symbols.find((item) => item.name === "café")?.symbolId).not.toBe(
@@ -305,23 +307,25 @@ describe("Knowledge AST parser", () => {
       }),
   );
 
-  it.each(["missing", "empty"] as const)("keeps %s query assets actionable", async (kind) => {
-    vi.resetModules();
-    const fresh = await import("./parser.ts");
-    const cause = new Error("query fixture unavailable");
-    using readFile = vi.spyOn(fs, "readFile");
-    if (kind === "missing") readFile.mockRejectedValue(cause);
-    else readFile.mockResolvedValue("");
-    const file = input("sample.py", "def greet():\n  pass\n");
-    const error = await Effect.runPromise(fresh.parseAstSource(file).pipe(Effect.flip));
-    expect(error).toMatchObject({
-      _tag: "KnowledgeOperationError",
-      code: "ast_unavailable",
-      sourceId: file.sourceId,
-      runId: file.runId,
-      relPath: file.relPath,
-    });
-    if (kind === "missing") expect(error.cause).toBe(cause);
-    else expect(error.cause).toBeInstanceOf(Error);
-  });
+  it.effect.each(["missing", "empty"] as const)("keeps %s query assets actionable", (kind) =>
+    Effect.gen(function* () {
+      vi.resetModules();
+      const fresh = yield* Effect.promise(() => import("./parser.ts"));
+      const cause = new Error("query fixture unavailable");
+      using readFile = vi.mocked(NodeFSP.readFile);
+      if (kind === "missing") readFile.mockRejectedValue(cause);
+      else readFile.mockResolvedValue("");
+      const file = input("sample.py", "def greet():\n  pass\n");
+      const error = yield* fresh.parseAstSource(file).pipe(Effect.flip);
+      expect(error).toMatchObject({
+        _tag: "KnowledgeOperationError",
+        code: "ast_unavailable",
+        sourceId: file.sourceId,
+        runId: file.runId,
+        relPath: file.relPath,
+      });
+      if (kind === "missing") expect(error.cause).toBe(cause);
+      else expect(error.cause).toBeInstanceOf(Error);
+    }),
+  );
 });
