@@ -350,6 +350,24 @@ it.effect("rejects malformed vectors from either SDK and inconsistent OpenAI dim
   }),
 );
 
+it.effect("counts special-token spellings as ordinary text with the default tokenizer", () =>
+  Effect.gen(function* () {
+    const defaults = yield* EmbeddingModels.EmbeddingSdk;
+    const inputs = [
+      'export const marker = "<|endoftext|>";',
+      "Find uses of <|fim_prefix|> in this repository",
+    ];
+    yield* Effect.gen(function* () {
+      const service = yield* EmbeddingModels.EmbeddingModels;
+      const model = yield* service.resolve(openAiSelection, config);
+      for (const input of inputs) {
+        expect(yield* model.countTokens(input)).toBeGreaterThan(1);
+      }
+      expect(yield* model.embedBatch(inputs)).toEqual(inputs.map((input) => vector(input)));
+    }).pipe(Effect.provide(sdkLayer(sdkStubs({ tokenizer: defaults.tokenizer }))));
+  }),
+);
+
 it.effect("enforces OpenAI input/token limits before contacting the transport", () => {
   const create = vi.fn(async () => {
     throw new Error("Invalid inputs must not reach the transport.");

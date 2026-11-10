@@ -731,14 +731,14 @@ const make = Effect.gen(function* () {
   )(function* (input: Knowledge.KnowledgeAstFindReferencesInput) {
     const snapshot = yield* astSnapshot(input.sourceId);
     const selector = input.selector;
+    const name =
+      "symbolId" in selector
+        ? snapshot.symbols.find((symbol) => symbol.symbolId === selector.symbolId)?.name
+        : selector.name;
     return {
       references: snapshot.files
         .flatMap((file) => file.references)
-        .filter((reference) =>
-          "symbolId" in selector
-            ? reference.symbolId === selector.symbolId
-            : reference.name === selector.name,
-        ),
+        .filter((reference) => reference.name === name),
       coverage: snapshot.coverage,
     };
   });

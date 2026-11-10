@@ -346,12 +346,25 @@ it.effect(
         selector: { name: "alpha", kind: "Function" },
       })).symbol;
       assert.equal(alpha?.range.start.line, 1);
-      assert.isAbove(
+      assert.isNotNull(alpha);
+      const references = yield* service.astFindReferences({
+        sourceId: first.sourceId,
+        selector: { name: "alpha" },
+      });
+      assert.isAbove(references.references.length, 0);
+      assert.deepEqual(
+        yield* service.astFindReferences({
+          sourceId: first.sourceId,
+          selector: { symbolId: alpha!.symbolId },
+        }),
+        references,
+      );
+      assert.deepEqual(
         (yield* service.astFindReferences({
           sourceId: first.sourceId,
-          selector: { name: "alpha" },
-        })).references.length,
-        0,
+          selector: { symbolId: "unknown-symbol" },
+        })).references,
+        [],
       );
       const beta = (yield* service.astFindDefinition({
         sourceId: first.sourceId,

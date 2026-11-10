@@ -84,7 +84,11 @@ export const EmbeddingSdk = Context.Reference<{
     },
     tokenizer: async () => {
       const { get_encoding } = await import("tiktoken");
-      return get_encoding("cl100k_base");
+      const encoding = get_encoding("cl100k_base");
+      return {
+        encode: (text) => encoding.encode_ordinary(text),
+        free: () => encoding.free(),
+      };
     },
   }),
 });
