@@ -27,6 +27,7 @@ import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
 import * as Repository from "./KnowledgeRepository.ts";
 import { RepositoryKnowledge } from "./RepositoryKnowledge.ts";
 import * as Live from "./RepositoryKnowledgeLive.ts";
+import * as Discovery from "./discovery.ts";
 import * as Deterministic from "./embeddings/DeterministicEmbeddings.ts";
 import * as Embeddings from "./embeddings/EmbeddingModels.ts";
 
@@ -469,12 +470,82 @@ it.effect(
   },
 );
 
+it.effect.each(["added", "changed", "unchanged"] as const)(
+  "keeps %s file hashes, AST and vectors associated when an editor saves during ingestion",
+  (classification) => {
+    const state = setup();
+    return Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+      const path = yield* Path.Path;
+      const root = yield* fs.makeTempDirectoryScoped({ prefix: "knowledge-edit-" });
+      const original = "export function versionA() { return 1; }\n";
+      yield* write(root, "a.ts", "export const first = 1;\n");
+      if (classification !== "added")
+        yield* write(
+          root,
+          "z.ts",
+          classification === "unchanged" ? original : "export const old = 0;\n",
+        );
+      const service = yield* open();
+      const baseline = (yield* service.admit({ target: { root } })).run;
+      assert.equal((yield* service.waitTerminal({ runId: baseline.runId })).status, "completed");
+      yield* write(root, "a.ts", "export const first = 2;\n");
+      yield* write(root, "z.ts", original);
+      const editedBytes = new Uint8Array([
+        ...new TextEncoder().encode("export function versionB() { return 2; }\n// café "),
+        255,
+      ]);
+      state.beforeEmbed((texts) =>
+        texts.some((text) => text.includes("const first = 2"))
+          ? fs.writeFile(path.join(root, "z.ts"), editedBytes).pipe(Effect.orDie)
+          : Effect.void,
+      );
+      const changed = (yield* service.admit({ target: { root } })).run;
+      assert.equal((yield* service.waitTerminal({ runId: changed.runId })).status, "completed");
+      const fileHash = yield* Discovery.hashFile(path.join(root, "z.ts"));
+      const repository = yield* Repository.KnowledgeRepository;
+      assert.equal(
+        (yield* repository.files(baseline.sourceId)).find((file) => file.relPath === "z.ts")
+          ?.fileHash,
+        fileHash,
+      );
+      const rows = [...sdk.rows.values()].filter((row) => row.metadata.relPath === "z.ts");
+      assert.isAbove(rows.length, 0);
+      assert.isTrue(
+        rows.every(
+          (row) => row.document.includes("versionB") && row.metadata.fileHash === fileHash,
+        ),
+      );
+      const ast = yield* service.astFindDefinition({
+        sourceId: baseline.sourceId,
+        selector: { name: "versionB" },
+      });
+      assert.equal(ast.symbol?.fileHash, fileHash);
+      state.beforeEmbed(undefined);
+      yield* write(root, "z.ts", original);
+      const restored = (yield* service.admit({ target: { root } })).run;
+      const done = yield* service.waitTerminal({ runId: restored.runId });
+      assert.equal(done.status, "completed");
+      assert.equal(done.counts.changedFiles, 1);
+      assert.equal(done.counts.embeddedChunks, 1);
+      assert.isTrue(
+        [...sdk.rows.values()]
+          .filter((row) => row.metadata.relPath === "z.ts")
+          .every((row) => row.document.includes("versionA")),
+      );
+    }).pipe(Effect.provide(state.dependencies), Effect.scoped);
+  },
+);
+
 it.effect("cancels an in-flight embedding, rejects its late result and preserves live AST", () => {
   const state = setup();
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const root = yield* fs.makeTempDirectoryScoped({ prefix: "knowledge-cancel-" });
+    yield* write(root, "earlier.ts", "export const earlier = 1;\n");
     yield* write(root, "index.ts", "export function before() { return 1; }\n");
+    yield* write(root, "deleted.ts", "export const deleted = 1;\n");
+    yield* write(root, "stable.ts", "export const stable = 1;\n");
     const service = yield* open();
     const first = (yield* service.admit({ target: { root } })).run;
     yield* service.waitTerminal({ runId: first.runId });
@@ -482,13 +553,17 @@ it.effect("cancels an in-flight embedding, rejects its late result and preserves
     const started = yield* Deferred.make<void>();
     const late = Promise.withResolvers<void>();
     const delivered = Promise.withResolvers<void>();
-    state.beforeEmbed(() => {
+    state.beforeEmbed((texts) => {
+      if (!texts.some((text) => text.includes("function after"))) return Effect.void;
       const pending = late.promise.then(() => delivered.resolve());
       return Deferred.succeed(started, undefined).pipe(
         Effect.andThen(Effect.promise(() => pending)),
       );
     });
     yield* write(root, "index.ts", "export function after() { return 2; }\n");
+    yield* write(root, "earlier.ts", "export const earlier = 2;\n");
+    const path = yield* Path.Path;
+    yield* fs.remove(path.join(root, "deleted.ts"));
     const active = (yield* service.admit({ target: { sourceId: first.sourceId } })).run;
     yield* Deferred.await(started);
     const upserts = sdk.upsert.mock.calls.length;
@@ -502,6 +577,14 @@ it.effect("cancels an in-flight embedding, rejects its late result and preserves
       ast.symbols,
     );
     assert.isFalse((yield* service.cancel({ runId: active.runId })).applied);
+    const repository = yield* Repository.KnowledgeRepository;
+    assert.deepEqual(
+      (yield* repository.files(first.sourceId)).map((file) => file.relPath),
+      ["stable.ts"],
+    );
+    yield* write(root, "earlier.ts", "export const earlier = 1;\n");
+    yield* write(root, "index.ts", "export function before() { return 1; }\n");
+    yield* write(root, "deleted.ts", "export const deleted = 1;\n");
     state.beforeEmbed(undefined);
     const retry = (yield* service.admit({ target: { sourceId: first.sourceId } })).run;
     const completed = yield* service.waitTerminal({ runId: retry.runId });
@@ -509,14 +592,16 @@ it.effect("cancels an in-flight embedding, rejects its late result and preserves
     const survivingChunks = [...sdk.rows.values()].filter(
       (row) => row.metadata.sourceId === first.sourceId,
     ).length;
-    assert.equal(survivingChunks, 1);
+    assert.equal(survivingChunks, 4);
+    assert.equal(completed.counts.unchangedFiles, 1);
+    assert.equal(completed.counts.embeddedChunks, 3);
     assert.equal(completed.counts.chunks, survivingChunks);
     assert.equal(
       (yield* service.resolve({ sourceId: first.sourceId })).source?.chunkCount,
       survivingChunks,
     );
     assert.isNotNull(
-      (yield* service.astFindDefinition({ sourceId: first.sourceId, selector: { name: "after" } }))
+      (yield* service.astFindDefinition({ sourceId: first.sourceId, selector: { name: "before" } }))
         .symbol,
     );
   }).pipe(Effect.provide(state.dependencies), Effect.scoped);
@@ -569,7 +654,9 @@ it.effect.each(["before-vector", "after-vector"] as const)(
       yield* Effect.promise(() => delivered.promise);
       const repository = yield* Repository.KnowledgeRepository;
       assert.equal((yield* repository.getRun(runId)).status, "running");
+      assert.deepEqual(yield* repository.files(baseline.sourceId), []);
       assert.equal(sdk.rows.size > 0, boundary === "after-vector");
+      yield* write(root, "README.md", Deterministic.fixtureTexts[0]);
       state.beforeEmbed(undefined);
       const recoveredScope = yield* Scope.fork(yield* Effect.scope);
       const recoveredService = Context.get(

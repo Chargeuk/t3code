@@ -150,6 +150,10 @@ export class KnowledgeRepository extends Context.Service<
     readonly files: (
       sourceId: Knowledge.KnowledgeSourceId,
     ) => Effect.Effect<ReadonlyArray<Knowledge.KnowledgeIndexedFile>, Knowledge.KnowledgeError>;
+    readonly invalidateFile: (input: {
+      readonly sourceId: Knowledge.KnowledgeSourceId;
+      readonly relPath: string;
+    }) => Effect.Effect<void, Knowledge.KnowledgeError>;
     readonly astFiles: (
       sourceId: Knowledge.KnowledgeSourceId,
     ) => Effect.Effect<ReadonlyArray<KnowledgeAstFile>, Knowledge.KnowledgeError>;
@@ -412,6 +416,13 @@ const make = Effect.gen(function* () {
     return yield* Effect.forEach(rows, (r) => decodeAstFile(r.payload_json));
   }, persistenceError);
 
+  const invalidateFile = Effect.fn("KnowledgeRepository.invalidateFile")(function* (input: {
+    readonly sourceId: Knowledge.KnowledgeSourceId;
+    readonly relPath: string;
+  }) {
+    yield* sql`DELETE FROM knowledge_files WHERE source_id = ${input.sourceId} AND rel_path = ${input.relPath}`;
+  }, persistenceError);
+
   const finalize = Effect.fn("KnowledgeRepository.finalize")(
     function* (input: FinalizeInput) {
       const run = yield* getRun(input.runId);
@@ -527,6 +538,7 @@ const make = Effect.gen(function* () {
     finalize,
     clearIndexedContent,
     files,
+    invalidateFile,
     astFiles,
     getEmbeddingIdentity,
     claimEmbeddingIdentity,

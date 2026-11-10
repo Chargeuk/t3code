@@ -1,3 +1,6 @@
+// @effect-diagnostics nodeBuiltinImport:off -- Hash the raw bytes used for parsing and embedding.
+import * as NodeCrypto from "node:crypto";
+
 import { SecretResolver } from "@t3tools/secret-provider-core/server/SecretResolver";
 import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
@@ -249,6 +252,7 @@ const make = Effect.gen(function* () {
         cause: new Error("The canonical repository root changed."),
       });
     const previous = yield* repository.files(source.sourceId);
+    const previousHashes = new Map(previous.map((file) => [file.relPath, file.fileHash]));
     const discovered = yield* Effect.forEach(found.files, (file) =>
       Discovery.hashFile(file.absPath).pipe(
         Effect.provideService(FileSystem.FileSystem, fs),
@@ -290,7 +294,7 @@ const make = Effect.gen(function* () {
         yield* publish;
     });
     yield* progress("discovery", null);
-    const model =
+    let model =
       changed.size > 0
         ? yield* models.resolve(
             selection,
@@ -315,14 +319,18 @@ const make = Effect.gen(function* () {
       });
       yield* withRunning(
         run.runId,
-        chroma.delete({ sourceId: source.sourceId, relPath: deleted.relPath }),
+        repository
+          .invalidateFile({ sourceId: source.sourceId, relPath: deleted.relPath })
+          .pipe(
+            Effect.andThen(chroma.delete({ sourceId: source.sourceId, relPath: deleted.relPath })),
+          ),
       );
       counts.chunks = Math.max(0, counts.chunks - oldChunks.length);
     }
     for (const file of discovered) {
       yield* assertRunning(run.runId);
       if (!changed.has(file.relPath) && !rebuildAst) continue;
-      const text = yield* fs.readFileString(file.absPath).pipe(
+      const bytes = yield* fs.readFile(file.absPath).pipe(
         Effect.mapError(
           (cause) =>
             new Knowledge.KnowledgeOperationError({
@@ -334,6 +342,22 @@ const make = Effect.gen(function* () {
             }),
         ),
       );
+      const fileHash = NodeCrypto.createHash("sha256").update(bytes).digest("hex");
+      const previousHash = previousHashes.get(file.relPath);
+      if (previousHash !== undefined) {
+        const wasChanged = changed.has(file.relPath);
+        const isChanged = fileHash !== previousHash;
+        if (wasChanged !== isChanged) {
+          const change = isChanged ? 1 : -1;
+          counts.changedFiles += change;
+          counts.unchangedFiles -= change;
+          counts.processedFiles -= change;
+          if (isChanged) changed.add(file.relPath);
+          else changed.delete(file.relPath);
+        }
+      }
+      file.fileHash = fileHash;
+      const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(bytes);
       const indexed = {
         sourceId: source.sourceId,
         runId: run.runId,
@@ -364,11 +388,22 @@ const make = Effect.gen(function* () {
           });
         }
       }
-      if (!changed.has(file.relPath) || model === null) continue;
+      if (!changed.has(file.relPath)) continue;
+      const fileModel =
+        model ??
+        (yield* models.resolve(
+          selection,
+          yield* embeddingConfig(value, selection.provider === "openai"),
+        ));
+      model = fileModel;
       const oldChunks = yield* chroma.get({ sourceIds: [source.sourceId], relPath: file.relPath });
       yield* withRunning(
         run.runId,
-        chroma.delete({ sourceId: source.sourceId, relPath: file.relPath }),
+        repository
+          .invalidateFile({ sourceId: source.sourceId, relPath: file.relPath })
+          .pipe(
+            Effect.andThen(chroma.delete({ sourceId: source.sourceId, relPath: file.relPath })),
+          ),
       );
       counts.chunks = Math.max(0, counts.chunks - oldChunks.length);
       let batch: Knowledge.KnowledgeChunkDocument[] = [];
@@ -378,7 +413,7 @@ const make = Effect.gen(function* () {
         yield* assertRunning(run.runId);
         yield* progress("embedding", file.relPath);
         const input = batch;
-        const embedded = yield* model.embedBatch(input.map((chunk) => chunk.text));
+        const embedded = yield* fileModel.embedBatch(input.map((chunk) => chunk.text));
         const dimensions = embedded[0]?.length;
         if (
           embedded.length !== input.length ||
@@ -410,14 +445,14 @@ const make = Effect.gen(function* () {
         yield* progress("embedding", file.relPath);
       });
       yield* progress("chunking", file.relPath);
-      yield* chunkTextStream(text, model, {
-        fileInfo: { relPath: file.relPath, sizeBytes: file.size },
+      yield* chunkTextStream(text, fileModel, {
+        fileInfo: { relPath: file.relPath, sizeBytes: bytes.length },
       }).pipe(
         Stream.runForEach((chunk) =>
           Effect.gen(function* () {
             yield* assertRunning(run.runId);
             if (
-              batch.length >= model.effectiveBatchSize ||
+              batch.length >= fileModel.effectiveBatchSize ||
               (selection.provider === "openai" && tokens + chunk.tokenCount > 300_000)
             )
               yield* flush();
