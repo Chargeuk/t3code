@@ -791,6 +791,18 @@ export function GeneralSettingsPanel() {
 
   return (
     <SettingsPageContainer>
+      <SettingsSection id="knowledge" title="Knowledge">
+        <SettingsRow
+          title="Repository knowledge"
+          description="Manage repository indexing and embedding settings for each connected environment."
+          control={
+            <Button render={<Link to="/knowledge" />} size="sm" variant="outline">
+              Open Knowledge
+            </Button>
+          }
+        />
+      </SettingsSection>
+
       <SettingsSection id="notifications" title="Notifications">
         <NotificationSettings />
         <SettingsRow

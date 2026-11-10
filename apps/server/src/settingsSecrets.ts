@@ -4,6 +4,7 @@ import {
   CloudSpeechCredentials,
   CodexSettings,
   EasDeviceHostConfig,
+  KnowledgeSettings,
   type ProviderInstanceConfig,
   type ServerSettings,
   type SettingsSecretValue,
@@ -47,6 +48,7 @@ const providerSecretFields = new Map([
 ]);
 const usageLimitSecretFields = secretSettingsFields(UsageLimitSourceConfig);
 const voiceSecretFields = secretSettingsFields(CloudSpeechCredentials);
+const knowledgeSecretFields = secretSettingsFields(KnowledgeSettings);
 const easDeviceHostSecretFields = secretSettingsFields(EasDeviceHostConfig);
 const simlockDeviceHostSecretFields = secretSettingsFields(SimlockDeviceHostConfig);
 const encode = (value: string) => Buffer.from(value, "utf8").toString("base64url");
@@ -239,6 +241,11 @@ function mapSecretFieldGroups(
       voiceSecretFields,
       (provider) => `voice-cloud-${provider}`,
     ) as ServerSettings["cloudSpeechCredentials"],
+    knowledge: mapFields(
+      settings.knowledge,
+      knowledgeSecretFields,
+      (field) => `knowledge-${encode(field)}`,
+    ) as ServerSettings["knowledge"],
     providerInstances,
     sourceControlHosts,
     usageLimitSources,

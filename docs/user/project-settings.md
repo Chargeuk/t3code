@@ -46,6 +46,18 @@ Settings that are environment-wide stay read-only while a project is selected. W
 targets disagree, a control shows **Mixed** until you choose one value. Appearance, keyboard,
 and other phone-only settings ignore the filter.
 
+## Repository knowledge
+
+Open **Settings → Repository knowledge → Open Knowledge** and choose the connected environment
+whose files you want indexed. Add a folder from that environment; it does not need to be registered
+as a project. Knowledge shows indexing progress and the latest result for each source. Use **Ingest**
+or **Re-ingest** to update its index, **Cancel ingest** to stop an active run, and **Remove indexed
+content** to remove the index. Removing indexed content keeps the source and its repository files.
+
+Knowledge settings apply to every source on that environment. Choose file filters, an embedding
+provider and model, and the Chroma service address there. To change the shared embedding model,
+remove indexed content from all sources first, then select the new model and re-ingest the sources.
+
 ## Pin and archive projects
 
 Pinned projects come first in the project pickers: the project picker on a new thread, the

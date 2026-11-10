@@ -39,6 +39,17 @@ type WsRpcMethod = RpcGroup.Rpcs<typeof WsRpcGroup>["_tag"];
 
 export const RPC_REQUIRED_SCOPES = {
   ...CLIENT_GUARDED_RPC_SCOPES,
+  [WS_METHODS.knowledgeList]: AuthOrchestrationReadScope,
+  [WS_METHODS.knowledgeResolve]: AuthOrchestrationReadScope,
+  [WS_METHODS.knowledgeWaitTerminal]: AuthOrchestrationReadScope,
+  [WS_METHODS.knowledgeSubscribe]: AuthOrchestrationReadScope,
+  [WS_METHODS.knowledgeEmbeddingModels]: AuthOrchestrationReadScope,
+  [WS_METHODS.knowledgeRetrieve]: AuthFilesystemReadScope,
+  [WS_METHODS.knowledgeAstListSymbols]: AuthFilesystemReadScope,
+  [WS_METHODS.knowledgeAstFindDefinition]: AuthFilesystemReadScope,
+  [WS_METHODS.knowledgeAstFindReferences]: AuthFilesystemReadScope,
+  [WS_METHODS.knowledgeAstCallGraph]: AuthFilesystemReadScope,
+  [WS_METHODS.knowledgeAstModuleImports]: AuthFilesystemReadScope,
   [ORCHESTRATION_V2_WS_METHODS.dispatchCommand]: AuthOrchestrationOperateScope,
   [ORCHESTRATION_V2_WS_METHODS.getWorkflowScript]: AuthOrchestrationReadScope,
   [ORCHESTRATION_V2_WS_METHODS.getNativeChildWork]: AuthOrchestrationReadScope,

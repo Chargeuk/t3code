@@ -5,6 +5,9 @@ const CLI_RUNTIME_EXTERNAL_PREFIXES = [
   "@cursor/sdk",
   // Playwright reads package.json and browsers.json beside its runtime modules.
   "playwright-core",
+  // Tree-sitter loads native grammars and query files; tiktoken loads its WASM from disk.
+  "tree-sitter",
+  "tiktoken",
   "node-pty",
   "ffi-rs",
   "@yuuang/",

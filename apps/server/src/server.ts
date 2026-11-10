@@ -17,6 +17,7 @@ import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { EnvironmentHttpApi, type RepositoryIdentity } from "@t3tools/contracts";
 import * as Cause from "effect/Cause";
+import * as Config from "effect/Config";
 import * as Duration from "effect/Duration";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
@@ -74,6 +75,9 @@ import * as SourceControlSignIn from "./sourceControl/SourceControlSignIn.ts";
 import { BUILT_IN_SOURCE_CONTROL_DRIVER_LIST } from "./sourceControl/sourceControlDefinitions.ts";
 import * as TextGeneration from "./textGeneration/TextGeneration.ts";
 import * as SecretResolver from "./secrets/SecretResolver.ts";
+import * as RepositoryKnowledgeLive from "./knowledge/RepositoryKnowledgeLive.ts";
+import * as EmbeddingModels from "./knowledge/embeddings/EmbeddingModels.ts";
+import * as DeterministicEmbeddings from "./knowledge/embeddings/DeterministicEmbeddings.ts";
 import * as ProviderInstanceRegistryHydration from "./provider/ProviderInstanceRegistryHydration.ts";
 import * as ProjectSettingsOverrideSweep from "./provider/ProjectSettingsOverrideSweep.ts";
 import * as TerminalManager from "./terminal/Manager.ts";
@@ -595,6 +599,19 @@ const layerThreadPullRequestWorker = Layer.effectDiscard(
   ThreadPullRequestService.make.pipe(Effect.flatMap((service) => service.start())),
 ).pipe(Layer.provide(layerPullRequestService));
 
+const layerKnowledge = RepositoryKnowledgeLive.layer.pipe(
+  Layer.provide(
+    Layer.unwrap(
+      Effect.gen(function* () {
+        const fixtures = yield* Config.Boolean("T3CODE_DEV_KNOWLEDGE_FIXTURES").pipe(
+          Config.withDefault(false),
+        );
+        return fixtures ? DeterministicEmbeddings.layer : EmbeddingModels.layer;
+      }),
+    ),
+  ),
+);
+
 const layerProviderInstallationRefresh = Layer.effectDiscard(
   Effect.gen(function* () {
     const antigravity = yield* AntigravityInstallation.AntigravityInstallation;
@@ -671,6 +688,7 @@ const layerRuntimeCoreDependenciesBase = Layer.mergeAll(
   Layer.provideMerge(layerOrchestrationApplication),
   Layer.provideMerge(RuntimeLayer.layerEventInfrastructure),
   Layer.provideMerge(Layer.merge(ProjectStore.layer, ThreadSearch.layer)),
+  Layer.provideMerge(layerKnowledge),
   Layer.provideMerge(SecretResolver.layer),
   Layer.provideMerge(layerServerSettings),
   Layer.provideMerge(layerSourceControlProviderRegistry),

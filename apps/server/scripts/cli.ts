@@ -89,6 +89,11 @@ const buildCmd = Command.make(
         }),
       );
 
+      yield* fs.copy(
+        path.join(serverDir, "src/knowledge/ast/queries"),
+        path.join(serverDir, "dist/queries"),
+      );
+
       const webDist = path.join(repoRoot, "apps/web/dist");
       const clientTarget = path.join(serverDir, "dist/client");
 

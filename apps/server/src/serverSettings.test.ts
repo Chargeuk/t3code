@@ -1320,6 +1320,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
         const store = yield* ServerSecretStore.ServerSecretStore;
         const instanceId = ProviderInstanceId.make("antigravity_secrets");
         const saved = yield* service.updateSettings({
+          knowledge: { openaiApiKey: "knowledge-secret" },
           providerInstances: {
             [instanceId]: {
               driver: ProviderDriverKind.make("antigravity"),
@@ -1363,6 +1364,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
           "gitcafe-secret",
           "quota-secret",
           "expo-secret",
+          "knowledge-secret",
         ];
         const client = ServerSettingsModule.redactServerSettingsForClient(saved, {
           secretReferences: true,
@@ -1376,6 +1378,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
         assert.include(JSON.stringify(client), "https://example.test");
         assert.include(JSON.stringify(client), "me@example.test");
         const echoed = yield* service.updateSettings({
+          knowledge: client.knowledge,
           providerInstances: client.providerInstances,
           sourceControlHosts: client.sourceControlHosts,
           usageLimitSources: client.usageLimitSources,
@@ -1394,6 +1397,16 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
         );
 
         for (const apiKey of ["replacement-secret", ""]) {
+          const knowledgeChanged = yield* service.updateSettings({
+            knowledge: { openaiApiKey: apiKey },
+          });
+          assert.equal(knowledgeChanged.knowledge.openaiApiKey, apiKey);
+          assert.equal(
+            ServerSettingsModule.redactServerSettingsForClient(knowledgeChanged, {
+              secretReferences: true,
+            }).knowledge.openaiApiKey,
+            apiKey ? SECRET_REDACTED : "",
+          );
           const changed = yield* service.updateProviderInstance({
             operation: "upsert",
             instanceId,
@@ -1415,6 +1428,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
           instanceId,
           instance: saved.providerInstances[instanceId]!,
         });
+        yield* service.updateSettings({ knowledge: { openaiApiKey: "knowledge-secret" } });
 
         const secretNames = [
           "provider-config-YW50aWdyYXZpdHlfc2VjcmV0cw-YW50aWdyYXZpdHk-YXBpS2V5",
@@ -1431,6 +1445,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
           }),
           sourceControlHostSecretName({ kind: "gitcafe", field: "token", serverHost: null }),
           "usage-limit-source-aHVi",
+          "knowledge-b3BlbmFpQXBpS2V5",
         ];
         for (const name of secretNames) {
           assert.isTrue(Option.isSome(yield* store.get(name)), name);
@@ -1456,6 +1471,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
           [{ name: "API_TOKEN", value: secret, sensitive: true }],
         );
         yield* service.updateSettings({
+          knowledge: { openaiApiKey: "" },
           providerInstances: {},
           sourceControlHosts: {
             github: { tokens: {} },
@@ -1643,6 +1659,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
         const hub = UsageLimitSourceId.make("hub");
         const withUsage = yield* serverSettings.updateSettings({
           cloudSpeechCredentials: { openai: usageReference, xai: "literal-fixture" },
+          knowledge: { openaiApiKey: usageReference },
           usageLimitSources: {
             [hub]: {
               kind: "cliproxy",
@@ -1695,6 +1712,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
         });
         assert.equal(legacy.sourceControlHosts.bitbucket?.accessToken, SECRET_REDACTED);
         assert.equal(legacy.usageLimitSources[hub]?.managementKey, SECRET_REDACTED);
+        assert.equal(legacy.knowledge.openaiApiKey, SECRET_REDACTED);
         assert.equal(legacy.easDeviceHosts[0]?.accessToken, SECRET_REDACTED);
         assert.equal(legacy.simlockDeviceHosts[0]?.agentToken, SECRET_REDACTED);
         const configOf = (settings: ServerSettings, id: ProviderInstanceId) =>
@@ -1703,6 +1721,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
         assert.equal(configOf(legacy, openCode)?.serverPassword, SECRET_REDACTED);
         const echoed = yield* serverSettings.updateSettings({
           cloudSpeechCredentials: legacy.cloudSpeechCredentials,
+          knowledge: legacy.knowledge,
           sourceControlHosts: legacy.sourceControlHosts,
           usageLimitSources: legacy.usageLimitSources,
           easDeviceHosts: legacy.easDeviceHosts,
@@ -1715,6 +1734,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
           "ghe.acme.test": "ghp_ghe",
         });
         assert.deepEqual(echoed.usageLimitSources[hub]?.managementKey, usageReference);
+        assert.deepEqual(echoed.knowledge.openaiApiKey, usageReference);
         assert.deepEqual(echoed.cloudSpeechCredentials, {
           openai: usageReference,
           xai: "literal-fixture",
@@ -1760,6 +1780,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
           github: { tokens: { "github.com": personal("GitHub/token"), "ghe.acme.test": work } },
         },
         cloudSpeechCredentials: { openai: personal("Voice/key"), xai: work },
+        knowledge: { openaiApiKey: personal("Knowledge/key") },
         usageLimitSources: {
           [hub]: {
             kind: "cliproxy",
@@ -1784,6 +1805,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
       // An older client's save echoes a reference it cannot decode as the redacted marker.
       const removed = yield* service.updateSettings({
         secretProviders: { [SecretProviderId.make("personal")]: null },
+        knowledge: { openaiApiKey: SECRET_REDACTED },
         usageLimitSources: {
           [hub]: {
             kind: "cliproxy",
@@ -1804,6 +1826,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
         "ghe.acme.test": work,
       });
       assert.equal(removed.usageLimitSources[hub]?.managementKey, "");
+      assert.equal(removed.knowledge.openaiApiKey, "");
       assert.deepEqual(removed.cloudSpeechCredentials, { openai: "", xai: work, openrouter: "" });
       assert.equal(removed.easDeviceHosts[0]?.accessToken, "");
       assert.deepEqual(Object.keys(removed.secretProviders), ["work"]);
@@ -1817,6 +1840,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))("server settings"
         "cloudSpeechCredentials.openai",
         "cloudSpeechCredentials.xai",
         "cloudSpeechCredentials.openrouter",
+        "knowledge.openaiApiKey",
         "easDeviceHosts.[].accessToken",
         "simlockDeviceHosts.[].agentToken",
         "usageLimitSources.*.managementKey",
