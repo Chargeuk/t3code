@@ -545,6 +545,81 @@ it.effect(
   },
 );
 
+it.effect.each(["before-delete", "after-delete", "restored-after-delete"] as const)(
+  "retries a deleted file after failure at %s without retaining obsolete vectors or AST",
+  (boundary) => {
+    const state = setup();
+    return Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+      const path = yield* Path.Path;
+      const root = yield* fs.makeTempDirectoryScoped({ prefix: "knowledge-delete-retry-" });
+      const obsolete = "export function obsolete() { return 1; }\n";
+      yield* write(root, "obsolete.ts", obsolete);
+      yield* write(root, "stable.ts", "export const stable = 1;\n");
+      const service = yield* open();
+      const first = (yield* service.admit({ target: { root } })).run;
+      assert.equal((yield* service.waitTerminal({ runId: first.runId })).status, "completed");
+      const initialCalls = state.calls.length;
+      const initialAst = yield* service.astListSymbols({ sourceId: first.sourceId });
+      assert.isTrue(initialAst.symbols.some((symbol) => symbol.name === "obsolete"));
+      yield* fs.remove(path.join(root, "obsolete.ts"));
+      const deleteVectors = sdk.delete.getMockImplementation()!;
+      let injected = false;
+      sdk.delete.mockImplementation(async (input: { where: Where }) => {
+        if (
+          !injected &&
+          matches(input.where, { sourceId: first.sourceId, relPath: "obsolete.ts" })
+        ) {
+          injected = true;
+          if (boundary !== "before-delete") await deleteVectors(input);
+          throw new Error("path deletion response unavailable");
+        }
+        return deleteVectors(input);
+      });
+      const failed = (yield* service.admit({ target: { sourceId: first.sourceId } })).run;
+      assert.equal((yield* service.waitTerminal({ runId: failed.runId })).status, "failed");
+      assert.isTrue(injected);
+      assert.deepEqual(
+        (yield* service.astListSymbols({ sourceId: first.sourceId })).symbols,
+        initialAst.symbols,
+      );
+      assert.equal(
+        [...sdk.rows.values()].some((row) => row.metadata.relPath === "obsolete.ts"),
+        boundary === "before-delete",
+      );
+      const restored = boundary === "restored-after-delete";
+      if (restored) yield* write(root, "obsolete.ts", obsolete);
+      const retry = (yield* service.admit({ target: { sourceId: first.sourceId } })).run;
+      const done = yield* service.waitTerminal({ runId: retry.runId });
+      assert.equal(done.status, "completed");
+      const result = yield* service.retrieve({
+        sourceIds: [first.sourceId],
+        query: "obsolete",
+        limit: 10,
+      });
+      assert.equal(
+        result.matches.some(({ chunk }) => chunk.relPath === "obsolete.ts"),
+        restored,
+      );
+      const definition = yield* service.astFindDefinition({
+        sourceId: first.sourceId,
+        selector: { name: "obsolete" },
+      });
+      assert.equal(definition.symbol !== null, restored);
+      assert.equal(done.counts.deletedFiles, restored ? 0 : 1);
+      assert.equal(done.counts.changedFiles, restored ? 1 : 0);
+      assert.equal(done.counts.unchangedFiles, 1);
+      assert.equal(done.counts.embeddedChunks, restored ? 1 : 0);
+      assert.equal(state.calls.length, initialCalls + (restored ? 2 : 1));
+      const repository = yield* Repository.KnowledgeRepository;
+      assert.deepEqual(
+        (yield* repository.files(first.sourceId)).map((file) => file.relPath),
+        restored ? ["obsolete.ts", "stable.ts"] : ["stable.ts"],
+      );
+    }).pipe(Effect.provide(state.dependencies), Effect.scoped);
+  },
+);
+
 it.effect.each(["added", "changed", "unchanged"] as const)(
   "keeps %s file hashes, AST and vectors associated when an editor saves during ingestion",
   (classification) => {
@@ -655,7 +730,7 @@ it.effect("cancels an in-flight embedding, rejects its late result and preserves
     const repository = yield* Repository.KnowledgeRepository;
     assert.deepEqual(
       (yield* repository.files(first.sourceId)).map((file) => file.relPath),
-      ["stable.ts"],
+      ["deleted.ts", "earlier.ts", "index.ts", "stable.ts"],
     );
     yield* write(root, "earlier.ts", "export const earlier = 1;\n");
     yield* write(root, "index.ts", "export function before() { return 1; }\n");
@@ -729,7 +804,10 @@ it.effect.each(["before-vector", "after-vector"] as const)(
       yield* Effect.promise(() => delivered.promise);
       const repository = yield* Repository.KnowledgeRepository;
       assert.equal((yield* repository.getRun(runId)).status, "running");
-      assert.deepEqual(yield* repository.files(baseline.sourceId), []);
+      assert.deepEqual(
+        (yield* repository.files(baseline.sourceId)).map((file) => file.relPath),
+        ["README.md"],
+      );
       assert.equal(sdk.rows.size > 0, boundary === "after-vector");
       yield* write(root, "README.md", Deterministic.fixtureTexts[0]);
       state.beforeEmbed(undefined);

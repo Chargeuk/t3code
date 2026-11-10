@@ -420,7 +420,8 @@ const make = Effect.gen(function* () {
     readonly sourceId: Knowledge.KnowledgeSourceId;
     readonly relPath: string;
   }) {
-    yield* sql`DELETE FROM knowledge_files WHERE source_id = ${input.sourceId} AND rel_path = ${input.relPath}`;
+    // Retain deletion history with a non-SHA-256 hash so restored files also reindex.
+    yield* sql`UPDATE knowledge_files SET file_hash = 'invalidated' WHERE source_id = ${input.sourceId} AND rel_path = ${input.relPath}`;
   }, persistenceError);
 
   const finalize = Effect.fn("KnowledgeRepository.finalize")(
