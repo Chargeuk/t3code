@@ -1475,7 +1475,7 @@ No full build, repo-wide checks, `check:changed`, live Chroma two-environment in
 
 - Repository Name: `Current Repository`
 - Task Dependencies: `Task 1, Task 2, Task 3, Task 4, Task 5, Task 6, Task 7, Task 8, Task 9, Task 10`
-- Task Status: `__in_progress__`
+- Task Status: `__done__`
 - Review Task Role: `final_revalidation`
 - Review Cycle: `0000001-rc-20261110T092839Z-e8a00e43`
 - Affected Repositories: `current_repository` (sole implementation target)
@@ -1598,3 +1598,5 @@ Preserve Task 7's original row-deletion repair and Task 9's later invalidated-ha
 Underlying review remains bounded/partial: the final batch's rendered visual coverage was unavailable, older execution chains and source reads are incomplete, and historical build/Chroma/UI proof remains candidate-specific. The current last repair HEAD has no subsequent independent review; this task does not claim one. Deterministic focused proof does not establish live two-environment Chroma, a physical restart, network-disconnect/relay/tunnel/multi-device behavior or semantic provider quality. Carry these limits without an endless review retry or external acceptance blocker.
 
 Review scratch is not product source. Settlement added only a scratch-local `codeInfoTmp/.gitignore` containing `*`, so the existing check:changed wrapper can continue including all actual untracked source without trying to format immutable review evidence. No tracked file is hidden or removed, and no root ignore rule, Git configuration or check selector was changed. Preserve this ignored evidence without committing it. This housekeeping is not an implementation finding or an additional completion gate.
+
+Post-proof audit at `520412e7f9`: fresh bounded task and story sections, current Git state, and the canonical status parser confirm both subtasks and all six permitted Testing items complete, with no live blocker. The recorded exit-0 wrapper rerun resolves the initial formatting failure. Git comparison from the last product repair shows only plan updates and runtime-handoff formatting; an independent parsed-JSON comparison confirms unchanged handoff values. This pass introduced no product behavior change or unrelated product repair, and the prior build/startup proof remains applicable. Task 11 is done without rerunning completed proof; optional manual scenarios, excluded execution, external human acceptance, and the recorded review/coverage limits remain as stated above.
