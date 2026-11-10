@@ -1,4 +1,5 @@
 import { assert, it } from "@effect/vitest";
+import { EnvironmentId } from "@t3tools/contracts";
 import { ChromaNotFoundError } from "chromadb";
 import * as Effect from "effect/Effect";
 import * as Result from "effect/Result";
@@ -43,7 +44,7 @@ function setup() {
   sdk.collection.delete.mockResolvedValue(undefined);
   sdk.collection.upsert.mockResolvedValue(undefined);
   sdk.collection.count.mockResolvedValue(0);
-  return Chroma.layer({ url: "http://chroma:8000" });
+  return Chroma.layer({ url: "http://chroma:8000", environmentId: EnvironmentId.make("test-env") });
 }
 
 const sourceId = Knowledge.KnowledgeSourceId.make("source-a");
@@ -214,3 +215,66 @@ it.effect(
     }).pipe(Effect.provide(layer));
   },
 );
+
+it.effect("keeps removal and restart reads within each environment's vector space", () => {
+  setup();
+  type Row = { id: string; document: string; metadata: Record<string, string | number> };
+  const collections = new Map<string, Map<string, Row>>();
+  const collection = (rows: Map<string, Row>) => ({
+    upsert: async (input: { ids: string[]; documents: string[]; metadatas: Row["metadata"][] }) => {
+      for (const [index, id] of input.ids.entries())
+        rows.set(id, { id, document: input.documents[index]!, metadata: input.metadatas[index]! });
+    },
+    get: async ({ where }: { where: { sourceId: { $in: string[] } } }) => {
+      const selected = [...rows.values()].filter((row) =>
+        where.sourceId.$in.includes(String(row.metadata.sourceId)),
+      );
+      return {
+        ids: selected.map((row) => row.id),
+        documents: selected.map((row) => row.document),
+        metadatas: selected.map((row) => row.metadata),
+      };
+    },
+    delete: async ({ where }: { where: { sourceId: { $in: string[] } } }) => {
+      for (const row of rows.values())
+        if (where.sourceId.$in.includes(String(row.metadata.sourceId))) rows.delete(row.id);
+    },
+    count: async () => rows.size,
+  });
+  sdk.client.getCollection.mockImplementation(async ({ name }: { name: string }) => {
+    const rows = collections.get(name);
+    if (!rows) throw new ChromaNotFoundError("absent");
+    return collection(rows);
+  });
+  sdk.client.getOrCreateCollection.mockImplementation(async ({ name }: { name: string }) => {
+    const rows = collections.get(name) ?? new Map<string, Row>();
+    collections.set(name, rows);
+    return collection(rows);
+  });
+  sdk.client.deleteCollection.mockImplementation(async ({ name }: { name: string }) => {
+    collections.delete(name);
+  });
+  const configA = {
+    url: "http://chroma:8000",
+    environmentId: EnvironmentId.make("11111111-1111-4111-8111-111111111111"),
+  };
+  const configB = {
+    ...configA,
+    environmentId: EnvironmentId.make("22222222-2222-4222-8222-222222222222"),
+  };
+  return Effect.gen(function* () {
+    const a = yield* Chroma.Chroma.pipe(Effect.provide(Chroma.layer(configA)));
+    const b = yield* Chroma.Chroma.pipe(Effect.provide(Chroma.layer(configB)));
+    const second = { ...chunk, sourceId: sourceB, chunkId: "chunk-b" };
+    yield* a.upsert([{ chunk, vector: [1, 2] }]);
+    yield* b.upsert([{ chunk: second, vector: [3, 4] }]);
+    const restartedA = yield* Chroma.Chroma.pipe(Effect.provide(Chroma.layer(configA)));
+    assert.deepEqual(yield* restartedA.get({ sourceIds: [sourceId] }), [chunk]);
+    assert.equal(yield* restartedA.removeSource(sourceId), "deleted");
+    assert.equal(yield* restartedA.count(sourceId), 0);
+    assert.deepEqual(yield* b.get({ sourceIds: [sourceB] }), [second]);
+    yield* restartedA.upsert([{ chunk, vector: [1, 2, 3] }]);
+    assert.equal(yield* restartedA.count(sourceId), 1);
+    assert.equal(yield* b.count(sourceB), 1);
+  }).pipe(Effect.scoped);
+});

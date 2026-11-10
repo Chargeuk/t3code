@@ -1,11 +1,13 @@
+// @effect-diagnostics nodeBuiltinImport:off -- Map persisted environment IDs to stable Chroma names.
+import * as NodeCrypto from "node:crypto";
+
+import { type EnvironmentId } from "@t3tools/contracts";
 import { ChromaClient, ChromaNotFoundError, type Where } from "chromadb";
 import * as Knowledge from "../../../../packages/contracts/src/knowledge.ts";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
-
-const collectionName = "t3_knowledge_vectors";
 
 export class ChromaError extends Schema.TaggedError<ChromaError>()("ChromaError", {
   operation: Schema.Literals([
@@ -91,7 +93,11 @@ const decodeChunk = Effect.fnUntraced(function* (
   });
 });
 
-const make = Effect.fn("Chroma.make")(function* (config: { readonly url: string }) {
+const make = Effect.fn("Chroma.make")(function* (config: {
+  readonly url: string;
+  readonly environmentId: EnvironmentId;
+}) {
+  const collectionName = `t3_knowledge_vectors_${NodeCrypto.createHash("sha256").update(config.environmentId).digest("hex")}`;
   const client = yield* Effect.try({
     try: () => {
       const url = new URL(config.url);
@@ -265,4 +271,5 @@ const make = Effect.fn("Chroma.make")(function* (config: { readonly url: string 
   return Chroma.of({ get, count, upsert, delete: deleteChunks, query, removeSource, cleanupRun });
 });
 
-export const layer = (config: { readonly url: string }) => Layer.effect(Chroma, make(config));
+export const layer = (config: { readonly url: string; readonly environmentId: EnvironmentId }) =>
+  Layer.effect(Chroma, make(config));

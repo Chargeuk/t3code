@@ -21,6 +21,7 @@ import * as Stream from "effect/Stream";
 import * as SecureRandom from "effect/crypto/SecureRandom";
 
 import * as Knowledge from "../../../../packages/contracts/src/knowledge.ts";
+import { ServerEnvironmentIdentity } from "../environment/ServerEnvironment.ts";
 import { requireSettingsSecret } from "../secrets/settingsSecretValue.ts";
 import * as Settings from "../serverSettings.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
@@ -79,6 +80,7 @@ const make = Effect.gen(function* () {
   const settings = yield* Settings.ServerSettingsService;
   const secrets = yield* SecretResolver;
   const models = yield* Embeddings.EmbeddingModels;
+  const environmentId = yield* (yield* ServerEnvironmentIdentity).getEnvironmentId;
   const random = yield* SecureRandom.SecureRandom;
   const fs = yield* FileSystem.FileSystem;
   const path = yield* Path.Path;
@@ -103,7 +105,7 @@ const make = Effect.gen(function* () {
     Discovery.findRepoRoot(root).pipe(Effect.provide(discoveryContext)),
   );
   const chromaFor = Effect.fn("RepositoryKnowledge.chroma")(function* (url: string) {
-    return Context.get(yield* Layer.build(Chroma.layer({ url })), Chroma.Chroma);
+    return Context.get(yield* Layer.build(Chroma.layer({ url, environmentId })), Chroma.Chroma);
   });
   const embeddingConfig = Effect.fn("RepositoryKnowledge.embeddingConfig")(function* (
     value: KnowledgeConfig,

@@ -1,7 +1,7 @@
 import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
-import { SecretProviderId } from "@t3tools/contracts";
+import { EnvironmentId, SecretProviderId } from "@t3tools/contracts";
 import { SecretResolver } from "@t3tools/secret-provider-core/server/SecretResolver";
 import { ChromaNotFoundError, type Where } from "chromadb";
 import * as Context from "effect/Context";
@@ -20,6 +20,7 @@ import { ChildProcessSpawner } from "effect/process";
 import { vi } from "vite-plus/test";
 
 import * as Knowledge from "../../../../packages/contracts/src/knowledge.ts";
+import { ServerEnvironmentIdentity } from "../environment/ServerEnvironment.ts";
 import migration from "../persistence/Migrations/081_RepositoryKnowledge.ts";
 import * as Sqlite from "../persistence/Sqlite.ts";
 import * as Settings from "../serverSettings.ts";
@@ -194,6 +195,9 @@ function setup() {
   ).pipe(Layer.provideMerge(Sqlite.layerMemory));
   const secretReads: unknown[] = [];
   const dependencies = Layer.mergeAll(
+    Layer.succeed(ServerEnvironmentIdentity, {
+      getEnvironmentId: Effect.succeed(EnvironmentId.make("test-env")),
+    }),
     Repository.layer.pipe(Layer.provideMerge(database)),
     WorkspacePaths.layer,
     embeddingLayer,
