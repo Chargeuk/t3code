@@ -75,6 +75,8 @@ Checkpoint at `660e9d33029f5542c1a8e155500e4ca5f41fc1b6` (tree `7ebbea05f3c7b403
 
 At that checkpoint, authored but not yet verified repairs included: integration `coding_agent` `80411a40-8228-43ee-891d-d3d2611b0308` added the version-scoped workspace override at line 147; lockfile regeneration, installation and full build were pending. Lifecycle `coding_agent` `9f43a723-1eaf-4e00-8a26-12ff4f39d541` hoisted 17 schema compilations across three server files; embedding `coding_agent` `4442d876-dfcd-44da-9e62-561e3ffd66e9` hoisted its predicate; AST `coding_agent` `9d9a1dcf-e2bf-4fbe-a6ab-d86a05c7331c` changed namespace imports and converted two asset-failure cases to `it.effect`, retaining the existing 32 cases. These repairs were later verified as recorded below. A separate repository ingestion run `6caadbbb-d0e8-4aec-9e33-e83739fbde2f` indexed 66 files, 694 chunks and 694 embeddings; exhaustive coverage was not established. Formal downstream reviews, later K-13 validation and human acceptance remain pending.
 
+Publication checkpoint `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee` (parent `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`, tree `e9ca4e8c83ecac7522de9db7703f9448b1385b07`) committed 12 files, including this plan. No fresh application proof ran at publication; the validation hook was disabled under that stage’s no-tests/repairs restriction. The next-publication K-13 check remains pending. Push was not attempted. The origin branch was last read back at `a7fc73a13d101b6ef824f4e1f33b3a79926fdb5b` and was two commits behind at that checkpoint; this is not a fresh remote read. Main’s repository ingestion later completed run `aeb076ca-0d7c-4541-97be-8ae69e9b98e7` for source/resolvedRepositoryId `/home/dan/code/t3code`: 12 files, 160 chunks, 160 embedded, `errorCode` null. This is CodeInfo2 source-indexing evidence only, not Knowledge-product proof; exhaustive or per-path coverage was not established. This audit note remains uncommitted until an existing authorized publication stage.
+
 # Tasks
 
 The pre-conversion plan had four numbered items and no formal task statuses; its original implementation and acceptance checkbox markers were unchecked while its progress notes recorded completed local work. The structured statuses below record that local outcome separately. Each original item body and its checkbox markers are retained in the corresponding task’s Implementation notes. Task 4 remains in progress only for the existing next-publication K-13 check.
@@ -84,7 +86,7 @@ The pre-conversion plan had four numbered items and no formal task statuses; its
 - Repository Name: `Current Repository`
 - Task Dependencies: `None`
 - Task Status: `__done__`
-- Git Commits: `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`
+- Git Commits: `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`, `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`
 
 #### Overview
 
@@ -122,7 +124,7 @@ Format: On the historical integrated candidate (HEAD `660e9d33029f5542c1a8e15550
 
 #### Implementation notes
 
-The local implementation and applicable proof for this task are recorded as complete. Foundation changes in this task are included in commit `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`; later recovery edits are uncommitted and are separately identified in the retained history. Original implementation checkboxes remain unchanged in the source record below.
+The local implementation and applicable proof for this task are recorded as complete. Foundation changes in this task are included in commit `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`; the later scoped recovery edits recorded here were committed in `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`. Original implementation checkboxes remain unchanged in the source record below.
 
 ##### Original item record (pre-conversion; original markers and prose retained)
 
@@ -158,7 +160,7 @@ For the recovery dependency repair, integration owns authored workspace/configur
 - Repository Name: `Current Repository`
 - Task Dependencies: `Task 1`
 - Task Status: `__done__`
-- Git Commits: `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`
+- Git Commits: `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`, `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`
 
 #### Overview
 
@@ -197,7 +199,7 @@ Format: On the historical integrated candidate (HEAD `660e9d33029f5542c1a8e15550
 
 #### Implementation notes
 
-The scoped lifecycle and AST work is locally complete. The schema compilation hoists and AST test spy repair were verified by the final candidate check; these recovery edits are uncommitted. Full source/run/vector identities, early failures, targeted repairs, and bundled proof remain in the original record below.
+The scoped lifecycle and AST work is locally complete. The schema compilation hoists and AST test spy repair were verified by the final candidate check; these scoped recovery edits were committed in `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`. Full source/run/vector identities, early failures, targeted repairs, and bundled proof remain in the original record below.
 
 ##### Original item record (pre-conversion; original markers and prose retained)
 
@@ -222,7 +224,7 @@ Progress: `coding_agent` conversation `9d9a1dcf-e2bf-4fbe-a6ab-d86a05c7331c` aut
 - Repository Name: `Current Repository`
 - Task Dependencies: `Task 1`
 - Task Status: `__done__`
-- Git Commits: `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`
+- Git Commits: `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`, `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`
 
 #### Overview
 
@@ -261,7 +263,7 @@ Format: On the historical integrated candidate (HEAD `660e9d33029f5542c1a8e15550
 
 #### Implementation notes
 
-Embedding, settings, Chroma, UI, and documentation implementation are locally complete. The scoped workspace override/lockfile, Knip configuration, and source-local export corrections were verified for the recorded candidate; recovery edits are uncommitted. The complete model-change, UI, source, run, vector, and browser history remains below.
+Embedding, settings, Chroma, UI, and documentation implementation are locally complete. The scoped workspace override/lockfile, Knip configuration, and source-local export corrections were verified for the recorded candidate and committed in `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`. The complete model-change, UI, source, run, vector, and browser history remains below.
 
 ##### Original item record (pre-conversion; original markers and prose retained)
 
@@ -293,7 +295,7 @@ Progress: `coding_agent` conversation `80411a40-8228-43ee-891d-d3d2611b0308` aut
 - Repository Name: `Current Repository`
 - Task Dependencies: `Task 1, Task 2, Task 3`
 - Task Status: `__in_progress__`
-- Git Commits: `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`
+- Git Commits: `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`, `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`
 
 #### Overview
 
@@ -340,7 +342,7 @@ The coordinated real-web pass has already been performed by the assigned manual 
 
 #### Implementation notes
 
-The local implementation and applicable scoped K-10–K-12 proof are recorded complete for their stated candidates; this is not formal feature acceptance. Original K-1–K-13 acceptance markers remain unchecked, K-9 remains ongoing, and human acceptance remains external and pending. This task is `__in_progress__` solely because the existing K-13 check remains due on the next publication candidate. Historical commit/checkpoint identities and failures remain tied to their recorded candidates; later scoped repairs are uncommitted. Downstream formal reviews remain in their existing phases.
+The local implementation and applicable scoped K-10–K-12 proof are recorded complete for their stated candidates; this is not formal feature acceptance. Original K-1–K-13 acceptance markers remain unchecked, K-9 remains ongoing, and human acceptance remains external and pending. This task is `__in_progress__` solely because the existing K-13 check remains due on the next publication candidate. Historical commit/checkpoint identities and failures remain tied to their recorded candidates; later scoped repairs were committed in `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`. Downstream formal reviews remain in their existing phases.
 
 ##### Original item record (pre-conversion; original markers and prose retained)
 
