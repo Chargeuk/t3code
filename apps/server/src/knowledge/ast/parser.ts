@@ -366,7 +366,9 @@ function buildHeritageEdges(
     );
     if (!sourceSymbol) continue;
 
-    const clauseNodes = declaration.descendantsOfType(["extends_clause", "implements_clause"]);
+    const clauseNodes = declaration.namedChildren
+      .flatMap((child) => (child.type === "class_heritage" ? child.namedChildren : [child]))
+      .filter((child) => child.type === "extends_clause" || child.type === "implements_clause");
     for (const clause of clauseNodes) {
       const edgeType = clause.type === "implements_clause" ? "IMPLEMENTS" : "EXTENDS";
       const clauseNames = collectClauseTypeNames(clause);

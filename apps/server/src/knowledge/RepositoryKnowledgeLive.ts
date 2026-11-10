@@ -640,6 +640,7 @@ const make = Effect.gen(function* () {
       }
       return { applied, run: yield* repository.getRun(input.runId) };
     },
+    Effect.uninterruptible,
   );
   const waitTerminal: RepositoryKnowledge["Service"]["waitTerminal"] = Effect.fn(
     "RepositoryKnowledge.waitTerminal",

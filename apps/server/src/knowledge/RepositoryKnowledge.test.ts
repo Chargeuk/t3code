@@ -691,75 +691,106 @@ it.effect.each(["added", "changed", "unchanged"] as const)(
   },
 );
 
-it.effect("cancels an in-flight embedding, rejects its late result and preserves live AST", () => {
-  const state = setup();
-  return Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem;
-    const root = yield* fs.makeTempDirectoryScoped({ prefix: "knowledge-cancel-" });
-    yield* write(root, "earlier.ts", "export const earlier = 1;\n");
-    yield* write(root, "index.ts", "export function before() { return 1; }\n");
-    yield* write(root, "deleted.ts", "export const deleted = 1;\n");
-    yield* write(root, "stable.ts", "export const stable = 1;\n");
-    const service = yield* open();
-    const first = (yield* service.admit({ target: { root } })).run;
-    yield* service.waitTerminal({ runId: first.runId });
-    const ast = yield* service.astListSymbols({ sourceId: first.sourceId });
-    const started = yield* Deferred.make<void>();
-    const late = Promise.withResolvers<void>();
-    const delivered = Promise.withResolvers<void>();
-    state.beforeEmbed((texts) => {
-      if (!texts.some((text) => text.includes("function after"))) return Effect.void;
-      const pending = late.promise.then(() => delivered.resolve());
-      return Deferred.succeed(started, undefined).pipe(
-        Effect.andThen(Effect.promise(() => pending)),
+it.effect(
+  "finishes committed cancellation after caller interruption and preserves live AST",
+  () => {
+    const state = setup();
+    return Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+      const root = yield* fs.makeTempDirectoryScoped({ prefix: "knowledge-cancel-" });
+      yield* write(root, "earlier.ts", "export const earlier = 1;\n");
+      yield* write(root, "index.ts", "export function before() { return 1; }\n");
+      yield* write(root, "deleted.ts", "export const deleted = 1;\n");
+      yield* write(root, "stable.ts", "export const stable = 1;\n");
+      const committed = yield* Deferred.make<void>();
+      const release = yield* Deferred.make<void>();
+      let returnedAfterCommit = false;
+      const repositoryOf = Repository.KnowledgeRepository.of;
+      using _repository = vi
+        .spyOn(Repository.KnowledgeRepository, "of")
+        .mockImplementation((delegate) =>
+          repositoryOf({
+            ...delegate,
+            beginCleanup: Effect.fn("Knowledge.test.beginCleanup")(function* (input) {
+              const applied = yield* delegate.beginCleanup(input);
+              if (applied && input.intent === "cancel") {
+                yield* Deferred.succeed(committed, undefined);
+                yield* Deferred.await(release);
+                returnedAfterCommit = true;
+              }
+              return applied;
+            }),
+          }),
+        );
+      const service = yield* open();
+      const first = (yield* service.admit({ target: { root } })).run;
+      yield* service.waitTerminal({ runId: first.runId });
+      const ast = yield* service.astListSymbols({ sourceId: first.sourceId });
+      const started = yield* Deferred.make<void>();
+      const late = Promise.withResolvers<void>();
+      const delivered = Promise.withResolvers<void>();
+      state.beforeEmbed((texts) => {
+        if (!texts.some((text) => text.includes("function after"))) return Effect.void;
+        const pending = late.promise.then(() => delivered.resolve());
+        return Deferred.succeed(started, undefined).pipe(
+          Effect.andThen(Effect.promise(() => pending)),
+        );
+      });
+      yield* write(root, "index.ts", "export function after() { return 2; }\n");
+      yield* write(root, "earlier.ts", "export const earlier = 2;\n");
+      const path = yield* Path.Path;
+      yield* fs.remove(path.join(root, "deleted.ts"));
+      const active = (yield* service.admit({ target: { sourceId: first.sourceId } })).run;
+      yield* Deferred.await(started);
+      const upserts = sdk.upsert.mock.calls.length;
+      const request = yield* service.cancel({ runId: active.runId }).pipe(Effect.forkChild);
+      yield* Deferred.await(committed);
+      const repository = yield* Repository.KnowledgeRepository;
+      assert.equal((yield* repository.getRun(active.runId)).status, "cleanup");
+      request.interruptUnsafe();
+      yield* Deferred.succeed(release, undefined);
+      assert.equal((yield* Fiber.await(request))._tag, "Failure");
+      assert.isTrue(returnedAfterCommit);
+      assert.equal((yield* service.waitTerminal({ runId: active.runId })).status, "cancelled");
+      yield* Effect.sync(() => late.resolve());
+      yield* Effect.promise(() => delivered.promise);
+      assert.equal(sdk.upsert.mock.calls.length, upserts);
+      assert.deepEqual(
+        (yield* service.astListSymbols({ sourceId: first.sourceId })).symbols,
+        ast.symbols,
       );
-    });
-    yield* write(root, "index.ts", "export function after() { return 2; }\n");
-    yield* write(root, "earlier.ts", "export const earlier = 2;\n");
-    const path = yield* Path.Path;
-    yield* fs.remove(path.join(root, "deleted.ts"));
-    const active = (yield* service.admit({ target: { sourceId: first.sourceId } })).run;
-    yield* Deferred.await(started);
-    const upserts = sdk.upsert.mock.calls.length;
-    assert.isTrue((yield* service.cancel({ runId: active.runId })).applied);
-    assert.equal((yield* service.waitTerminal({ runId: active.runId })).status, "cancelled");
-    yield* Effect.sync(() => late.resolve());
-    yield* Effect.promise(() => delivered.promise);
-    assert.equal(sdk.upsert.mock.calls.length, upserts);
-    assert.deepEqual(
-      (yield* service.astListSymbols({ sourceId: first.sourceId })).symbols,
-      ast.symbols,
-    );
-    assert.isFalse((yield* service.cancel({ runId: active.runId })).applied);
-    const repository = yield* Repository.KnowledgeRepository;
-    assert.deepEqual(
-      (yield* repository.files(first.sourceId)).map((file) => file.relPath),
-      ["deleted.ts", "earlier.ts", "index.ts", "stable.ts"],
-    );
-    yield* write(root, "earlier.ts", "export const earlier = 1;\n");
-    yield* write(root, "index.ts", "export function before() { return 1; }\n");
-    yield* write(root, "deleted.ts", "export const deleted = 1;\n");
-    state.beforeEmbed(undefined);
-    const retry = (yield* service.admit({ target: { sourceId: first.sourceId } })).run;
-    const completed = yield* service.waitTerminal({ runId: retry.runId });
-    assert.equal(completed.status, "completed");
-    const survivingChunks = [...sdk.rows.values()].filter(
-      (row) => row.metadata.sourceId === first.sourceId,
-    ).length;
-    assert.equal(survivingChunks, 4);
-    assert.equal(completed.counts.unchangedFiles, 1);
-    assert.equal(completed.counts.embeddedChunks, 3);
-    assert.equal(completed.counts.chunks, survivingChunks);
-    assert.equal(
-      (yield* service.resolve({ sourceId: first.sourceId })).source?.chunkCount,
-      survivingChunks,
-    );
-    assert.isNotNull(
-      (yield* service.astFindDefinition({ sourceId: first.sourceId, selector: { name: "before" } }))
-        .symbol,
-    );
-  }).pipe(Effect.provide(state.dependencies), Effect.scoped);
-});
+      assert.isFalse((yield* service.cancel({ runId: active.runId })).applied);
+      assert.deepEqual(
+        (yield* repository.files(first.sourceId)).map((file) => file.relPath),
+        ["deleted.ts", "earlier.ts", "index.ts", "stable.ts"],
+      );
+      yield* write(root, "earlier.ts", "export const earlier = 1;\n");
+      yield* write(root, "index.ts", "export function before() { return 1; }\n");
+      yield* write(root, "deleted.ts", "export const deleted = 1;\n");
+      state.beforeEmbed(undefined);
+      const retry = (yield* service.admit({ target: { sourceId: first.sourceId } })).run;
+      const completed = yield* service.waitTerminal({ runId: retry.runId });
+      assert.equal(completed.status, "completed");
+      const survivingChunks = [...sdk.rows.values()].filter(
+        (row) => row.metadata.sourceId === first.sourceId,
+      ).length;
+      assert.equal(survivingChunks, 4);
+      assert.equal(completed.counts.unchangedFiles, 1);
+      assert.equal(completed.counts.embeddedChunks, 3);
+      assert.equal(completed.counts.chunks, survivingChunks);
+      assert.equal(
+        (yield* service.resolve({ sourceId: first.sourceId })).source?.chunkCount,
+        survivingChunks,
+      );
+      assert.isNotNull(
+        (yield* service.astFindDefinition({
+          sourceId: first.sourceId,
+          selector: { name: "before" },
+        })).symbol,
+      );
+    }).pipe(Effect.provide(state.dependencies), Effect.scoped);
+  },
+);
 
 it.effect.each(["before-vector", "after-vector"] as const)(
   "recovers the same abandoned run at %s and never replays committed terminal work",

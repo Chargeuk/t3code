@@ -224,6 +224,12 @@ describe("Knowledge AST parser", () => {
             "export { helper } from './other';",
             "export const named = () => helper(), second = () => helper();",
             "export default function defaultVisible() { helper(); }",
+            "class Outer {",
+            "  make() {",
+            "    class Inner extends Base implements Face {}",
+            "    return Inner;",
+            "  }",
+            "}",
             "",
           ].join("\n"),
         );
@@ -242,6 +248,8 @@ describe("Knowledge AST parser", () => {
           ["EXPORTS", file.relPath, "Child"],
           ["EXTENDS", "Child", "Base"],
           ["IMPLEMENTS", "Child", "Face"],
+          ["EXTENDS", "Inner", "Base"],
+          ["IMPLEMENTS", "Inner", "Face"],
           ["REFERENCES_TYPE", "method", "Base"],
           ["CALLS", "method", "helper"],
         ] as const) {
@@ -253,6 +261,13 @@ describe("Knowledge AST parser", () => {
             }),
           );
         }
+        expect(
+          result.edges.filter(
+            (edge) =>
+              (edge.type === "EXTENDS" || edge.type === "IMPLEMENTS") &&
+              edge.fromSymbolId === symbols.get("Outer")?.symbolId,
+          ),
+        ).toEqual([]);
         expect(symbols.get("method")).toMatchObject({
           container: "Child",
           range: range(5, 3, 9, 4),
