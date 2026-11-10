@@ -294,17 +294,17 @@ Progress: `coding_agent` conversation `80411a40-8228-43ee-891d-d3d2611b0308` aut
 
 - Repository Name: `Current Repository`
 - Task Dependencies: `Task 1, Task 2, Task 3`
-- Task Status: `__in_progress__`
+- Task Status: `__done__`
 - Git Commits: `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`, `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`
 
 #### Overview
 
-Integrate the four implementation areas and retain scoped local evidence from focused automated checks, the bundled Linux server, installed-SDK retrieval, and the coordinated real-web pass. Local implementation and applicable K-10–K-12 proof are recorded complete for their stated candidates; this is not formal feature acceptance. The original K-1–K-13 acceptance markers remain unchecked, K-9 remains ongoing, and human acceptance remains external and pending. This task remains in progress solely for the existing K-13 check on the next publication candidate.
+Integrate the four implementation areas and retain scoped local evidence from focused automated checks, the bundled Linux server, installed-SDK retrieval, and the coordinated real-web pass. Local implementation and applicable K-10–K-12 proof are recorded complete for their stated candidates; this is not formal feature acceptance. The original K-1–K-13 acceptance markers remain unchecked, K-9 remains ongoing, and human acceptance remains external and pending. The publication-candidate K-13 check is now recorded complete in Testing; this task's implementation and required automated proof are complete.
 
 #### Task Exit Criteria
 
 - The integrated candidate has a passing normal filtered build, installed-SDK source-scoped retrieval, bundled AST/query proof, and coordinated fixture-backed web lifecycle evidence recorded below.
-- The existing publication-stage `check:changed` invocation passes on the next publication candidate; it is not a new per-task check.
+- The existing publication-stage `check:changed` invocation passed on candidate `5c28eeee6a12c45b07886975df6e9568876cf322`; it is not a new per-task check.
 
 #### Documentation Locations
 
@@ -328,9 +328,9 @@ Scope restriction (non-checkbox): Story 0000001 Repository Knowledge targets Lin
 2. [x] A fresh normal filesystem-read/WebSocket-ticket RPC session retrieved three valid finite-distance matches scoped to the indexed alpha source from the installed SDK; the matches were `proof-load-051.md`, `proof-load-067.md`, and `proof-load-080.md`. This does not establish semantic ranking or a literal sentinel match.
 3. [x] The bundled Linux Knowledge service returned the expected seven-language AST/range and local-query evidence; the manual browser interaction is documented separately in Manual Testing Guidance and the original evidence record.
 4. [x] The recorded integrated `check:changed` passed: 27 files, 406/406 tests, 40-package typecheck, lint, both Knip groups, GraphQL, unused-patch, and format; React Compiler passed 9 with 1,334 skipped.
-5. [ ] On the next publication candidate, run the existing K-13 command once: `npm run container:exec -- vp run check:changed`.
+5. [x] On the next publication candidate (`5c28eeee6a12c45b07886975df6e9568876cf322`), `npm run container:exec -- vp run check:changed` passed with exit code 0: format, unused patches, lint, both Knip groups, GraphQL, 40-package typecheck, 27 test files (406 passed), and React Compiler (9 passed, 1,334 skipped).
 
-The next-candidate K-13 check is the single pending invocation; the lint and format results below are retained evidence from the historical integrated candidate, not separate pending task runs.
+The publication-candidate K-13 check is complete as recorded in item 5; the lint and format results below are retained evidence from the historical integrated candidate, not separate pending task runs.
 
 Lint: On the historical integrated candidate (HEAD `660e9d33029f5542c1a8e155500e4ca5f41fc1b6` plus 12 dirty files; pre-run diff digest `805f2bee9d0bec101cb94613588c75172f6430234faa1cd67fc9e39ae813e657`), the `npm run container:exec -- vp run check:changed` lint group passed; this is retained candidate evidence, not a per-task invocation.
 
@@ -342,7 +342,7 @@ The coordinated real-web pass has already been performed by the assigned manual 
 
 #### Implementation notes
 
-The local implementation and applicable scoped K-10–K-12 proof are recorded complete for their stated candidates; this is not formal feature acceptance. Original K-1–K-13 acceptance markers remain unchecked, K-9 remains ongoing, and human acceptance remains external and pending. This task is `__in_progress__` solely because the existing K-13 check remains due on the next publication candidate. Historical commit/checkpoint identities and failures remain tied to their recorded candidates; later scoped repairs were committed in `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`. Downstream formal reviews remain in their existing phases.
+The local implementation and applicable scoped K-10–K-12 proof are recorded complete for their stated candidates; this is not formal feature acceptance. Original K-1–K-13 acceptance markers remain unchecked, K-9 remains ongoing, and human acceptance remains external and pending. This task is `__done__` following the publication-candidate K-13 result recorded in Testing item 5. Historical commit/checkpoint identities and failures remain tied to their recorded candidates; later scoped repairs were committed in `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee`. Downstream formal reviews remain in their existing phases.
 
 ##### Original item record (pre-conversion; original markers and prose retained)
 
@@ -409,3 +409,5 @@ Record actual test/build command outcomes, tested source identity, sentinel sour
 Subsequent recovery on the same implementation occurrence: `npm run container:exec -- vp i --no-frozen-lockfile` exited 0 using pinned pnpm 12.14.0 across 41 workspaces. Integration accepted the workspace/lockfile diff: it removes only the version-scoped Chroma optional CLI binding edge, preserving the SDK pin, both lockfile documents, and other dependencies. The six required computed-load grammars remain listed in the existing scoped Knip configuration; the two export-only constants were made local in their source modules. The normal `npm run container:exec -- vp run --filter t3 build` exited 0, including web license generation and server output; emitted `apps/server/dist/bin.mjs` had Git blob `5a41236bf36f5088f5bdbbcb9443060be2cf6347`. A fresh normal filesystem-read session and WebSocket-ticket/RPC retrieval used DEV environment `5debcc29-d6e1-4b05-b788-87adad97c430`, fixture-v2 at 12 dimensions, and alpha source `db3713c7-b4ce-4f3c-99a3-a01eaa2f7f83` (107 files, 2,207 chunks; completed run `f07fae8e-32b0-4b40-a39b-14adbabaaaee`); beta source `5c38c5b7-230c-4669-b425-e769e6ef8ca1` remained unindexed. The alpha-scoped `knowledge.retrieve` sentinel query returned three metadata-valid matches with finite distances, all from alpha (`proof-load-051.md`, `proof-load-067.md`, `proof-load-080.md`) and no binding errors. This confirms the installed SDK retrieval path, not semantic ranking or a literal-sentinel match, and is separate from the historical bundled parser/query proof.
 
 The first post-install `check:changed` failed only two AST ESM spy cases; the AST owner repaired the test-only mocking with Vitest's existing spy pattern while retaining all 32 cases. The final `check:changed` exited 0 on HEAD `660e9d33029f5542c1a8e155500e4ca5f41fc1b6` plus 12 dirty files, with pre-run diff digest `805f2bee9d0bec101cb94613588c75172f6430234faa1cd67fc9e39ae813e657` and plan blob `2158c8d44e0b433f148ae2a711a992168b001f75`. Format, unused-patch, lint, both Knip groups, GraphQL, and the 40-package typecheck passed; 27 test files passed all 406 tests, including all 32 parser cases. React Compiler passed 9 tests with 1,334 skipped. The normal build log is `/tmp/t3-knowledge-normal-build-660e.log`; the final check log is `/tmp/t3-knowledge-check-after-parser-repair-660e.log`. No tracked-file changes were made by these tester operations. The current DEV session is 99560 (server 13773/web 5733); Chroma at port 8201 remains available. Human acceptance remains external and pending, and downstream formal reviews and the next publication-stage K-13 check remain in their existing phases.
+
+Implementation and automated-proof audit (2026-11-10): the fresh task packet and parser report all three subtasks and all five Testing items checked, with no live blocker. Testing item 5 records exit 0 for the existing K-13 command on `5c28eeee6a12c45b07886975df6e9568876cf322`; the only pre-audit tracked diff is that proof record, with no source or test changes. Source integration and comparison-base diffs were inspected against the approved Knowledge scope; no unapproved established-behavior change was identified in the inspected surfaces. No checklist item was newly checked and no proof was rerun by this audit. Task 4 remains the existing closeout owner and is now `__done__`; the stale pending-K-13 summaries were reconciled without creating another task or adding proof gates. Historical records above retain their original candidate limits. Formal reviews and external human acceptance remain pending, and excluded or optional live-provider proof is not claimed.
