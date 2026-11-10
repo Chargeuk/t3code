@@ -1,0 +1,19 @@
+{
+  "plan_path": "planning/0000001-repository-knowledge.md",
+  "selection_status": "resolved",
+  "selection_reason": "active_in_progress",
+  "selected_task": {
+    "number": 4,
+    "title": "Integrate and complete acceptance proof",
+    "status": "__in_progress__",
+    "start_line": 293,
+    "end_line": 411,
+    "has_unchecked_subtasks": false,
+    "has_unchecked_testing": true,
+    "has_live_blocker": false
+  },
+  "normalized_tasks": [],
+  "open_in_progress_tasks": [],
+  "final_task_status": "__in_progress__",
+  "story_complete": false
+}
