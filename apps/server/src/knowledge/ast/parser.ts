@@ -22,6 +22,7 @@ type SyntaxNode = {
   endPosition: Position;
   hasError: boolean;
   parent: SyntaxNode | null;
+  namedChildren: SyntaxNode[];
   childForFieldName: (name: string) => SyntaxNode | null;
   descendantsOfType: (types: string | string[]) => SyntaxNode[];
 };
@@ -297,15 +298,25 @@ function buildExportEdges(
   const edges: Knowledge.KnowledgeAstEdge[] = [];
 
   for (const statement of exportStatements) {
-    const nameNodes = statement.descendantsOfType([
-      "identifier",
-      "property_identifier",
-      "type_identifier",
-    ]);
-    const names = Array.from(new Set(nameNodes.map((node) => getNodeText(node)).filter(Boolean)));
-    for (const name of names) {
+    if (statement.childForFieldName("source")) continue;
+    const declaration = statement.childForFieldName("declaration");
+    const value = statement.childForFieldName("value");
+    const targets = declaration
+      ? declaration.type === "lexical_declaration" || declaration.type === "variable_declaration"
+        ? declaration.namedChildren
+        : [declaration]
+      : statement.descendantsOfType("export_specifier");
+    const nameNodes = targets.flatMap((node) => {
+      const name = node.childForFieldName("name");
+      return name ? [name] : [];
+    });
+    if (value?.type === "identifier") nameNodes.push(value);
+    for (const node of nameNodes) {
       const target = symbols.find(
-        (symbol) => symbol.symbolId !== moduleSymbolId && symbol.name === name,
+        (symbol) =>
+          symbol.symbolId !== moduleSymbolId &&
+          symbol.name === getNodeText(node) &&
+          (!declaration || isPositionWithinRange(toRange(node).start, symbol.range)),
       );
       if (!target) continue;
       edges.push({

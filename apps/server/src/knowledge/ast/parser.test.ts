@@ -217,11 +217,26 @@ describe("Knowledge AST parser", () => {
             "  }",
             "}",
             "function helper() {}",
+            "export function visible() { helper(); }",
+            "function local() {}",
+            "function publicAlias() {}",
+            "export { local as publicAlias };",
+            "export { helper } from './other';",
+            "export const named = () => helper(), second = () => helper();",
+            "export default function defaultVisible() { helper(); }",
             "",
           ].join("\n"),
         );
         const result = success(yield* parseAstSource(file));
         const symbols = new Map(result.symbols.map((item) => [item.name, item]));
+        expect(
+          result.edges
+            .filter((edge) => edge.type === "EXPORTS")
+            .map(
+              (edge) => result.symbols.find((symbol) => symbol.symbolId === edge.toSymbolId)?.name,
+            )
+            .sort(),
+        ).toEqual(["Child", "defaultVisible", "local", "named", "second", "visible"]);
         for (const [type, from, to] of [
           ["IMPORTS", file.relPath, "./external"],
           ["EXPORTS", file.relPath, "Child"],
@@ -265,7 +280,12 @@ describe("Knowledge AST parser", () => {
             imports: [{ source: "./external", names: ["external"] }],
           },
         ]);
-        expect(result.edges.filter((edge) => edge.type === "CALLS")).toHaveLength(1);
+        expect(
+          result.edges.filter(
+            (edge) =>
+              edge.type === "CALLS" && edge.fromSymbolId === symbols.get("method")?.symbolId,
+          ),
+        ).toHaveLength(1);
       }),
   );
 
