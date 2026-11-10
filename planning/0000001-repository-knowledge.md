@@ -1538,7 +1538,7 @@ The affected tasks require the normal filtered build and `check:changed`. K-10 a
    text(result);
    ```
 
-3. [ ] Run `npm run container:exec -- vp run check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c`. The existing explicit-ref form covers the approved story and working changes. Record the actual tested candidate, numeric exit, selected tests, typechecks and cross-file results without adding cached/overlapping runs as unique coverage. This preserves K-13's publication obligation; this task does not itself push.
+3. [x] Run `npm run container:exec -- vp run check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c`. The existing explicit-ref form covers the approved story and working changes. Record the actual tested candidate, numeric exit, selected tests, typechecks and cross-file results without adding cached/overlapping runs as unique coverage. This preserves K-13's publication obligation; this task does not itself push.
 
 4. [x] Send Ctrl+C through the captured PTY using the automated terminal-tool invocation below, then read that same session to terminal completion if it is still running. This stops only the normal runner started by item 2; retain the reusable checkout container and persistent data. No process matching, unrelated server shutdown or volume cleanup is permitted.
 
@@ -1584,13 +1584,14 @@ Subtask 2 complete: the supported formatter command exited 0 across 65 selected 
 
 Testing 1 complete: `npm run container:exec -- vp run --filter t3 build` exited 0 at HEAD `c4838e2bfc3f0501393a6002a27fa255f35442f3` with the existing dirty candidate state. It built web (7,393 modules transformed) and server (including bundled web assets and CLI build); normal dependency/license path completed. Build output included the existing large-chunk warning.
 Testing 2 complete: `npm run container:dev` reached Vite ready at `http://localhost:5733/` and server listening at `http://127.0.0.1:13773` in retained PTY session 14660. Startup also logged unavailable optional Claude CLI and GitHub credentials; service readiness succeeded.
-Testing 3 failed: `npm run container:exec -- vp run check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c` exited 1 for 75 files. The wrapper summary reports `FAIL format 0.4s`; formatter output says `codeInfoStatus/flow-state/manual-testing-runtime.json (1ms)` and `Format issues found in above 1 files.` Other reported categories passed: unused patches, lint, both Knip passes, GraphQL, 40-package typecheck, 27 test files (416 tests), and React Compiler (9 files). This selected changed-file wrapper coverage is not a full suite.
+Testing 3 initial attempt failed: `npm run container:exec -- vp run check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c` exited 1 for 75 files because formatting rejected `codeInfoStatus/flow-state/manual-testing-runtime.json`; the other categories passed. After the coder reformatted that JSON without changing its parsed value, the exact check passed on HEAD `a5b36d8554601ac0008471da5140f778f6ec7460` with exit 0: format, unused patches, lint, both Knip passes, GraphQL, 40-package typecheck, 27 test files (416 passed), and React Compiler (9 passed, 1,334 skipped). This selected changed-file wrapper coverage is not a full suite.
 
 Testing 4 complete: Ctrl+C was sent through retained PTY session 14660 after Testing 3; the runner exited 130 and logged orchestration shutdown reconciliation completed.
-Testing 5 complete: the supported scoped lint command exited 0 on 55 files with 0 warnings and 0 errors.
-Testing 6 complete: the supported scoped format check exited 0; all matched files use the correct format (65 files).
+Testing 5 complete: the supported scoped lint check exited 0 on 55 files with 0 warnings and 0 errors. Testing 6 complete: the supported scoped format check exited 0; all matched files use the correct format (65 files).
 
-- **BLOCKER** Testing 3, `check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c`: exited 1 because formatting rejects `codeInfoStatus/flow-state/manual-testing-runtime.json`. Required story proof cannot pass until the caller/coding-agent repair flow determines and resolves this flow-state formatting issue; the tester did not modify it. Same-task repair is appropriate; no split or reorder indicated.
+Deep repair: the wrapper correctly includes changed flow-state JSON. The coder ran `npm run container:exec -- vp fmt codeInfoStatus/flow-state/manual-testing-runtime.json` (exit 0) and verified identical parsed before/after values. Product build/startup proof remains applicable. The tested candidate included this formatting repair, plan updates, the pre-existing dirty `current-task.json` and untracked `active-review-cycle.json`; those unrelated handoffs were preserved.
+
+- **RESOLVED ISSUE** Testing 3's flow-state formatting failure is resolved by the values-preserving formatter pass and the exact wrapper's exit-0 rerun recorded above.
 
 Preserve Task 7's original row-deletion repair and Task 9's later invalidated-hash/path-retention correction as chronological evidence; do not overwrite the earlier contribution or reopen its completed task. Earlier gate removals remain non-actionable, including the differing historical admission-wakeup/shared-collection decisions. The six findings blocks record their reviewed HEADs, actual direct jobs, separate reported usage and subsequent resolution.
 

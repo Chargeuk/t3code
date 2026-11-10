@@ -117,9 +117,7 @@
           },
           "freshness": {
             "reuse_allowed": true,
-            "restart_required_for": [
-              "Changed dev-container image inputs"
-            ],
+            "restart_required_for": ["Changed dev-container image inputs"],
             "proof": "container:up builds the image, compares its ID to the checkout-labeled container image, replaces that container only on mismatch, and refreshes content setup. This proves container setup, not application candidate freshness.",
             "source": "scripts/dev-container.mjs; docs/internals/devcontainer.md"
           },
@@ -140,9 +138,7 @@
           "startup": {
             "command": "npm run container:exec -- env T3CODE_DEV_KNOWLEDGE_FIXTURES=true vp run dev",
             "source": "docs/operations/development.md -> Repository Knowledge and Chroma; package.json -> container:exec/dev; apps/server/src/server.ts:602-613",
-            "setup_commands": [
-              "npm run container:up"
-            ],
+            "setup_commands": ["npm run container:up"],
             "normal_nonfixture_command": "npm run container:dev",
             "normal_source": "AGENTS.md; .agents/skills/test-t3-app/SKILL.md"
           },
@@ -223,9 +219,7 @@
           "startup": {
             "command": "npm run container:exec -- env T3CODE_DEV_KNOWLEDGE_FIXTURES=true vp run dev",
             "source": "docs/operations/development.md -> Repository Knowledge and Chroma; scripts/dev-runner.ts -> MODE_ARGS.dev; apps/server/src/server.ts -> layerKnowledge",
-            "setup_commands": [
-              "npm run container:up"
-            ]
+            "setup_commands": ["npm run container:up"]
           },
           "shutdown": {
             "command": "Ctrl+C in the retained foreground dev-runner terminal",
@@ -309,9 +303,7 @@
           },
           "freshness": {
             "reuse_allowed": true,
-            "restart_required_for": [
-              "Chroma image, port, volume or service configuration changes"
-            ],
+            "restart_required_for": ["Chroma image, port, volume or service configuration changes"],
             "proof": "Repository configuration pins image and persistent volume but has no live freshness marker. Ownership and effective image/configuration must be established before reuse. restart alone does not apply changed Compose configuration; use the supported up path for changed service definitions. No live stack inspected.",
             "source": "docker-compose.yml; docs/operations/development.md"
           },
@@ -332,9 +324,7 @@
           "startup": {
             "command": "npm run container:exec -- env T3CODE_DEV_KNOWLEDGE_FIXTURES=true node apps/server/dist/bin.mjs serve --base-dir .t3/knowledge-bundle-proof --host 127.0.0.1",
             "source": "planning/0000001-repository-knowledge.md -> Task 4 Implementation notes (foreground bundled CLI); apps/server/src/server.ts -> T3CODE_DEV_KNOWLEDGE_FIXTURES; docs/operations/development.md -> fixture setting",
-            "setup_commands": [
-              "npm run container:up"
-            ]
+            "setup_commands": ["npm run container:up"]
           },
           "shutdown": {
             "command": "Ctrl+C in the retained foreground bundled-server terminal",
@@ -367,9 +357,7 @@
           },
           "freshness": {
             "reuse_allowed": false,
-            "restart_required_for": [
-              "Any bundled input/dependency/generated-asset change"
-            ],
+            "restart_required_for": ["Any bundled input/dependency/generated-asset change"],
             "proof": "No exact build freshness marker established. Historical bundle hashes/session IDs do not prove current loaded bundle. Build then launch a fresh retained process for later authorized bundled proof.",
             "source": "planning/0000001-repository-knowledge.md -> Task 4 Implementation notes; apps/server/scripts/cli.ts"
           },
@@ -397,9 +385,7 @@
           },
           "reason": "The product server/provider image is not part of this story's current Compose definition.",
           "likely_future_enabler": "Story 0000002 extends this same Compose definition with the T3/provider image and owns product-runtime Docker proof. Story 0000001 completion does not depend on it.",
-          "prerequisites": [
-            "Later product runtime implementation, outside this story"
-          ],
+          "prerequisites": ["Later product runtime implementation, outside this story"],
           "access": {
             "required": null,
             "source": "No current product runtime access path to research; do not guess"
@@ -431,10 +417,7 @@
           "source": "planning/0000001-repository-knowledge.md -> Testing / Out of Scope; docs/internals/devcontainer.md -> What works"
         },
         {
-          "names": [
-            "Marketing site",
-            "Remote/tunnel sharing"
-          ],
+          "names": ["Marketing site", "Remote/tunnel sharing"],
           "reason": "No Knowledge proof requirement for marketing or separate tunnel proof. Normal single-origin dev remains remote-safe; no additional runtime required.",
           "source": "package.json; planning/0000001-repository-knowledge.md -> K-11/K-12"
         }
