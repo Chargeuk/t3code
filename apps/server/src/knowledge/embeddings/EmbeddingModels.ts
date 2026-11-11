@@ -32,6 +32,7 @@ interface LmStudioModel {
 }
 
 interface LmStudioClient {
+  readonly [Symbol.asyncDispose]: () => Promise<void>;
   readonly system: {
     readonly listDownloadedModels: () => Promise<
       ReadonlyArray<{
@@ -148,6 +149,38 @@ function validateVectors(
 const make = Effect.gen(function* () {
   const sdk = yield* EmbeddingSdk;
   const scope = yield* Effect.scope;
+  const lmStudioClients = new Map<string, Promise<LmStudioClient>>();
+  // Native disposal may await RPCs, so it belongs to service shutdown, outside request cancellation.
+  yield* Effect.addFinalizer(() =>
+    Effect.promise(async () => {
+      await Promise.all(
+        [...lmStudioClients.values()].map((pending) =>
+          pending.then(
+            (client) => client[Symbol.asyncDispose](),
+            () => {},
+          ),
+        ),
+      );
+    }),
+  );
+  const lmStudioClient = Effect.fn("EmbeddingModels.lmStudioClient")(
+    (config: EmbeddingModelsConfig) =>
+      Effect.tryPromise({
+        try: () => {
+          const endpoint = toWebSocketUrl(config.lmStudioBaseUrl);
+          let pending = lmStudioClients.get(endpoint);
+          if (pending === undefined) {
+            pending = sdk.lmstudio(endpoint).catch((cause) => {
+              lmStudioClients.delete(endpoint);
+              throw cause;
+            });
+            lmStudioClients.set(endpoint, pending);
+          }
+          return pending;
+        },
+        catch: (cause) => embeddingError("embedding_unavailable", cause),
+      }),
+  );
   const tokenizer = yield* Effect.cached(
     Effect.acquireRelease(
       Effect.tryPromise({
@@ -181,9 +214,9 @@ const make = Effect.gen(function* () {
   const discoverLmStudio = Effect.fn("EmbeddingModels.discoverLmStudio")(function* (
     config: EmbeddingModelsConfig,
   ) {
+    const client = yield* lmStudioClient(config);
     return yield* Effect.tryPromise({
       try: async () => {
-        const client = await sdk.lmstudio(toWebSocketUrl(config.lmStudioBaseUrl));
         const downloaded = await client.system.listDownloadedModels();
         const choices = new Map<string, EmbeddingModelChoice>();
         for (const model of downloaded) {
@@ -251,11 +284,9 @@ const make = Effect.gen(function* () {
     config: EmbeddingModelsConfig,
   ): Effect.fn.Return<KnowledgeEmbeddingModel, Knowledge.KnowledgeOperationError> {
     if (selection.provider === "lmstudio") {
+      const client = yield* lmStudioClient(config);
       const model = yield* Effect.tryPromise({
-        try: async () => {
-          const client = await sdk.lmstudio(toWebSocketUrl(config.lmStudioBaseUrl));
-          return client.embedding.model(selection.model);
-        },
+        try: () => client.embedding.model(selection.model),
         catch: (cause) => embeddingError("embedding_unavailable", cause),
       });
       return {

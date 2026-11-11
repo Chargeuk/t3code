@@ -22,6 +22,7 @@ const vector = DeterministicEmbeddings.fixtureVector;
 function sdkStubs(overrides: Partial<Sdk> = {}): Sdk {
   return {
     lmstudio: async () => ({
+      [Symbol.asyncDispose]: async () => {},
       system: {
         listDownloadedModels: async () => [
           {
@@ -72,6 +73,7 @@ it.effect(
   () => {
     const sdk = sdkStubs({
       lmstudio: async () => ({
+        [Symbol.asyncDispose]: async () => {},
         system: {
           listDownloadedModels: async () => [
             { type: "llm", modelKey: "chat-only" },
@@ -174,6 +176,7 @@ it.effect(
           lmstudio: async (endpoint) => {
             if (endpoint !== expectedUrl) throw new Error("Unexpected endpoint.");
             return {
+              [Symbol.asyncDispose]: async () => {},
               system: {
                 listDownloadedModels: async () => [
                   { type: "embedding", modelKey: lmStudioSelection.model },
@@ -209,6 +212,63 @@ it.effect(
       }
     }),
 );
+
+it.effect("shares LM Studio clients by normalized endpoint until layer release", () => {
+  const released: Array<string> = [];
+  const lmstudio = vi.fn(async (endpoint: string) => {
+    const client = await sdkStubs().lmstudio(endpoint);
+    let disposed = false;
+    return {
+      ...client,
+      embedding: {
+        model: async (key: string) => {
+          const model = await client.embedding.model(key);
+          return {
+            ...model,
+            embed: async (text: string) => {
+              expect(disposed).toBe(false);
+              return model.embed(text);
+            },
+          };
+        },
+      },
+      [Symbol.asyncDispose]: async () => {
+        disposed = true;
+        released.push(endpoint);
+      },
+    };
+  });
+  return Effect.gen(function* () {
+    yield* Effect.gen(function* () {
+      const service = yield* EmbeddingModels.EmbeddingModels;
+      expect(lmstudio).not.toHaveBeenCalled();
+      const [discovered, model] = yield* Effect.all(
+        [
+          service.discover(config),
+          service.resolve(lmStudioSelection, {
+            lmStudioBaseUrl: "ws://lmstudio.test:1234",
+          }),
+        ],
+        { concurrency: "unbounded" },
+      );
+      expect(discovered.failures).toEqual([]);
+      expect(lmstudio).toHaveBeenCalledTimes(1);
+      yield* service.discover(config);
+      yield* service.resolve(lmStudioSelection, config);
+      expect(lmstudio).toHaveBeenCalledTimes(1);
+      const other = yield* service.resolve(lmStudioSelection, {
+        lmStudioBaseUrl: "https://other.test/native",
+      });
+      expect(lmstudio).toHaveBeenCalledTimes(2);
+      expect(yield* model.countTokens(texts[0])).toBe(Array.from(texts[0]).length);
+      expect(yield* model.getContextLength()).toBe(512);
+      expect(yield* model.embedBatch([texts[0]])).toEqual([vector(texts[0])]);
+      expect(yield* other.embedBatch([texts[1]])).toEqual([vector(texts[1])]);
+      expect(released).toEqual([]);
+    }).pipe(Effect.provide(sdkLayer(sdkStubs({ lmstudio }))));
+    expect(released.toSorted()).toEqual(["ws://lmstudio.test:1234", "wss://other.test/native"]);
+  });
+});
 
 it.effect(
   "maps returned OpenAI indices independently when concurrent requests complete in reverse order",
@@ -298,6 +358,7 @@ it.effect("rejects malformed vectors from either SDK and inconsistent OpenAI dim
     ]) {
       const sdk = sdkStubs({
         lmstudio: async () => ({
+          [Symbol.asyncDispose]: async () => {},
           system: { listDownloadedModels: async () => [] },
           embedding: {
             model: async () => ({
@@ -440,6 +501,7 @@ it.effect(
       const cause = new Error("private SDK payload");
       const sdk = sdkStubs({
         lmstudio: async () => ({
+          [Symbol.asyncDispose]: async () => {},
           system: { listDownloadedModels: async () => [] },
           embedding: {
             model: async () => ({
@@ -496,22 +558,17 @@ it.effect(
           ),
         ),
       );
+      const lmstudio = vi.fn(sdkStubs().lmstudio).mockRejectedValueOnce(cause);
       yield* Effect.gen(function* () {
         const service = yield* EmbeddingModels.EmbeddingModels;
         const error = yield* service.resolve(lmStudioSelection, config).pipe(Effect.flip);
         expect(error.code).toBe("embedding_unavailable");
         expect(error.cause).toBe(cause);
-      }).pipe(
-        Effect.provide(
-          sdkLayer(
-            sdkStubs({
-              lmstudio: async () => {
-                throw cause;
-              },
-            }),
-          ),
-        ),
-      );
+        const model = yield* service.resolve(lmStudioSelection, config);
+        expect(yield* model.embedBatch([texts[0]])).toEqual([vector(texts[0])]);
+        expect((yield* service.discover(config)).failures).toEqual([]);
+        expect(lmstudio).toHaveBeenCalledTimes(2);
+      }).pipe(Effect.provide(sdkLayer(sdkStubs({ lmstudio }))));
     }),
 );
 
@@ -526,9 +583,11 @@ it.effect(
         const openAiResponse = pending.promise.then((embedding) => ({
           data: [{ index: 0, embedding }],
         }));
+        const dispose = vi.fn(async () => {});
         let requestSignal: AbortSignal | undefined;
         const sdk = sdkStubs({
           lmstudio: async () => ({
+            [Symbol.asyncDispose]: dispose,
             system: { listDownloadedModels: async () => [] },
             embedding: {
               model: async () => ({
@@ -566,6 +625,7 @@ it.effect(
           );
           yield* Effect.promise(() => started.promise);
           yield* Fiber.interrupt(fiber);
+          expect(dispose).not.toHaveBeenCalled();
           if (selection.provider === "openai") expect(requestSignal?.aborted).toBe(true);
           else expect(requestSignal).toBeUndefined();
           pending.resolve(vector(texts[0]));
@@ -576,6 +636,34 @@ it.effect(
           expect(Exit.hasInterrupts(yield* Fiber.await(fiber))).toBe(true);
           expect(delivered).toEqual([]);
         }).pipe(Effect.provide(sdkLayer(sdk)));
+        expect(dispose).toHaveBeenCalledTimes(selection.provider === "lmstudio" ? 1 : 0);
       }
     }),
 );
+
+it.effect("retains an LM Studio acquisition after its waiting caller is interrupted", () => {
+  const started = Promise.withResolvers<void>();
+  const pending = Promise.withResolvers<Awaited<ReturnType<Sdk["lmstudio"]>>>();
+  const dispose = vi.fn(async () => {});
+  const lmstudio = vi.fn(() => {
+    started.resolve();
+    return pending.promise;
+  });
+  return Effect.gen(function* () {
+    yield* Effect.gen(function* () {
+      const service = yield* EmbeddingModels.EmbeddingModels;
+      const caller = yield* service.resolve(lmStudioSelection, config).pipe(Effect.forkChild);
+      yield* Effect.promise(() => started.promise);
+      yield* Fiber.interrupt(caller);
+      expect(Exit.hasInterrupts(yield* Fiber.await(caller))).toBe(true);
+      expect(dispose).not.toHaveBeenCalled();
+      const client = yield* Effect.promise(() => sdkStubs().lmstudio(config.lmStudioBaseUrl));
+      pending.resolve({ ...client, [Symbol.asyncDispose]: dispose });
+      const model = yield* service.resolve(lmStudioSelection, config);
+      expect(yield* model.embedBatch([texts[0]])).toEqual([vector(texts[0])]);
+      expect(lmstudio).toHaveBeenCalledTimes(1);
+      expect(dispose).not.toHaveBeenCalled();
+    }).pipe(Effect.provide(sdkLayer(sdkStubs({ lmstudio }))));
+    expect(dispose).toHaveBeenCalledTimes(1);
+  });
+});
