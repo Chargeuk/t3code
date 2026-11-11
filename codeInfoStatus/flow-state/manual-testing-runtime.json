@@ -6,67 +6,69 @@
     "supporting_repositories": [
       {
         "path": "/home/dan/code/codeInfo2",
-        "reason": "Existing local Playwright MCP and exact screenshot staging/copy-out evidence only; no CodeInfo2 product proof required.",
-        "source": "T3 test-t3-app skill; harness AGENTS.md, README.md, repository_information.md, docker-compose.local.yml"
+        "reason": "Existing local Playwright MCP and screenshot transfer evidence only; no CodeInfo2 product proof required.",
+        "source": "T3 .agents/skills/test-t3-app/SKILL.md; harness README.md and docker-compose.local.yml"
       }
     ]
   },
   "handoff_status": {
-    "persisted_task_number": 11,
-    "persisted_task_title": "Revalidate Repository Knowledge after review repairs",
+    "persisted_task_number": 14,
+    "persisted_task_title": "Revalidate Repository Knowledge after final review repairs",
     "selection_status": "resolved",
-    "notes": "Read current-plan first, current-task second. Bounded Testing and guidance-status reads are fresh; no handoff/plan/task status modified."
+    "notes": "Read current-plan first and current-task second; fresh guidance-status and bounded Testing/story restrictions consumed. No handoff or task selection changed."
   },
   "research_status": {
-    "basis": "Current repository source and bounded plan inspection only. available_now means a supported Docker-backed path exists, subject to prerequisites, not a successful launch or live daemon/browser readiness check.",
-    "candidate_head": "d188559e55c8883188f7baa8167a55f4b6dcb270",
+    "basis": "Current source inspection only. available_now denotes a supported Docker-backed path subject to prerequisites; no live runtime/daemon/MCP readiness or successful launch claimed.",
+    "candidate_head": "75c604d41db8d61feac34659b2d3ddc6db6eb20f",
     "systems_started_or_stopped": false,
     "manual_testing_performed": false,
-    "implementation_tests_run": false
+    "implementation_tests_run": false,
+    "artifact_status": "live local runtime research; do not commit"
   },
   "restrictions": {
-    "source": "Task 11 Testing and Manual Testing Guidance; Acceptance Criteria K-5/K-7/K-9/K-11/K-12; Out Of Scope",
+    "source": "Task 14 complete Testing and Manual Testing Guidance; story Acceptance Criteria K-5/K-7/K-9/K-11/K-12 and Out Of Scope",
     "scope": [
-      "Linux web/server/shared proof in this checkout only; no worktrees, other OS, mobile, native executable/archive packaging or sibling product-image proof",
-      "Manual scenarios are optional, checkbox-free and non-blocking for Task 11. Human-reserved acceptance remains external/pending; do not claim it passed.",
-      "Fixture-backed normal Knowledge path requires no embedding/provider credentials; retain actual SQLite/AST/Chroma behavior. No semantic-quality claims from fixtures or backend/deployment claims from Replay.",
-      "Live LM Studio/OpenAI smoke and paid/live evals require a later explicit request; do not access credentials, install/start LM Studio or run live providers during research.",
-      "This step researches and writes local runtime metadata only; no runtime lifecycle, browser proof, implementation/tests or commits."
+      "Linux web/server/shared in existing checkout only; no worktrees, other OS, mobile, native executable/archive or sibling product-image proof.",
+      "Task 14 manual scenarios are optional, checkbox-free, non-blocking. Human-reserved acceptance remains external/pending, not agent-passed.",
+      "Use deterministic embedding fixtures through normal Knowledge service/UI with real SQLite, AST, lifecycle and Chroma. Fixtures do not prove semantic quality; Replay does not prove backend or deployment behavior.",
+      "Live LM Studio/OpenAI and paid/live evals require a later explicit request. Do not install/start LM Studio or access provider credentials during research.",
+      "Research only in this step: no system lifecycle, browser proof, implementation/tests or commits."
     ]
   },
   "story_guidance": {
     "present": false,
     "section_name": "Story Manual Testing Guidance",
     "summary": [],
-    "notes": "Absence confirmed by manual_testing_guidance_status.py --task-number 11; not a blocker."
+    "notes": "Absence established by manual_testing_guidance_status.py --task-number 14; no missing-guidance blocker."
   },
   "task_guidance": {
-    "task_number": 11,
+    "task_number": 14,
     "present": true,
     "section_name": "Manual Testing Guidance",
     "summary": [
-      "Use test-t3-app with existing checkout container and isolated .t3; persistent product Chroma and normal dev runner in deterministic embedding mode.",
-      "Use actual printed dev ports, private admin startup pairing or existing reusable credential source; no live provider proof.",
-      "Optional Knowledge/Settings lifecycle, reload, delta, queue/cancel/remove/model unlock and restart retrieval; real shared-Chroma/two-environment proof adds optional coverage only.",
-      "Task scratch: codeInfoTmp/manual-testing/0000001/11/; later curation: codeInfoStatus/manual-proof/0000001/. Preserve uniquely necessary historical evidence; stop proof processes/owned Chroma without deleting volumes and leave reusable checkout container running."
+      "Optional later test-t3-app pass in same-path Linux checkout container with isolated .t3, persistent Chroma and documented deterministic embedding fixture launcher.",
+      "Use actual printed ports and private startup admin pairing or existing reusable credential source; no live provider proof.",
+      "Knowledge and Settings lifecycle/reload/delta/queue/cancel/remove/model unlock/restart retrieval; shared-Chroma two-environment observation is optional residual coverage.",
+      "Scratch artifacts: codeInfoTmp/manual-testing/0000001/14/; later curation: codeInfoStatus/manual-proof/0000001/. Preserve uniquely necessary historical captures; stop proof processes/owned Chroma without volumes, leave checkout container running."
     ],
-    "notes": "Task overlay consulted in full, with complete Testing and applicable story restrictions."
+    "notes": "Complete task Manual Testing Guidance read from status helper; full task Testing and applicable story restrictions read through bounded plan extraction."
   },
   "guidance_resolution": {
     "precedence": "repository_truth > task_guidance > story_guidance > no_invention",
     "task_overrides_story": [],
     "repository_conflicts": [],
     "notes": [
-      "No story-level manual guidance exists to override. Fixture mode and Chroma startup agree with current docs/code.",
-      "Task 11 shutdown overlay takes precedence over the general skill’s keep-alive-for-iteration default. Keep reusable container and protected browser harness separate from proof process teardown.",
-      "Target T3 has container wrappers and actual dev-runner ports, not compose:build/up or fixed 5001/5010 endpoints. Those wrappers/ports belong to supporting CodeInfo2 product, whose UI/API is not needed here.",
-      "Older runtime artifact contained Task 4 and historical capture-root/live-state claims. This replacement uses Task 11 and source-backed paths only; old screenshot locations do not establish current browser runtime state."
+      "No story-level manual guidance exists to override. Current fixture docs/code match task guidance.",
+      "Task shutdown guidance specializes the skill keep-alive-for-iteration default: stop proof processes/owned Chroma at completion, retain reusable checkout and protected browser harness.",
+      "No target compose:build/up wrapper or fixed 5001/5010 endpoint exists. Those belong to CodeInfo2 product and are not T3 proof prerequisites.",
+      "Supporting harness local-stack safety protects the browser runtime from autonomous restart/reclaim; do not start its product stack for T3 proof.",
+      "Previous runtime artifact described Task 11; it was treated as a research lead only and replaced with fresh Task 14 evidence."
     ]
   },
   "repositories": [
     {
       "path": "/home/dan/code/t3code",
-      "role": "Current/only declared product repository",
+      "role": "Current and only declared product repository",
       "evidence": [
         "AGENTS.md",
         "README.md",
@@ -78,18 +80,17 @@
         "docs/operations/development.md",
         ".agents/skills/test-t3-app/SKILL.md",
         "apps/server/package.json",
-        "apps/web/package.json",
+        "apps/server/src/server.ts",
         "apps/server/src/cli/server.ts",
         "apps/server/src/cli/config.ts",
-        "apps/server/src/server.ts",
-        "apps/web/vite.config.ts"
+        "apps/server/vite.config.ts"
       ],
       "repository_information": "codeinfo_markdown/repository_information.md absent",
       "startup_order": [
-        "Ensure checkout container setup is ready through container:up if needed",
-        "Start/reuse repository-owned persistent Chroma; configure server-reachable Settings URL",
-        "Start combined fixture dev runner in a retained PTY",
-        "Use existing browser MCP dedicated authenticated T3 tab, reading actual ports"
+        "Ensure container setup is ready through container:up only if needed.",
+        "Start/reuse product Chroma and configure server-reachable URL in Repository knowledge settings.",
+        "Start combined fixture dev runner in retained PTY; read actual ports and private pairing.",
+        "Use existing configured browser MCP dedicated T3 tab."
       ],
       "surfaces": [
         {
@@ -102,252 +103,270 @@
           },
           "shutdown": {
             "command": "npm run container:stop",
-            "source": "package.json; scripts/dev-container.mjs -> stop; docs/internals/devcontainer.md -> Stop and state",
-            "notes": "Explicit environment teardown only; default and Task 11 guidance leave this reusable container running. Preserve named volumes."
+            "source": "AGENTS.md; package.json; docs/internals/devcontainer.md -> Stop and state; scripts/dev-container.mjs",
+            "notes": "Explicit environment teardown only; normal Task 14 proof leaves this reusable container running. Preserve all named volumes."
           },
-          "variant": "Ubuntu same-path development container, host networking, pinned tooling; not the future product image",
+          "variant": "Same-path Ubuntu development container, host networking, isolated .t3; not a product deployment image",
           "prerequisites": [
-            "Same-host Linux checkout; host Node/npm; Docker daemon and socket access",
+            "Same-host Linux checkout; host Node/npm and Docker daemon/socket access",
             "Run wrapper commands from /home/dan/code/t3code"
           ],
-          "build_dependencies": "container:up builds .devcontainer/Dockerfile and runs .devcontainer/update-content.sh; dependency, Chromium, cache and native-tool setup must finish. It replaces only its labeled checkout container if its image changed, preserving volumes.",
+          "build_dependencies": "container:up builds .devcontainer/Dockerfile using pinned tool versions, then runs .devcontainer/update-content.sh for dependencies, Electron repair, Chromium and caches. Do not start T3 before setup is ready.",
           "access": {
             "required": true,
-            "kind": "host_docker_access",
+            "kind": "docker_socket_and_filesystem",
             "source": "docs/internals/devcontainer.md -> Host and container boundary; scripts/dev-container.mjs",
-            "locator": "/var/run/docker.sock access and repository filesystem permissions; no app login for container setup",
-            "repository_skip_conditions": "No access-dependent manual-proof skip defined in target AGENTS.md; repository_information.md absent."
+            "locator": "/var/run/docker.sock permissions and repository access",
+            "repository_skip_conditions": {
+              "defined": false,
+              "source": "AGENTS.md -> Verifying; codeinfo_markdown/repository_information.md absent",
+              "notes": "No access-dependent manual-proof skip condition found in the target repository. Missing provider access does not excuse fixture-backed Knowledge proof. Task guidance separately makes Task 14 manual scenarios optional.",
+              "hit_during_research": "not evaluated; no manual proof attempted"
+            }
           },
           "freshness": {
             "reuse_allowed": true,
             "restart_required_for": [
-              "Image/toolchain inputs or pinned versions change: rerun container:up, which compares image IDs and refreshes setup"
+              "Container image/toolchain changes require container:up reconciliation",
+              "Dependency/setup changes require container:up content setup"
             ],
-            "proof": "Wrapper checks dev.t3code.workspace label against checkout realpath and container image ID against built image. This establishes environment identity, not loaded app freshness.",
+            "proof": "scripts/dev-container.mjs compares the labeled checkout container image ID with the newly built image and preserves volumes on replacement. Container ready does not prove the app process current.",
             "source": "scripts/dev-container.mjs -> inspect/up; docs/internals/devcontainer.md"
           },
-          "relationship": "Edited repository environment",
+          "relationship": "Edited repository tooling and app host",
           "story_guidance": {
             "consulted": true,
-            "notes": "Guidance-status helper reports no Story Manual Testing Guidance; no defaults added."
+            "notes": "manual_testing_guidance_status.py --task-number 14 reports no Story Manual Testing Guidance; no story defaults added."
           },
           "task_guidance": {
             "consulted": true,
-            "artifact_destination": "codeInfoTmp/manual-testing/0000001/11/",
-            "notes": "Task 11 Manual Testing Guidance: optional non-blocking Linux Knowledge pass; isolated checkout container, persistent Chroma, fixture embeddings, private pairing/admin access; preserve unique historical evidence and stop proof processes without removing volumes."
+            "artifact_destination": "codeInfoTmp/manual-testing/0000001/14/",
+            "notes": "Task 14 optional manual guidance: existing Linux checkout container, isolated .t3, persistent Chroma, deterministic embeddings, private startup admin pairing, actual dev-runner ports; preserve unique historical evidence and stop proof processes/owned Chroma without deleting volumes. Leave reusable checkout container running."
           }
         },
         {
-          "name": "Combined Linux web UI, HTTP/WebSocket/MCP server and in-process Knowledge work",
+          "name": "Knowledge web UI, HTTP/WebSocket server and in-process Knowledge/effect workers",
           "availability": "available_now",
           "preferred_mode": "docker",
           "startup": {
             "command": "npm run container:exec -- env T3CODE_DEV_KNOWLEDGE_FIXTURES=true vp run dev",
-            "source": "docs/operations/development.md -> Repository Knowledge and Chroma; package.json -> dev/container:exec; Task 11 Manual Testing Guidance",
-            "setup_commands": [
-              "npm run container:up",
-              "docker compose -f docker-compose.yml up -d chroma"
-            ],
-            "normal_nonfixture_command": "npm run container:dev"
+            "source": "docs/operations/development.md -> Repository Knowledge and Chroma; Task 14 Manual Testing Guidance; package.json; scripts/dev-container.mjs",
+            "normal_nonfixture_command": "npm run container:dev",
+            "normal_nonfixture_source": "AGENTS.md; docs/internals/devcontainer.md; Task 14 Testing item 2",
+            "notes": "Retain a PTY. For later Knowledge functional/UI proof prefer documented fixtures; for Task 14 normal process-start proof use its separate nonfixture command. Neither is executed by this research."
           },
           "shutdown": {
-            "command": "Ctrl+C through the retained foreground terminal/PTY; read that same session to completion",
-            "source": "Task 11 Testing items 2 and 4; AGENTS.md -> Dev servers; docs/internals/devcontainer.md -> Stop and state",
-            "notes": "Stop the captured proof runner, not name-matched processes or the reusable container. Task 11 requests proof shutdown; general skill iteration keep-alive guidance does not supersede this task overlay."
+            "command": "Ctrl+C through the retained foreground terminal/PTY; await that session reaching completion",
+            "source": "Task 14 Testing items 2/4; scripts/dev-runner.ts:880-884; docs/internals/devcontainer.md -> Stop and state",
+            "notes": "Stop the captured proof process only, keep isolated state and reusable checkout container. Never kill by name/path matching."
           },
-          "variant": "Normal combined server/web dev runner with deterministic external-embedding boundary only; actual ingestion, SQLite, AST and persistent Chroma remain real. Default runner otherwise uses live embedding adapters; no live providers requested.",
+          "variant": "Combined normal server/web dev launcher in the checkout container, with deterministic embeddings only at the embedding-service boundary; actual SQLite, AST, ingestion and Chroma",
           "prerequisites": [
-            "Same-host Linux checkout; host Node/npm; Docker daemon and socket access",
+            "Same-host Linux checkout; host Node/npm and Docker daemon/socket access",
             "Run wrapper commands from /home/dan/code/t3code",
-            "Run npm run container:up only when setup/refresh is needed; wait for dependency/cache setup readiness",
-            "Use container named-volume .t3 state, never live ~/.t3/userdata; do not create/use worktrees",
-            "Persistent product Chroma reachable from server, configured in Settings -> Repository knowledge",
-            "Proof repositories visible at paths mounted into T3 container"
+            "container:up setup must finish before container:exec or container:dev",
+            "Use container named-volume .t3, never live ~/.t3/userdata; no worktrees",
+            "Persistent product Chroma and server-reachable URL configured in Settings -> Repository knowledge",
+            "Meaningful isolated proof source/data; no live history copying in CodeInfo2 mode"
           ],
-          "build_dependencies": "No prior app dist required for source dev. container:up supplies dependencies and native tooling. apps/server/package.json uses node --watch; apps/web uses Vite. No separate Knowledge worker process/service launcher exists or is required.",
+          "build_dependencies": "No product bundle required for dev. container:up provisions dependencies, native/parser tooling and browser cache; dev-runner warms missing Vite dependency cache. Fixture injection exists in apps/server/src/server.ts:602-613; no new harness needed.",
           "access": {
             "required": true,
             "kind": "environment_pairing",
-            "source": ".agents/skills/test-t3-app/SKILL.md -> Use CodeInfo2’s existing Playwright MCP; AGENTS.md -> Dev servers; docs/operations/development.md -> Reusable dev credential",
-            "locator": "Private [dev-runner] startup pairing output; optional T3CODE_DEV_AUTH_TOKEN from gitignored .env / .env.local; npm run container:exec -- node apps/server/src/bin.ts pair --base-dir .t3",
-            "notes": "Startup pairing supplies admin scopes; pair CLI supplies standard scopes. Reuse the authenticated proof tab. Never use or publish the user’s pairing link, cookies, tokens or credentials. Fixture Knowledge proof needs no provider login or embedding key.",
+            "source": "AGENTS.md -> CodeInfo2 Linux container workflow; .agents/skills/test-t3-app/SKILL.md -> Use CodeInfo2 existing Playwright MCP; docs/operations/development.md -> Reusable dev credential",
+            "locator": "Private [dev-runner] startup pairing URL (admin scopes); existing T3CODE_DEV_AUTH_TOKEN in gitignored .env / .env.local / inherited environment. Do not read or copy actual values into this artifact.",
+            "helper_command": "npm run container:exec -- node apps/server/src/bin.ts pair --base-dir .t3",
+            "helper_source": ".agents/skills/test-t3-app/SKILL.md -> existing CLI against container isolated state",
+            "notes": "Fresh pair CLI uses standard scopes; startup URL has admin scopes needed for Connections settings. Authenticate a dedicated proof tab once and reuse it. Never consume the user pairing link or publish pairing output. Fixture-backed Knowledge requires no embedding/provider credentials; live provider proof requires a later explicit request.",
             "repository_skip_conditions": {
               "defined": false,
-              "source": "AGENTS.md; codeinfo_markdown/repository_information.md absent",
-              "notes": "No T3 missing-login/human-2FA exemption found. AGENTS.md requires one integrated client pass for user-visible frontend changes; server-only fixes with no visible surface use a focused test and short runtime transcript. This is not a blanket Knowledge-proof exemption."
+              "source": "AGENTS.md -> Verifying; codeinfo_markdown/repository_information.md absent",
+              "notes": "No access-dependent manual-proof skip condition found in the target repository. Missing provider access does not excuse fixture-backed Knowledge proof. Task guidance separately makes Task 14 manual scenarios optional.",
+              "hit_during_research": "not evaluated; no manual proof attempted"
             }
           },
-          "proof_surfaces": [
-            "Knowledge navigation and Settings -> Repository knowledge in the same web client",
-            "Normal Knowledge service via typed WS/MCP and SQLite/Chroma, not Replay output"
-          ],
-          "endpoints": {
-            "source": "docs/internals/devcontainer.md; docs/operations/development.md; scripts/dev-runner.ts; apps/web/vite.config.ts",
-            "web": "Use actual [dev-runner] web origin/port; authenticate using complete private pairing URL",
-            "server": "Use actual printed server origin/port; web is single-origin with Vite proxy",
-            "readiness": "Read actual retained dev-runner/server/Vite readiness output. No fixed /health probe or fixed 5001/5010 ports are prescribed for T3; those belong to CodeInfo2."
+          "readiness": {
+            "source": "AGENTS.md; docs/internals/devcontainer.md; scripts/dev-runner.ts:762-764; docs/operations/development.md",
+            "signals": [
+              "Actual [dev-runner] webPort/serverPort/baseDir and private startup pairing URL",
+              "Observe authenticated Knowledge and Settings UI in the browser; listener readiness alone does not prove rendering"
+            ],
+            "browser_origin": "http://127.0.0.1:<actual printed webPort>",
+            "fixed_health_endpoint": null,
+            "notes": "No fixed T3 /health check established by inspected evidence. Do not use CodeInfo2 ports 5001/5010 as T3 endpoints. Dev is single origin; never set VITE_HTTP_URL or VITE_WS_URL."
           },
           "freshness": {
             "reuse_allowed": true,
             "restart_required_for": [
-              "Environment settings read at startup, including fixture/auth variables",
-              "Runner/startup/shutdown or toolchain changes outside observed reload coverage",
-              "Runtime-loaded server/package/client changes when current reload cannot be established"
+              "Unknown or stale candidate/process provenance",
+              "Runtime-loaded server/shared code not proven reloaded",
+              "Environment, fixture selection, startup/shutdown, dependency or runtime configuration changes"
             ],
-            "proof": "Skill permits reusing a healthy isolated task dev server. Server watches src/packages/package.json and web supports Vite reload, but no exact loaded-candidate freshness marker is documented. Listener readiness alone does not prove current source. If freshness cannot be established, use the retained confirmed proof process lifecycle; preserve protected/uncertain stacks.",
-            "source": ".agents/skills/test-t3-app/SKILL.md; apps/server/package.json; apps/web/package.json; docs/operations/development.md -> Reusable dev credential; shared/test-stack-lifecycle.md"
+            "proof": "test-t3-app permits reuse of this task healthy isolated dev server. Reuse only when current lifecycle and unchanged candidate/settings are established. Dev server uses Node watch and Vite HMR, but no trustworthy exact loaded-candidate fingerprint is documented; readiness/port availability alone does not prove code freshness or browser render. If freshness cannot be established, use the supported captured-process restart after ownership is confirmed. Do not interrupt a healthy current startup/test/shutdown lifecycle.",
+            "source": ".agents/skills/test-t3-app/SKILL.md -> Start the app; apps/server/package.json -> dev; docs/operations/development.md -> startup profiling; shared/test-stack-lifecycle.md"
           },
-          "relationship": "Edited repository and its browser proof surface; no companion product repository",
+          "relationship": "Frontend and backend live in this same repository; workers run with server, no separate worker launcher",
           "story_guidance": {
             "consulted": true,
-            "notes": "Guidance-status helper reports no Story Manual Testing Guidance; no defaults added."
+            "notes": "manual_testing_guidance_status.py --task-number 14 reports no Story Manual Testing Guidance; no story defaults added."
           },
           "task_guidance": {
             "consulted": true,
-            "artifact_destination": "codeInfoTmp/manual-testing/0000001/11/",
-            "notes": "Task 11 Manual Testing Guidance: optional non-blocking Linux Knowledge pass; isolated checkout container, persistent Chroma, fixture embeddings, private pairing/admin access; preserve unique historical evidence and stop proof processes without removing volumes."
+            "artifact_destination": "codeInfoTmp/manual-testing/0000001/14/",
+            "notes": "Task 14 optional manual guidance: existing Linux checkout container, isolated .t3, persistent Chroma, deterministic embeddings, private startup admin pairing, actual dev-runner ports; preserve unique historical evidence and stop proof processes/owned Chroma without deleting volumes. Leave reusable checkout container running."
           },
           "artifacts": {
             "target_repository_root": "/home/dan/code/t3code",
-            "root_resolution": "git rev-parse --show-toplevel from the working repository containing stored plan_path returned /home/dan/code/t3code",
-            "target_destination": "codeInfoTmp/manual-testing/0000001/11/",
+            "root_resolution": "git rev-parse --show-toplevel in the repository containing planning/0000001-repository-knowledge.md returned /home/dan/code/t3code",
+            "target_destination": "codeInfoTmp/manual-testing/0000001/14/",
             "curated_story_destination": "codeInfoStatus/manual-proof/0000001/",
-            "playwright_mcp_runtime": "CodeInfo2 local agent stack, separate from T3 checkout container and product Chroma; current live browser/tool readiness not inspected",
-            "playwright_mcp_compose_profile": "local (docker-compose.local.yml, not a literal Compose profiles key)",
+            "playwright_mcp_runtime": "CodeInfo2 local agent stack; separate from the T3 checkout container and T3 Chroma. Source configuration inspected; live MCP readiness not checked.",
+            "playwright_mcp_compose_profile": "local (docker-compose.local.yml variant; not a literal profiles key)",
             "playwright_mcp_output_root": "/tmp/playwright-output",
             "harness_playwright_output_bind": "$CODEINFO_ROOT/playwright-output-local",
             "primary_transfer_path": "$CODEINFO_ROOT/playwright-output-local/<relative-path>",
             "host_checkout_bind": "/home/dan/code/codeInfo2/playwright-output-local/<relative-path>",
-            "bind_evidence": "/home/dan/code/codeInfo2/docker-compose.local.yml -> playwright-mcp.volumes; README.md -> Story 50 Evidence locations",
-            "path_observation": "In this agent CODEINFO_ROOT is /app and /app/playwright-output-local is absent. /home/dan/code/codeInfo2/playwright-output-local exists. This is a filesystem observation, not proof that the live browser bind is absent.",
+            "bind_evidence": "/home/dan/code/codeInfo2/docker-compose.local.yml:197-226 declares codeinfo2-playwright-mcp-local and ./playwright-output-local:/tmp/playwright-output; README.md -> Story 50 Evidence locations",
+            "path_observation": "This agent has CODEINFO_ROOT=/app; /app/playwright-output-local does not exist. The source checkout /home/dan/code/codeInfo2/playwright-output-local exists. These filesystem observations do not establish live container mounts.",
             "fallback_container_name": "codeinfo2-playwright-mcp-local",
-            "fallback_copy_command_template": "docker cp codeinfo2-playwright-mcp-local:/tmp/playwright-output/<relative-path> /home/dan/code/t3code/codeInfoTmp/manual-testing/0000001/11/<filename>",
-            "copy_out": "Artifacts written under /tmp/playwright-output/<relative-path> in the local Playwright runtime appear at $CODEINFO_ROOT/playwright-output-local/<relative-path> on the host. Look there first, then at the evidenced host-checkout bind. Copy into target scratch after creating its destination directory. If the bind is unavailable, confirm the named Playwright runtime and actual returned screenshot path before copy-out. A relative screenshot filename may resolve elsewhere: use the actual tool path and stage into /tmp/playwright-output if needed. Do not infer the browser container from T3 Compose, assume /home/node is current, or claim direct writes to the target repo.",
-            "limits": "No screenshots captured or transferred in this step; no live mount/container inspection. Keep credentials out of evidence; do not commit scratch."
+            "fallback_copy_command_template": "docker cp codeinfo2-playwright-mcp-local:/tmp/playwright-output/<relative-path> /home/dan/code/t3code/codeInfoTmp/manual-testing/0000001/14/<filename>",
+            "copy_out": "Look first at $CODEINFO_ROOT/playwright-output-local/<relative-path> on the host, then the evidenced host-checkout bind. Artifacts written under /tmp/playwright-output/<relative-path> in the local Playwright runtime are exposed by that bind. If unavailable, confirm the configured Playwright runtime identity and actual screenshot path before using the docker cp template. Create the target directory before transfer. Use the actual tool-returned path; stage into /tmp/playwright-output when necessary. No direct Playwright write access to the target repository is established.",
+            "limits": "No screenshot capture, live mount inspection or transfer performed. Do not infer the browser container from the T3 Compose stack. Never retain credentials in proof artifacts."
           }
         },
         {
-          "name": "Persistent product Chroma",
+          "name": "Persistent Knowledge vector database (Chroma)",
           "availability": "available_now",
           "preferred_mode": "compose",
           "startup": {
             "command": "docker compose -f docker-compose.yml up -d chroma",
-            "source": "docs/operations/development.md -> Repository Knowledge and Chroma; docker-compose.yml -> services.chroma",
-            "supported_override": "CHROMA_PORT=8201 docker compose -f docker-compose.yml up -d chroma"
+            "source": "docs/operations/development.md -> Repository Knowledge and Chroma; docker-compose.yml; Task 14 Manual Testing Guidance",
+            "notes": "No repository compose wrapper exists in package.json. CHROMA_PORT may select an available published port; CHROMA_HOST controls binding. Use the same resolved Compose project for lifecycle operations."
           },
           "shutdown": {
             "command": "docker compose -f docker-compose.yml stop chroma",
-            "source": "docker-compose.yml -> declared chroma service and native Compose service lifecycle; Task 11 Manual Testing Guidance -> owned Compose services without removing volumes",
-            "notes": "No npm Compose lifecycle wrapper exists in T3. Stop only the confirmed T3 service when proof teardown requires it; preserve chroma-data. Do not stop harness Chroma."
+            "source": "Task 14 Manual Testing Guidance -> stop owned Compose services without removing volumes; docker-compose.yml -> chroma service",
+            "notes": "Compose-native stop of the declared service implements the task shutdown direction; no named repository shutdown wrapper is defined. Confirm current repository ownership and testing applicability before stopping an existing service. Preserve chroma-data; never down -v."
           },
-          "variant": "chromadb/chroma:1.3.5, chroma-data:/data; CHROMA_HOST/CHROMA_PORT select binding",
+          "variant": "chromadb/chroma:1.3.5 with chroma-data:/data; distinct from harness Chroma",
           "prerequisites": [
-            "Docker with Compose, access to pinned image",
-            "Available configured published port; documented CHROMA_PORT override is permitted",
-            "Settings Chroma URL reachable from T3 host-networked container"
+            "Docker daemon and Compose access",
+            "Pinned image available or pullable",
+            "Available configured published port and server-reachable Chroma URL"
           ],
-          "build_dependencies": "Published image; no T3 build needed. Root Compose currently declares only chroma; no Compose healthcheck is declared.",
+          "build_dependencies": "Published image, no T3 build required. Root Compose declares Chroma only, with no healthcheck.",
           "access": {
             "required": false,
             "kind": "none_configured",
-            "source": "docker-compose.yml",
-            "locator": "No auth configured in the product Chroma Compose definition; server URL is existing Repository knowledge setting",
-            "repository_skip_conditions": "No target access-dependent exemption found."
+            "source": "docker-compose.yml; docs/operations/development.md",
+            "locator": "No Chroma auth configured in this Compose file; URL is a Repository knowledge setting",
+            "repository_skip_conditions": {
+              "defined": false,
+              "source": "AGENTS.md -> Verifying; codeinfo_markdown/repository_information.md absent",
+              "notes": "No access-dependent manual-proof skip condition found in the target repository. Missing provider access does not excuse fixture-backed Knowledge proof. Task guidance separately makes Task 14 manual scenarios optional.",
+              "hit_during_research": "not evaluated; no manual proof attempted"
+            }
           },
           "freshness": {
             "reuse_allowed": true,
             "restart_required_for": [
-              "Image, binding, volume or service configuration changes require reconciliation through supported up path; restart alone cannot apply changed service definitions"
+              "Changed image/bind/volume/service settings need Compose up reconciliation"
             ],
-            "proof": "Task guidance permits reuse of persistent Chroma. No trustworthy live loaded-configuration/candidate marker is documented. Confirm repository ownership and effective configuration before reuse; no live service inspected here.",
-            "source": "docker-compose.yml; Task 11 Manual Testing Guidance; shared/test-stack-lifecycle.md"
+            "proof": "Task guidance explicitly permits persistent Chroma reuse. No live loaded-config/candidate freshness marker documented; establish Compose ownership and effective configuration before reuse. Restart alone cannot apply changed service definitions.",
+            "source": "docker-compose.yml; Task 14 Manual Testing Guidance; shared/test-stack-lifecycle.md"
           },
-          "relationship": "Product dependency in edited repository; distinct from harness Chroma",
+          "relationship": "Edited repository product dependency, not a supporting repository",
           "story_guidance": {
             "consulted": true,
-            "notes": "Guidance-status helper reports no Story Manual Testing Guidance; no defaults added."
+            "notes": "manual_testing_guidance_status.py --task-number 14 reports no Story Manual Testing Guidance; no story defaults added."
           },
           "task_guidance": {
             "consulted": true,
-            "artifact_destination": "codeInfoTmp/manual-testing/0000001/11/",
-            "notes": "Task 11 Manual Testing Guidance: optional non-blocking Linux Knowledge pass; isolated checkout container, persistent Chroma, fixture embeddings, private pairing/admin access; preserve unique historical evidence and stop proof processes without removing volumes."
+            "artifact_destination": "codeInfoTmp/manual-testing/0000001/14/",
+            "notes": "Task 14 optional manual guidance: existing Linux checkout container, isolated .t3, persistent Chroma, deterministic embeddings, private startup admin pairing, actual dev-runner ports; preserve unique historical evidence and stop proof processes/owned Chroma without deleting volumes. Leave reusable checkout container running."
           }
         },
         {
-          "name": "Bundled Linux server with shipped web/parser/query assets",
+          "name": "Bundled Linux Node server with shipped web/parser/query assets",
           "availability": "available_now",
           "preferred_mode": "docker",
           "startup": {
-            "command": "npm run container:exec -- env T3CODE_DEV_KNOWLEDGE_FIXTURES=true vp run start serve --base-dir .t3/knowledge-bundle-proof --host 127.0.0.1",
-            "source": "package.json -> start/container:exec; apps/server/package.json -> start; apps/server/src/cli/server.ts -> serve; apps/server/src/cli/config.ts -> base-dir/host flags; apps/server/src/server.ts -> fixture layer",
-            "notes": "Composes existing root start wrapper with supported headless serve flags and an isolated data path; optional separate bundled-asset proof, not replacement for combined dev path."
+            "command": "npm run container:exec -- env T3CODE_DEV_KNOWLEDGE_FIXTURES=true vp run start serve --base-dir .t3 --host 127.0.0.1",
+            "source": "package.json -> container:exec/start; apps/server/package.json -> start; apps/server/src/cli/server.ts -> serve; apps/server/src/cli/config.ts -> base-dir/host; apps/server/src/server.ts -> fixture layer",
+            "notes": "Optional bundled-asset surface, not a substitute for combined dev workflow. Composes existing wrapper and supported flags. Stop dev server before using its isolated .t3 state; use this process own printed origin/pairing."
           },
           "shutdown": {
-            "command": "Ctrl+C through the retained bundled-server foreground terminal/PTY; await completion",
-            "source": "docs/internals/devcontainer.md -> Stop and state; AGENTS.md -> captured process/session ownership",
-            "notes": "Preserve isolated data and Chroma; leave reusable checkout container running."
+            "command": "Ctrl+C through the retained foreground terminal/PTY; await that session reaching completion",
+            "source": "Task 14 Testing items 2/4; scripts/dev-runner.ts:880-884; docs/internals/devcontainer.md -> Stop and state",
+            "notes": "Stop the captured proof process only, keep isolated state and reusable checkout container. Never kill by name/path matching."
           },
-          "variant": "Normal bundled Node Linux server and shipped web; no native executable/archive or product-image proof",
+          "variant": "Normal bundled Node Linux server/web, deterministic embeddings; no native executable, archive or product-image proof",
           "prerequisites": [
-            "Same-host Linux checkout; host Node/npm; Docker daemon and socket access",
+            "Same-host Linux checkout; host Node/npm and Docker daemon/socket access",
             "Run wrapper commands from /home/dan/code/t3code",
-            "Run npm run container:up only when setup/refresh is needed; wait for dependency/cache setup readiness",
-            "Use container named-volume .t3 state, never live ~/.t3/userdata; do not create/use worktrees",
-            "Fresh normal filtered build",
-            "Persistent product Chroma and separately configured isolated bundle state"
+            "container:up setup must finish before container:exec or container:dev",
+            "Use container named-volume .t3, never live ~/.t3/userdata; no worktrees",
+            "Fresh filtered server/web build",
+            "Persistent product Chroma",
+            "No other process using this isolated .t3 database"
           ],
           "build_dependencies": {
             "command": "npm run container:exec -- vp run --filter t3 build",
-            "source": "Task 11 Testing item 1; apps/server/vite.config.ts; apps/server/package.json -> bin/start",
-            "notes": "Requires built apps/server/dist/bin.mjs and web/native/parser/query assets. Existing outputs were not inspected for presence or freshness; build is a prerequisite, not a passed result."
+            "source": "Task 14 Testing item 1; apps/server/package.json; apps/server/vite.config.ts -> build",
+            "notes": "Requires apps/server/dist/bin.mjs and web/parser/query/native assets. Current build outputs were not examined or proved fresh; build is a prerequisite, not a passed result."
           },
           "access": {
             "required": true,
             "kind": "environment_pairing",
-            "source": "apps/server/src/cli/server.ts -> headless pairing output; apps/server/src/cli/config.ts; .agents/skills/test-t3-app/SKILL.md",
-            "locator": "Private pairing details from this bundled server and its own explicit --base-dir; do not use dev-server pairing or CLI against a different base-dir",
-            "notes": "Fixture flag replaces external embeddings only. Configure Chroma/settings through normal authorized UI/service for this separate environment.",
-            "repository_skip_conditions": "No target missing-login/human-2FA exemption defined."
+            "source": "apps/server/src/cli/server.ts -> serve prints pairing details; apps/server/src/cli/config.ts",
+            "locator": "Private startup pairing details for this bundled process and isolated .t3",
+            "notes": "Use this environment own pairing; reusable dev credential is not a bundled production-server assumption. Fixtures require no provider credentials.",
+            "repository_skip_conditions": {
+              "defined": false,
+              "source": "AGENTS.md -> Verifying; codeinfo_markdown/repository_information.md absent",
+              "notes": "No access-dependent manual-proof skip condition found in the target repository. Missing provider access does not excuse fixture-backed Knowledge proof. Task guidance separately makes Task 14 manual scenarios optional.",
+              "hit_during_research": "not evaluated; no manual proof attempted"
+            }
           },
           "freshness": {
             "reuse_allowed": false,
             "restart_required_for": [
-              "Any bundled input, dependencies or generated assets change: rebuild then launch a fresh captured bundle process"
+              "Changed bundle inputs/dependencies/assets require build and fresh captured process"
             ],
-            "proof": "No exact loaded bundle freshness marker established by repository evidence; historical build success does not prove current shipped assets.",
-            "source": "apps/server/package.json -> start/build:bundle; apps/server/vite.config.ts; Task 11 Testing item 1"
+            "proof": "No trustworthy exact loaded-bundle fingerprint documented; old build passes cannot establish current shipped assets.",
+            "source": "apps/server/package.json -> start/build; apps/server/vite.config.ts; Task 14 Testing"
           },
-          "relationship": "Edited repository, optional bundled-assets proof surface",
+          "relationship": "Edited repository optional bundled behavior surface",
           "story_guidance": {
             "consulted": true,
-            "notes": "Guidance-status helper reports no Story Manual Testing Guidance; no defaults added."
+            "notes": "manual_testing_guidance_status.py --task-number 14 reports no Story Manual Testing Guidance; no story defaults added."
           },
           "task_guidance": {
             "consulted": true,
-            "artifact_destination": "codeInfoTmp/manual-testing/0000001/11/",
-            "notes": "Task 11 Manual Testing Guidance: optional non-blocking Linux Knowledge pass; isolated checkout container, persistent Chroma, fixture embeddings, private pairing/admin access; preserve unique historical evidence and stop proof processes without removing volumes."
+            "artifact_destination": "codeInfoTmp/manual-testing/0000001/14/",
+            "notes": "Task 14 optional manual guidance: existing Linux checkout container, isolated .t3, persistent Chroma, deterministic embeddings, private startup admin pairing, actual dev-runner ports; preserve unique historical evidence and stop proof processes/owned Chroma without deleting volumes. Leave reusable checkout container running."
           },
           "artifacts": {
             "target_repository_root": "/home/dan/code/t3code",
-            "root_resolution": "git rev-parse --show-toplevel from the working repository containing stored plan_path returned /home/dan/code/t3code",
-            "target_destination": "codeInfoTmp/manual-testing/0000001/11/",
+            "root_resolution": "git rev-parse --show-toplevel in the repository containing planning/0000001-repository-knowledge.md returned /home/dan/code/t3code",
+            "target_destination": "codeInfoTmp/manual-testing/0000001/14/",
             "curated_story_destination": "codeInfoStatus/manual-proof/0000001/",
-            "playwright_mcp_runtime": "CodeInfo2 local agent stack, separate from T3 checkout container and product Chroma; current live browser/tool readiness not inspected",
-            "playwright_mcp_compose_profile": "local (docker-compose.local.yml, not a literal Compose profiles key)",
+            "playwright_mcp_runtime": "CodeInfo2 local agent stack; separate from the T3 checkout container and T3 Chroma. Source configuration inspected; live MCP readiness not checked.",
+            "playwright_mcp_compose_profile": "local (docker-compose.local.yml variant; not a literal profiles key)",
             "playwright_mcp_output_root": "/tmp/playwright-output",
             "harness_playwright_output_bind": "$CODEINFO_ROOT/playwright-output-local",
             "primary_transfer_path": "$CODEINFO_ROOT/playwright-output-local/<relative-path>",
             "host_checkout_bind": "/home/dan/code/codeInfo2/playwright-output-local/<relative-path>",
-            "bind_evidence": "/home/dan/code/codeInfo2/docker-compose.local.yml -> playwright-mcp.volumes; README.md -> Story 50 Evidence locations",
-            "path_observation": "In this agent CODEINFO_ROOT is /app and /app/playwright-output-local is absent. /home/dan/code/codeInfo2/playwright-output-local exists. This is a filesystem observation, not proof that the live browser bind is absent.",
+            "bind_evidence": "/home/dan/code/codeInfo2/docker-compose.local.yml:197-226 declares codeinfo2-playwright-mcp-local and ./playwright-output-local:/tmp/playwright-output; README.md -> Story 50 Evidence locations",
+            "path_observation": "This agent has CODEINFO_ROOT=/app; /app/playwright-output-local does not exist. The source checkout /home/dan/code/codeInfo2/playwright-output-local exists. These filesystem observations do not establish live container mounts.",
             "fallback_container_name": "codeinfo2-playwright-mcp-local",
-            "fallback_copy_command_template": "docker cp codeinfo2-playwright-mcp-local:/tmp/playwright-output/<relative-path> /home/dan/code/t3code/codeInfoTmp/manual-testing/0000001/11/<filename>",
-            "copy_out": "Artifacts written under /tmp/playwright-output/<relative-path> in the local Playwright runtime appear at $CODEINFO_ROOT/playwright-output-local/<relative-path> on the host. Look there first, then at the evidenced host-checkout bind. Copy into target scratch after creating its destination directory. If the bind is unavailable, confirm the named Playwright runtime and actual returned screenshot path before copy-out. A relative screenshot filename may resolve elsewhere: use the actual tool path and stage into /tmp/playwright-output if needed. Do not infer the browser container from T3 Compose, assume /home/node is current, or claim direct writes to the target repo.",
-            "limits": "No screenshots captured or transferred in this step; no live mount/container inspection. Keep credentials out of evidence; do not commit scratch."
+            "fallback_copy_command_template": "docker cp codeinfo2-playwright-mcp-local:/tmp/playwright-output/<relative-path> /home/dan/code/t3code/codeInfoTmp/manual-testing/0000001/14/<filename>",
+            "copy_out": "Look first at $CODEINFO_ROOT/playwright-output-local/<relative-path> on the host, then the evidenced host-checkout bind. Artifacts written under /tmp/playwright-output/<relative-path> in the local Playwright runtime are exposed by that bind. If unavailable, confirm the configured Playwright runtime identity and actual screenshot path before using the docker cp template. Create the target directory before transfer. Use the actual tool-returned path; stage into /tmp/playwright-output when necessary. No direct Playwright write access to the target repository is established.",
+            "limits": "No screenshot capture, live mount inspection or transfer performed. Do not infer the browser container from the T3 Compose stack. Never retain credentials in proof artifacts."
           }
         },
         {
-          "name": "Full product T3/provider Compose runtime",
+          "name": "Full product T3/provider Compose deployment",
           "availability": "not_yet_available",
           "preferred_mode": "compose",
           "startup": {
@@ -356,129 +375,140 @@
           },
           "shutdown": {
             "command": null,
-            "source": "docker-compose.yml has no T3/provider product service or wrapper"
+            "source": "No product T3/provider service or wrapper currently declared in docker-compose.yml/package.json"
           },
-          "variant": "Future shared product deployment, outside Story 1 and current task",
-          "reason": "Checkout development container exists; full product T3/provider image/service does not exist in this Compose definition.",
-          "likely_future_enabler": "Story 0000002 extends the same Compose definition and owns product-runtime Docker proof. Story 0000001 does not wait for it.",
-          "prerequisites": ["Later sibling-story implementation; not a current proof obligation"],
-          "build_dependencies": "Product image and launcher not yet supplied; no commands invented.",
+          "variant": "Future product runtime; outside current Story 1 proof",
+          "reason": "Existing Docker checkout is a development environment; the shared Compose definition has no T3/provider product service.",
+          "likely_future_enabler": "Story 0000002 extends this same Compose definition and owns product-runtime Docker proof; Story 0000001 does not wait for it.",
+          "prerequisites": [
+            "Later sibling-story product runtime implementation; not current task implementation work"
+          ],
+          "build_dependencies": "Product image/service path not supplied; no launcher invented.",
           "access": {
             "required": null,
-            "source": "No current product service/access path; unknown rather than guessed",
-            "repository_skip_conditions": "Explicit story exclusion; not an access skip hit."
+            "source": "No current service/access path",
+            "locator": "unknown",
+            "repository_skip_conditions": "Story exclusion, not an access skip hit"
           },
           "freshness": {
             "reuse_allowed": false,
             "restart_required_for": [],
-            "proof": "No current runtime path to assess."
+            "proof": "No current product Compose process to assess."
           },
-          "relationship": "Future edited-repository deployment; not needed for present proof",
+          "relationship": "Future deployment in edited repository",
           "story_guidance": {
             "consulted": true,
-            "notes": "Guidance-status helper reports no Story Manual Testing Guidance; no defaults added."
+            "notes": "manual_testing_guidance_status.py --task-number 14 reports no Story Manual Testing Guidance; no story defaults added."
           },
           "task_guidance": {
             "consulted": true,
-            "artifact_destination": "codeInfoTmp/manual-testing/0000001/11/",
-            "notes": "Task 11 Manual Testing Guidance: optional non-blocking Linux Knowledge pass; isolated checkout container, persistent Chroma, fixture embeddings, private pairing/admin access; preserve unique historical evidence and stop proof processes without removing volumes."
+            "artifact_destination": "codeInfoTmp/manual-testing/0000001/14/",
+            "notes": "Task 14 optional manual guidance: existing Linux checkout container, isolated .t3, persistent Chroma, deterministic embeddings, private startup admin pairing, actual dev-runner ports; preserve unique historical evidence and stop proof processes/owned Chroma without deleting volumes. Leave reusable checkout container running."
           }
         }
       ],
       "excluded_surfaces": [
         {
-          "names": ["Mobile", "Windowed Electron", "Native executables/archives and other OS"],
-          "reason": "Task 11 Testing/Out Of Scope exclusions; no startup/install proof to perform. These are excluded, not missing implementation.",
-          "source": "Task 11 Testing; docs/internals/devcontainer.md -> What works"
+          "names": [
+            "Mobile",
+            "Windowed Electron",
+            "Native executables/archives",
+            "Other operating systems"
+          ],
+          "reason": "Explicit task/story proof exclusions; container provides no display/mobile SDK. Existing host scripts are not missing implementation and are not authorized proof for this flow.",
+          "source": "Task 14 Testing; story Out Of Scope; docs/internals/devcontainer.md -> What works"
         },
         {
-          "names": ["Marketing site", "Remote/relay/tunnel/multi-device proof"],
-          "reason": "No separate runtime/proof obligation for this task; no Tailscale toolchain provisioned by dev container.",
-          "source": "Task 11 Manual Testing Guidance/Testing; docs/internals/devcontainer.md; package.json"
+          "names": ["Marketing", "Remote/relay/tunnel/multi-device proof"],
+          "reason": "No separate proof obligation for this task; dev container does not provision tailnet tooling.",
+          "source": "Task 14 Testing/Manual Testing Guidance; package.json; docs/internals/devcontainer.md"
         }
       ]
     },
     {
       "path": "/home/dan/code/codeInfo2",
-      "role": "Supporting browser harness/artifact transport only; disclosed scope expansion",
+      "role": "Supporting browser harness/artifact transport only; disclosed expansion beyond declared scope",
       "evidence": [
-        "AGENTS.md",
+        "AGENTS.md -> Run Workflow and Local Stack Safety",
         "README.md -> Story 50 runtime/Evidence locations",
-        "codeinfo_markdown/repository_information.md",
+        "codeinfo_markdown/repository_information.md -> Manual Testing Skip Policy",
         "docker-compose.local.yml -> playwright-mcp"
       ],
       "surfaces": [
         {
-          "name": "Existing local Playwright MCP browser harness",
+          "name": "Existing CodeInfo2 local Playwright MCP browser harness",
           "availability": "available_now",
           "preferred_mode": "compose_existing_protected",
           "startup": {
             "command": null,
-            "source": "/home/dan/code/codeInfo2/AGENTS.md -> Local Stack Safety; docker-compose.local.yml -> playwright-mcp; T3 .agents/skills/test-t3-app/SKILL.md",
-            "notes": "Use existing configured local MCP tools. No autonomous local-stack start/reclaim command is permitted; do not install another harness. Source availability is not a claim of live tool/container readiness."
+            "source": "/home/dan/code/codeInfo2/AGENTS.md -> Local Stack Safety; docker-compose.local.yml -> playwright-mcp; T3 test-t3-app skill",
+            "notes": "Use already-configured local MCP session. No autonomous local start/reclaim command is permitted. Live tool/runtime readiness not checked; no new harness installed."
           },
           "shutdown": {
             "command": null,
             "source": "/home/dan/code/codeInfo2/AGENTS.md -> Local Stack Safety",
-            "notes": "Do not stop, restart or remove codeinfo2-*-local or run *:local:* commands. This stack may host the agent session; T3 proof does not require its teardown."
+            "notes": "Do not run *:local:* commands or stop/restart/remove codeinfo2-*-local containers. They may host this agent/browser session; T3 proof does not own their teardown."
           },
-          "variant": "Existing CodeInfo2 local Playwright MCP, host-networked Chromium, separate from T3 app runtime",
+          "variant": "Existing isolated host-network Chromium service, local Compose variant; no CodeInfo2 UI/API proof",
           "prerequisites": [
-            "Already configured local Playwright MCP tools/runtime; inspect current tool schemas and use a dedicated T3 tab during later authorized proof"
+            "Existing configured local Playwright MCP session; inspect current tool schemas before later browser use",
+            "T3 origin reachable on host loopback; authenticate dedicated proof tab separately"
           ],
-          "build_dependencies": "browser/Dockerfile managed by harness operators; no new harness work authorized or required by this research.",
+          "build_dependencies": "Harness-owned browser/Dockerfile, not a new task harness or build obligation.",
           "access": {
             "required": false,
-            "kind": "existing_configured_mcp",
+            "kind": "configured_mcp_session",
             "source": "/home/dan/code/codeInfo2/docker-compose.local.yml -> playwright-mcp; T3 test-t3-app skill",
-            "locator": "Configured MCP session; T3 app authentication comes separately from private T3 runner output",
+            "locator": "Existing MCP session; application pairing comes separately from private T3 runner output",
             "repository_skip_conditions": {
               "defined": true,
-              "source": "/home/dan/code/codeInfo2/AGENTS.md -> Manual-proof notes; codeinfo_markdown/repository_information.md -> Manual Testing Skip Policy",
-              "scope": "CodeInfo2 auth-dependent provider surfaces only: missing login/auth requiring human-controlled 2FA permits skipping only the affected surface, relying on automated tests/mocks. Do not Re-authenticate, reopen/fail tasks, or add implementation/blocker/planner work solely for this condition. Already-logged-in failures are normal issues.",
-              "hit_during_research": "Not evaluated: no proof attempted. Does not exempt fixture-backed T3 Knowledge proof."
+              "source": "/home/dan/code/codeInfo2/AGENTS.md -> Manual-proof notes; /home/dan/code/codeInfo2/codeinfo_markdown/repository_information.md -> Manual Testing Skip Policy",
+              "condition": "During proof, missing provider login/auth that requires human-controlled two-factor authentication permits skipping only the affected auth-dependent CodeInfo2 surface.",
+              "action": "Do not Re-authenticate autonomously, reopen/fail the task or add implementation/blocker/planner repair solely for this condition. Rely on automated tests/mocks for that seam. Already-authenticated failures remain normal issues.",
+              "hit_during_research": "not evaluated; no proof attempted",
+              "scope_limit": "Supporting repository policy does not exempt fixture-backed T3 Knowledge or T3 environment pairing."
             }
           },
           "freshness": {
             "reuse_allowed": true,
             "restart_required_for": [],
-            "proof": "Repository explicitly protects existing local stack from stale-stack reclamation. No live freshness check performed; do not restart it to establish freshness.",
+            "proof": "Existing local stack explicitly protected even if stale. No live freshness or readiness checked; do not restart it to establish freshness.",
             "source": "/home/dan/code/codeInfo2/AGENTS.md -> Local Stack Safety"
           },
-          "relationship": "Supporting harness only, outside declared product repositories; not a paired frontend/backend",
+          "relationship": "Supporting harness only, not a paired product frontend/backend",
           "story_guidance": {
             "consulted": true,
-            "notes": "Guidance-status helper reports no Story Manual Testing Guidance; no defaults added."
+            "notes": "manual_testing_guidance_status.py --task-number 14 reports no Story Manual Testing Guidance; no story defaults added."
           },
           "task_guidance": {
             "consulted": true,
-            "artifact_destination": "codeInfoTmp/manual-testing/0000001/11/",
-            "notes": "Task 11 Manual Testing Guidance: optional non-blocking Linux Knowledge pass; isolated checkout container, persistent Chroma, fixture embeddings, private pairing/admin access; preserve unique historical evidence and stop proof processes without removing volumes."
+            "artifact_destination": "codeInfoTmp/manual-testing/0000001/14/",
+            "notes": "Task 14 optional manual guidance: existing Linux checkout container, isolated .t3, persistent Chroma, deterministic embeddings, private startup admin pairing, actual dev-runner ports; preserve unique historical evidence and stop proof processes/owned Chroma without deleting volumes. Leave reusable checkout container running."
           },
           "artifacts": {
             "target_repository_root": "/home/dan/code/t3code",
-            "root_resolution": "git rev-parse --show-toplevel from the working repository containing stored plan_path returned /home/dan/code/t3code",
-            "target_destination": "codeInfoTmp/manual-testing/0000001/11/",
+            "root_resolution": "git rev-parse --show-toplevel in the repository containing planning/0000001-repository-knowledge.md returned /home/dan/code/t3code",
+            "target_destination": "codeInfoTmp/manual-testing/0000001/14/",
             "curated_story_destination": "codeInfoStatus/manual-proof/0000001/",
-            "playwright_mcp_runtime": "CodeInfo2 local agent stack, separate from T3 checkout container and product Chroma; current live browser/tool readiness not inspected",
-            "playwright_mcp_compose_profile": "local (docker-compose.local.yml, not a literal Compose profiles key)",
+            "playwright_mcp_runtime": "CodeInfo2 local agent stack; separate from the T3 checkout container and T3 Chroma. Source configuration inspected; live MCP readiness not checked.",
+            "playwright_mcp_compose_profile": "local (docker-compose.local.yml variant; not a literal profiles key)",
             "playwright_mcp_output_root": "/tmp/playwright-output",
             "harness_playwright_output_bind": "$CODEINFO_ROOT/playwright-output-local",
             "primary_transfer_path": "$CODEINFO_ROOT/playwright-output-local/<relative-path>",
             "host_checkout_bind": "/home/dan/code/codeInfo2/playwright-output-local/<relative-path>",
-            "bind_evidence": "/home/dan/code/codeInfo2/docker-compose.local.yml -> playwright-mcp.volumes; README.md -> Story 50 Evidence locations",
-            "path_observation": "In this agent CODEINFO_ROOT is /app and /app/playwright-output-local is absent. /home/dan/code/codeInfo2/playwright-output-local exists. This is a filesystem observation, not proof that the live browser bind is absent.",
+            "bind_evidence": "/home/dan/code/codeInfo2/docker-compose.local.yml:197-226 declares codeinfo2-playwright-mcp-local and ./playwright-output-local:/tmp/playwright-output; README.md -> Story 50 Evidence locations",
+            "path_observation": "This agent has CODEINFO_ROOT=/app; /app/playwright-output-local does not exist. The source checkout /home/dan/code/codeInfo2/playwright-output-local exists. These filesystem observations do not establish live container mounts.",
             "fallback_container_name": "codeinfo2-playwright-mcp-local",
-            "fallback_copy_command_template": "docker cp codeinfo2-playwright-mcp-local:/tmp/playwright-output/<relative-path> /home/dan/code/t3code/codeInfoTmp/manual-testing/0000001/11/<filename>",
-            "copy_out": "Artifacts written under /tmp/playwright-output/<relative-path> in the local Playwright runtime appear at $CODEINFO_ROOT/playwright-output-local/<relative-path> on the host. Look there first, then at the evidenced host-checkout bind. Copy into target scratch after creating its destination directory. If the bind is unavailable, confirm the named Playwright runtime and actual returned screenshot path before copy-out. A relative screenshot filename may resolve elsewhere: use the actual tool path and stage into /tmp/playwright-output if needed. Do not infer the browser container from T3 Compose, assume /home/node is current, or claim direct writes to the target repo.",
-            "limits": "No screenshots captured or transferred in this step; no live mount/container inspection. Keep credentials out of evidence; do not commit scratch."
+            "fallback_copy_command_template": "docker cp codeinfo2-playwright-mcp-local:/tmp/playwright-output/<relative-path> /home/dan/code/t3code/codeInfoTmp/manual-testing/0000001/14/<filename>",
+            "copy_out": "Look first at $CODEINFO_ROOT/playwright-output-local/<relative-path> on the host, then the evidenced host-checkout bind. Artifacts written under /tmp/playwright-output/<relative-path> in the local Playwright runtime are exposed by that bind. If unavailable, confirm the configured Playwright runtime identity and actual screenshot path before using the docker cp template. Create the target directory before transfer. Use the actual tool-returned path; stage into /tmp/playwright-output when necessary. No direct Playwright write access to the target repository is established.",
+            "limits": "No screenshot capture, live mount inspection or transfer performed. Do not infer the browser container from the T3 Compose stack. Never retain credentials in proof artifacts."
           }
         }
       ],
       "excluded_surfaces": [
         {
-          "names": ["CodeInfo2 main UI/API/agents/chat services and Chroma"],
-          "reason": "Not paired T3 product dependencies or proof surfaces. Researching browser staging does not require starting/reclaiming its main or protected local stack.",
+          "names": ["CodeInfo2 main UI/API/chat/agents/MCP product services", "CodeInfo2 Chroma"],
+          "reason": "Not paired T3 dependencies or proof surfaces. Browser/artifact research does not require their launch or lifecycle.",
           "source": "T3 test-t3-app skill; harness README.md and docker-compose.local.yml"
         }
       ]
