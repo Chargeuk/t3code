@@ -375,10 +375,16 @@ function buildHeritageEdges(
 
     const clauseNodes = declaration.namedChildren
       .flatMap((child) => (child.type === "class_heritage" ? child.namedChildren : [child]))
-      .filter((child) => child.type === "extends_clause" || child.type === "implements_clause");
+      .filter(
+        (child) =>
+          child.type === "extends_clause" ||
+          child.type === "implements_clause" ||
+          (child.type === "identifier" && child.parent?.type === "class_heritage"),
+      );
     for (const clause of clauseNodes) {
       const edgeType = clause.type === "implements_clause" ? "IMPLEMENTS" : "EXTENDS";
-      const clauseNames = collectClauseTypeNames(clause);
+      const clauseNames =
+        clause.type === "identifier" ? [getNodeText(clause)] : collectClauseTypeNames(clause);
       for (const clauseName of clauseNames) {
         const targetSymbol = findClosestSymbolByName(
           symbols,
@@ -439,18 +445,33 @@ function collectDefinitions(
   symbolIdForBase: (base: string) => string,
 ): Knowledge.KnowledgeAstSymbol[] {
   const symbols: Knowledge.KnowledgeAstSymbol[] = [];
+  const rustMethods = new Set<number>();
   for (const match of matches) {
     const definitionCapture = match.captures.find((capture) =>
       capture.name.startsWith("definition."),
     );
     if (!definitionCapture) continue;
-    const kind = definitionKindMap[definitionCapture.name];
+    let kind = definitionKindMap[definitionCapture.name];
     if (!kind) continue;
     const nameCapture = match.captures.find((capture) => capture.name === "name");
     const name = getNodeText(nameCapture?.node) || getNodeText(definitionCapture.node);
     if (!name) continue;
-    const range = toRange(definitionCapture.node);
-    const container = findContainerName(definitionCapture.node);
+    let definitionNode = definitionCapture.node;
+    if (language === "rust" && (kind === "Method" || kind === "Function")) {
+      // Rust tags capture both the declaration list and the function for each method.
+      const functionNode = kind === "Method" ? nameCapture?.node.parent : definitionNode;
+      if (
+        functionNode?.type === "function_item" &&
+        functionNode.parent?.type === "declaration_list"
+      ) {
+        if (rustMethods.has(functionNode.id)) continue;
+        rustMethods.add(functionNode.id);
+        definitionNode = functionNode;
+        kind = "Method";
+      }
+    }
+    const range = toRange(definitionNode);
+    const container = findContainerName(definitionNode);
     const base = createSymbolIdBase({
       root,
       relPath: file.relPath,

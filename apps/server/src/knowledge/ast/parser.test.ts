@@ -151,6 +151,45 @@ describe("Knowledge AST parser", () => {
           expect(ids.has(edge.fromSymbolId)).toBe(true);
           expect(ids.has(edge.toSymbolId)).toBe(true);
         }
+        if (fixture.language === "rust") {
+          const methods = success(
+            yield* parseAstSource(
+              input(
+                "methods.rs",
+                [
+                  "struct Worker;",
+                  "fn helper() {}",
+                  "impl Worker {",
+                  "  fn run(&self) { helper(); }",
+                  "  fn next(&self) { helper(); }",
+                  "}",
+                  "struct Other;",
+                  "impl Other {",
+                  "  fn run(&self) { helper(); }",
+                  "}",
+                  "",
+                ].join("\n"),
+              ),
+            ),
+          );
+          const methodSymbols = methods.symbols.filter((item) => item.kind === "Method");
+          expect(methodSymbols.map((item) => [item.name, item.range])).toEqual([
+            ["run", range(4, 3, 4, 30)],
+            ["next", range(5, 3, 5, 31)],
+            ["run", range(9, 3, 9, 30)],
+          ]);
+          expect(
+            methods.symbols.filter((item) => item.kind === "Function").map((item) => item.name),
+          ).toEqual(["helper"]);
+          const helper = methods.symbols.find((item) => item.name === "helper");
+          for (const method of methodSymbols) {
+            expect(
+              methods.edges.filter(
+                (edge) => edge.type === "CALLS" && edge.fromSymbolId === method.symbolId,
+              ),
+            ).toEqual([expect.objectContaining({ toSymbolId: helper?.symbolId })]);
+          }
+        }
         if (fixture.language === "typescript") {
           for (const value of ["a".repeat(40_000), "🧠".repeat(20_000)]) {
             const text = fixture.text.replace('"hi"', JSON.stringify(value));
@@ -353,6 +392,33 @@ describe("Knowledge AST parser", () => {
               edge.type === "CALLS" && edge.fromSymbolId === symbols.get("method")?.symbolId,
           ),
         ).toHaveLength(1);
+        for (const ext of ["js", "jsx"]) {
+          const heritage = success(
+            yield* parseAstSource(
+              input(
+                `heritage.${ext}`,
+                [
+                  "class Base {}",
+                  "class Child extends Base {}",
+                  "class Outer { make() { class Inner extends Base {} } }",
+                  "class Missing extends External {}",
+                  "class Dynamic extends factory(Base) {}",
+                ].join("\n"),
+              ),
+            ),
+          );
+          expect(
+            heritage.edges
+              .filter((edge) => edge.type === "EXTENDS")
+              .map((edge) => [
+                heritage.symbols.find((symbol) => symbol.symbolId === edge.fromSymbolId)?.name,
+                heritage.symbols.find((symbol) => symbol.symbolId === edge.toSymbolId)?.name,
+              ]),
+          ).toEqual([
+            ["Child", "Base"],
+            ["Inner", "Base"],
+          ]);
+        }
       }),
   );
 
