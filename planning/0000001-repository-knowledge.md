@@ -1936,13 +1936,13 @@ R2's complete positive-authorization removal, the middle batch's ignored arithme
 
 Final-task repair scope: this task owns whole-story validation. If lint, formatting, or testing exposes a story-caused issue in code implemented by any earlier task, fix it within this final task when practical and rerun the affected checks. Do not reopen an older task solely to own that repair.
 
-1. [ ] In `current_repository`, run the supported lint command below and fix story-owned issues, using its supported `--fix` option before manual cleanup when applicable. The Git path selection covers tracked changes from the approved comparison base, including working changes, without linting unrelated repositories or review scratch.
+1. [x] In `current_repository`, run the supported lint command below and fix story-owned issues, using its supported `--fix` option before manual cleanup when applicable. The Git path selection covers tracked changes from the approved comparison base, including working changes, without linting unrelated repositories or review scratch.
 
    ```sh
    npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp lint --no-error-on-unmatched-pattern --report-unused-disable-directives'
    ```
 
-2. [ ] In `current_repository`, run the supported formatter below and fix story-owned formatting issues. Reconcile the selected paths with any additional story changes before proof; keep formatter/linter configuration and unrelated code unchanged.
+2. [x] In `current_repository`, run the supported formatter below and fix story-owned formatting issues. Reconcile the selected paths with any additional story changes before proof; keep formatter/linter configuration and unrelated code unchanged.
 
    ```sh
    npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp fmt --no-error-on-unmatched-pattern'
@@ -2017,6 +2017,8 @@ These scenarios are optional guidance, with no checkboxes, pass/fail gate or hum
 Created by complete-pass settlement after reconciling all three batch findings blocks, both normal repair outcomes and the two matching completed-review-fixes tasks. Tasks 1–13 remain done; only this task owns pending agent work. Its permitted build and changed-file checks predate both new repair commits, so focused repair passes do not replace them.
 
 No proof has run for this task. The initial status is to_do, both lint/format subtasks and all six automated Testing items are unchecked, and external human acceptance remains pending. Current Git at task creation is 528111c21e93c6c52e986ab6dbdf898d12f26d3d with existing dirty plan/flow-state documentation. Record the actual tested candidate during execution.
+
+Implementation pass: Task 14 Subtask 1's exact scoped lint command exited 0 on 55 files with 0 warnings and 0 errors; no source fixes were needed. Task 14 Subtask 2's exact scoped formatter command exited 0 after processing 65 files; it required no source formatting changes. Both subtasks are complete.
 
 Repository AGENTS.md and the affected Tasks 1–4/11 Testing contracts qualify the generic full-suite template: use the supported filtered normal build and explicit-base check:changed wrapper, not repository-wide suites/typechecks. Report its actual selected coverage honestly. Retain the owned normal-runtime startup/shutdown and supported scoped lint/format order. CodeInfo2 and Chroma introduce no additional implementation ownership.
 
