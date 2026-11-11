@@ -142,12 +142,23 @@ describe("Knowledge chunking", () => {
     }),
   );
 
-  it("keeps chunk hashes deterministic and associated with path, ordinal and content", () => {
-    const hash = hashChunk("src/one.ts", 0, "export const value = 1;");
-    expect(hash).toMatch(/^[a-f0-9]{64}$/);
-    expect(hashChunk("src/one.ts", 0, "export const value = 1;")).toBe(hash);
-    expect(hashChunk("src/two.ts", 0, "export const value = 1;")).not.toBe(hash);
-    expect(hashChunk("src/one.ts", 1, "export const value = 1;")).not.toBe(hash);
-    expect(hashChunk("src/one.ts", 0, "export const value = 2;")).not.toBe(hash);
-  });
+  it.effect("keeps chunk hashes deterministic and associated with path, ordinal and content", () =>
+    Effect.gen(function* () {
+      const hash = hashChunk("src/one.ts", 0, "export const value = 1;");
+      expect(hash).toMatch(/^[a-f0-9]{64}$/);
+      expect(hashChunk("src/one.ts", 0, "export const value = 1;")).toBe(hash);
+      expect(hashChunk("src/two.ts", 0, "export const value = 1;")).not.toBe(hash);
+      expect(hashChunk("src/one.ts", 1, "export const value = 1;")).not.toBe(hash);
+      expect(hashChunk("src/one.ts", 0, "export const value = 2;")).not.toBe(hash);
+      const text = "1".repeat(4_427);
+      const chunks = yield* Stream.runCollect(
+        chunkTextStream(text, model(512), {
+          fileInfo: { relPath: "numbers.txt", sizeBytes: text.length },
+        }),
+      );
+      expect(chunks).toHaveLength(12);
+      const hashes = chunks.map((chunk) => hashChunk("numbers.txt", chunk.chunkIndex, chunk.text));
+      expect(new Set(hashes).size).toBe(chunks.length);
+    }),
+  );
 });

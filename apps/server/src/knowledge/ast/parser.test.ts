@@ -151,6 +151,29 @@ describe("Knowledge AST parser", () => {
           expect(ids.has(edge.fromSymbolId)).toBe(true);
           expect(ids.has(edge.toSymbolId)).toBe(true);
         }
+        if (fixture.language === "typescript") {
+          for (const value of ["a".repeat(40_000), "🧠".repeat(20_000)]) {
+            const text = fixture.text.replace('"hi"', JSON.stringify(value));
+            const large = success(yield* parseAstSource(input("large.ts", text)));
+            expect(large.symbols.find((item) => item.name === "greet")?.range).toEqual(
+              fixture.symbolRange,
+            );
+            expect(large.symbols.find((item) => item.kind === "Module")?.range).toEqual(
+              range(1, 1, 5, 1),
+            );
+          }
+          const text = `${"// harmless 🧠\n".repeat(4_000)}${fixture.text}`;
+          const large = success(yield* parseAstSource(input("comments.ts", text)));
+          expect(large.symbols.find((item) => item.name === "greet")?.range).toEqual(
+            range(4_001, 1, 4_004, 2),
+          );
+          expect(large.references).toContainEqual(
+            expect.objectContaining({ name: "name", range: range(4_003, 10, 4_003, 14) }),
+          );
+          expect(large.symbols.find((item) => item.kind === "Module")?.range).toEqual(
+            range(1, 1, 4_005, 1),
+          );
+        }
       }),
   );
 

@@ -30,7 +30,10 @@ type Tree = { rootNode: SyntaxNode };
 type QueryMatch = { captures: { name: string; node: SyntaxNode }[] };
 type NativeQuery = { matches: (node: SyntaxNode) => QueryMatch[] };
 type ParserModule = {
-  new (): { setLanguage: (language: unknown) => void; parse: (text: string) => Tree };
+  new (): {
+    setLanguage: (language: unknown) => void;
+    parse: (text: string, oldTree?: Tree, options?: { bufferSize: number }) => Tree;
+  };
   Query: new (language: unknown, source: string) => NativeQuery;
 };
 type QueryBundle = { tags: string; locals: string };
@@ -657,7 +660,15 @@ export const parseAstSource: KnowledgeParseAstSource = Effect.fn("Knowledge.pars
         new Knowledge.KnowledgeOperationError({ ...context, code: "ast_unavailable", cause }),
     });
     return yield* Effect.try({
-      try: () => parseTree(input, language, parser.parse(input.text), tags, locals),
+      try: () =>
+        parseTree(
+          input,
+          language,
+          // The binding's buffer counts UTF-16 code units, including the terminating NUL.
+          parser.parse(input.text, undefined, { bufferSize: input.text.length + 1 }),
+          tags,
+          locals,
+        ),
       catch: (cause) =>
         new Knowledge.KnowledgeOperationError({ ...context, code: "ast_parse_failed", cause }),
     }).pipe(

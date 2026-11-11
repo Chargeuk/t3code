@@ -227,8 +227,6 @@ export const chunkTextStream: KnowledgeChunkTextStream = (text, model, options) 
 
 export function hashChunk(relPath: string, chunkIndex: number, text: string): string {
   return NodeCrypto.createHash("sha256")
-    .update(relPath, "utf8")
-    .update(String(chunkIndex), "utf8")
-    .update(text, "utf8")
+    .update(JSON.stringify([relPath, chunkIndex, text]), "utf8")
     .digest("hex");
 }
