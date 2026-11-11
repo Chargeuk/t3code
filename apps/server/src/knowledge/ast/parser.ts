@@ -363,6 +363,8 @@ function buildHeritageEdges(
   const edges: Knowledge.KnowledgeAstEdge[] = [];
   const declarations = tree.rootNode.descendantsOfType([
     "class_declaration",
+    "abstract_class_declaration",
+    "class",
     "interface_declaration",
   ]);
 
@@ -452,7 +454,7 @@ function collectDefinitions(
   symbolIdForBase: (base: string) => string,
 ): Knowledge.KnowledgeAstSymbol[] {
   const symbols: Knowledge.KnowledgeAstSymbol[] = [];
-  const rustMethods = new Set<number>();
+  const rustFunctions = new Set<number>();
   for (const match of matches) {
     const definitionCapture = match.captures.find((capture) =>
       capture.name.startsWith("definition."),
@@ -465,16 +467,17 @@ function collectDefinitions(
     if (!name) continue;
     let definitionNode = definitionCapture.node;
     if (language === "rust" && (kind === "Method" || kind === "Function")) {
-      // Rust tags capture both the declaration list and the function for each method.
+      // Rust tags capture both declaration lists and their functions.
       const functionNode = kind === "Method" ? nameCapture?.node.parent : definitionNode;
-      if (
-        functionNode?.type === "function_item" &&
-        functionNode.parent?.type === "declaration_list"
-      ) {
-        if (rustMethods.has(functionNode.id)) continue;
-        rustMethods.add(functionNode.id);
+      if (functionNode?.type === "function_item") {
+        if (rustFunctions.has(functionNode.id)) continue;
+        rustFunctions.add(functionNode.id);
         definitionNode = functionNode;
-        kind = "Method";
+        const owner =
+          functionNode.parent?.type === "declaration_list"
+            ? functionNode.parent.parent?.type
+            : undefined;
+        kind = owner === "impl_item" || owner === "trait_item" ? "Method" : "Function";
       }
     }
     const range = toRange(definitionNode);

@@ -167,6 +167,15 @@ describe("Knowledge AST parser", () => {
                   "impl Other {",
                   "  fn run(&self) { helper(); }",
                   "}",
+                  "mod tools {",
+                  "  fn module_fn() { helper(); }",
+                  "  mod nested {",
+                  "    fn nested_fn() { helper(); }",
+                  "  }",
+                  "}",
+                  "trait Job {",
+                  "  fn default_run(&self) { helper(); }",
+                  "}",
                   "",
                 ].join("\n"),
               ),
@@ -177,15 +186,22 @@ describe("Knowledge AST parser", () => {
             ["run", range(4, 3, 4, 30)],
             ["next", range(5, 3, 5, 31)],
             ["run", range(9, 3, 9, 30)],
+            ["default_run", range(18, 3, 18, 38)],
           ]);
-          expect(
-            methods.symbols.filter((item) => item.kind === "Function").map((item) => item.name),
-          ).toEqual(["helper"]);
-          const helper = methods.symbols.find((item) => item.name === "helper");
-          for (const method of methodSymbols) {
+          const functionSymbols = methods.symbols.filter((item) => item.kind === "Function");
+          expect(functionSymbols.map((item) => [item.name, item.range])).toEqual([
+            ["helper", range(2, 1, 2, 15)],
+            ["module_fn", range(12, 3, 12, 31)],
+            ["nested_fn", range(14, 5, 14, 33)],
+          ]);
+          const helper = functionSymbols.find((item) => item.name === "helper");
+          for (const caller of [
+            ...methodSymbols,
+            ...functionSymbols.filter((item) => item.name !== "helper"),
+          ]) {
             expect(
               methods.edges.filter(
-                (edge) => edge.type === "CALLS" && edge.fromSymbolId === method.symbolId,
+                (edge) => edge.type === "CALLS" && edge.fromSymbolId === caller.symbolId,
               ),
             ).toEqual([expect.objectContaining({ toSymbolId: helper?.symbolId })]);
           }
@@ -418,6 +434,7 @@ describe("Knowledge AST parser", () => {
           ),
         ).toHaveLength(1);
         for (const ext of ["js", "jsx", "ts", "tsx"]) {
+          const typed = ext === "ts" || ext === "tsx";
           const heritage = success(
             yield* parseAstSource(
               input(
@@ -429,6 +446,21 @@ describe("Knowledge AST parser", () => {
                   "class Missing extends External {}",
                   "function factory(value) { return class {}; }",
                   "class Dynamic extends factory(Base) {}",
+                  `const Expression = class Named extends Base${typed ? " implements Face" : ""} {};`,
+                  "const Nested = class NamedOuter { make() { return class NamedInner extends Base {}; } };",
+                  "const Anonymous = class extends Base {};",
+                  "const DynamicExpression = class NamedDynamic extends factory(Base) {};",
+                  ...(typed
+                    ? [
+                        "interface Face {}",
+                        "interface Arg {}",
+                        "interface GenericFace<T> {}",
+                        "class GenericBase<T> {}",
+                        "abstract class AbstractChild extends GenericBase<Arg> implements GenericFace<Arg>, Face {}",
+                        "const Typed = class TypedChild extends GenericBase<Arg> implements GenericFace<Arg>, Face {};",
+                        "abstract class AbstractDynamic extends factory(Base) {}",
+                      ]
+                    : []),
                 ].join("\n"),
               ),
             ),
@@ -443,7 +475,33 @@ describe("Knowledge AST parser", () => {
           ).toEqual([
             ["Child", "Base"],
             ["Inner", "Base"],
+            ["Named", "Base"],
+            ["NamedInner", "Base"],
+            ...(typed
+              ? [
+                  ["AbstractChild", "GenericBase"],
+                  ["TypedChild", "GenericBase"],
+                ]
+              : []),
           ]);
+          expect(
+            heritage.edges
+              .filter((edge) => edge.type === "IMPLEMENTS")
+              .map((edge) => [
+                heritage.symbols.find((symbol) => symbol.symbolId === edge.fromSymbolId)?.name,
+                heritage.symbols.find((symbol) => symbol.symbolId === edge.toSymbolId)?.name,
+              ]),
+          ).toEqual(
+            typed
+              ? [
+                  ["Named", "Face"],
+                  ["AbstractChild", "GenericFace"],
+                  ["AbstractChild", "Face"],
+                  ["TypedChild", "GenericFace"],
+                  ["TypedChild", "Face"],
+                ]
+              : [],
+          );
         }
       }),
   );
