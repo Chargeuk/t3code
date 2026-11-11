@@ -200,6 +200,29 @@ describe("Knowledge AST parser", () => {
             expect(large.symbols.find((item) => item.kind === "Module")?.range).toEqual(
               range(1, 1, 5, 1),
             );
+            const nested = success(
+              yield* parseAstSource(
+                input(
+                  "nested.ts",
+                  [
+                    "function helper() {}",
+                    "function outer() {",
+                    `  function inner() { helper(); const data = ${JSON.stringify(value)}; } helper();`,
+                    "}",
+                  ].join("\n"),
+                ),
+              ),
+            );
+            const helper = nested.symbols.find((item) => item.name === "helper");
+            for (const name of ["inner", "outer"]) {
+              const caller = nested.symbols.find((item) => item.name === name);
+              expect(caller).toBeDefined();
+              expect(
+                nested.edges.filter(
+                  (edge) => edge.type === "CALLS" && edge.fromSymbolId === caller?.symbolId,
+                ),
+              ).toEqual([expect.objectContaining({ toSymbolId: helper?.symbolId })]);
+            }
           }
           const text = `${"// harmless 🧠\n".repeat(4_000)}${fixture.text}`;
           const large = success(yield* parseAstSource(input("comments.ts", text)));
@@ -297,6 +320,7 @@ describe("Knowledge AST parser", () => {
             "class GenericBase<T> {}",
             "class GenericChild extends GenericBase<Arg> implements GenericFace<Arg>, Face {}",
             "class GenericParent extends GenericBase<GenericFace<Arg>> {}",
+            "class Qualified extends ns.GenericBase<Arg> {}",
             "",
           ].join("\n"),
         );
@@ -345,6 +369,7 @@ describe("Knowledge AST parser", () => {
             ],
           ],
           ["GenericParent", [["EXTENDS", "GenericBase"]]],
+          ["Qualified", [["EXTENDS", "GenericBase"]]],
         ] as const) {
           expect(
             result.edges
@@ -392,7 +417,7 @@ describe("Knowledge AST parser", () => {
               edge.type === "CALLS" && edge.fromSymbolId === symbols.get("method")?.symbolId,
           ),
         ).toHaveLength(1);
-        for (const ext of ["js", "jsx"]) {
+        for (const ext of ["js", "jsx", "ts", "tsx"]) {
           const heritage = success(
             yield* parseAstSource(
               input(
@@ -402,6 +427,7 @@ describe("Knowledge AST parser", () => {
                   "class Child extends Base {}",
                   "class Outer { make() { class Inner extends Base {} } }",
                   "class Missing extends External {}",
+                  "function factory(value) { return class {}; }",
                   "class Dynamic extends factory(Base) {}",
                 ].join("\n"),
               ),

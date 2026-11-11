@@ -213,13 +213,6 @@ function isPositionWithinRange(
   return true;
 }
 
-function rangeSpan(range: {
-  start: { line: number; column: number };
-  end: { line: number; column: number };
-}) {
-  return (range.end.line - range.start.line) * 10000 + (range.end.column - range.start.column);
-}
-
 function distanceFromPosition(
   position: { line: number; column: number },
   range: {
@@ -242,7 +235,13 @@ function findEnclosingSymbol(
     (symbol) => symbol.symbolId !== moduleSymbolId && isPositionWithinRange(position, symbol.range),
   );
   if (candidates.length === 0) return null;
-  return candidates.sort((a, b) => rangeSpan(a.range) - rangeSpan(b.range))[0];
+  return candidates.sort(
+    (a, b) =>
+      b.range.start.line - a.range.start.line ||
+      b.range.start.column - a.range.start.column ||
+      a.range.end.line - b.range.end.line ||
+      a.range.end.column - b.range.end.column,
+  )[0];
 }
 
 function findClosestSymbolByName(
@@ -336,6 +335,14 @@ function buildExportEdges(
 }
 
 function collectClauseTypeNames(node: SyntaxNode) {
+  let value = node.childForFieldName("value");
+  if (value) {
+    while (value.type === "member_expression") {
+      value = value.childForFieldName("object");
+      if (!value) return [];
+    }
+    if (value.type !== "identifier") return [];
+  }
   const nameNodes = node
     .descendantsOfType(["identifier", "type_identifier", "property_identifier"])
     .filter((nameNode) => {
