@@ -3706,7 +3706,7 @@ Task-level optional logs/screenshots belong in `codeInfoTmp/manual-testing/00000
 
 #### Implementation Notes
 
-Created by complete-pass settlement. No application proof was executed in this task yet. All automated checklist items remain open; optional manual proof, excluded platforms/worktrees, unrequested live providers/evals and external human acceptance are not agent completion gates. Record actual final candidate, proof results/caches, scoped repairs and limitations here during execution.
+Created by complete-pass settlement. The scoped lint and formatting subtasks are complete as recorded below; all six Testing checklist items remain open. Optional manual proof, excluded platforms/worktrees, unrequested live providers/evals and external human acceptance are not agent completion gates. Record actual final candidate, proof results/caches, scoped repairs and limitations here during execution.
 
 - Task 22 Subtask 1: automated testing agent ran the specified scoped lint with `--fix`; exit 0, 57 files, zero warnings/errors, and no repair required.
 - Task 22 Subtask 2: automated testing agent ran the specified scoped formatter; exit 0, 67 files formatted, with no reported formatting findings.
