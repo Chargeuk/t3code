@@ -3646,13 +3646,13 @@ Use the existing repository container at the same mounted path with isolated che
 
 ##### current_repository — server, web and shared proof
 
-- [ ] Build the affected normal server/web graph and package assets:
+- [x] Build the affected normal server/web graph and package assets:
 
   ```sh
   npm run container:exec -- vp run --filter t3 build
   ```
 
-- [ ] Start the normal supported dev process through the automated terminal tool, retain its returned numeric session, and read that same session until actual dev-runner readiness. This is process-start proof:
+- [x] Start the normal supported dev process through the automated terminal tool, retain its returned numeric session, and read that same session until actual dev-runner readiness. This is process-start proof:
 
   ```javascript
   const result = await tools.exec_command({
@@ -3665,13 +3665,13 @@ Use the existing repository container at the same mounted path with isolated che
   text(result);
   ```
 
-- [ ] Run the supported coordinated story checks, recording actual categories and candidate identity:
+- [x] Run the supported coordinated story checks, recording actual categories and candidate identity:
 
   ```sh
   npm run container:exec -- vp run check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c
   ```
 
-- [ ] Shut down only the captured process, including if an earlier check failed. Read the same terminal session to completion if still running; preserve reusable containers and volumes:
+- [x] Shut down only the captured process, including if an earlier check failed. Read the same terminal session to completion if still running; preserve reusable containers and volumes:
 
   ```javascript
   text(
@@ -3684,13 +3684,13 @@ Use the existing repository container at the same mounted path with isolated che
   );
   ```
 
-- [ ] After shutdown, run supported scoped lint and fix authorized issues, using supported autofix before manual cleanup where applicable. Rerun proof affected by any changed bytes:
+- [x] After shutdown, run supported scoped lint and fix authorized issues, using supported autofix before manual cleanup where applicable. Rerun proof affected by any changed bytes:
 
   ```sh
   npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp lint --no-error-on-unmatched-pattern --report-unused-disable-directives'
   ```
 
-- [ ] Run supported scoped formatting verification; use the formatter subtask if needed and rerun affected proof:
+- [x] Run supported scoped formatting verification; use the formatter subtask if needed and rerun affected proof:
 
   ```sh
   npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp fmt --check --no-error-on-unmatched-pattern'
@@ -3706,7 +3706,12 @@ Task-level optional logs/screenshots belong in `codeInfoTmp/manual-testing/00000
 
 #### Implementation Notes
 
-Created by complete-pass settlement. The scoped lint and formatting subtasks are complete as recorded below; all six Testing checklist items remain open. Optional manual proof, excluded platforms/worktrees, unrequested live providers/evals and external human acceptance are not agent completion gates. Record actual final candidate, proof results/caches, scoped repairs and limitations here during execution.
+Created by complete-pass settlement. The scoped lint and formatting subtasks are complete as recorded below. Optional manual proof, excluded platforms/worktrees, unrequested live providers/evals and external human acceptance are not agent completion gates. Record actual final candidate, proof results/caches, scoped repairs and limitations here during execution.
 
 - Task 22 Subtask 1: automated testing agent ran the specified scoped lint with `--fix`; exit 0, 57 files, zero warnings/errors, and no repair required.
 - Task 22 Subtask 2: automated testing agent ran the specified scoped formatter; exit 0, 67 files formatted, with no reported formatting findings.
+- Task 22 Testing: affected `t3` build passed (`vp run: 2/2 successful`); dev process reached Vite and server readiness on ports 5733 and 13773 and was shut down through captured session 1841 (Ctrl-C, exit 130).
+- Task 22 Testing: scoped lint passed, exit 0, 57 files, zero warnings/errors.
+- Task 22 Testing: scoped formatting verification passed, exit 0, 67 files.
+- Task 22 repair: normalized three array layouts in tracked `codeInfoStatus/flow-state/manual-testing-runtime.json` with the repository formatter; parsed JSON values are unchanged. The coordinated wrapper intentionally checks changed JSON, so no exclusion or harness change was needed.
+- **RESOLVED ISSUE** Task 22 formatter blocker: the exact coordinated `check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c` rerun passed, exit 0, on HEAD `b8c4edcea47418c5166b9a27eb4bcd5a02c0368d` plus working changes. All categories passed: format (71 files), unused patches, lint (57 files; zero warnings/errors), both knip passes, GraphQL generation, typecheck (40/40 cached packages), tests (28 files / 429 passed), and React Compiler (9 passed; 1,334 skipped). Tests and compiler checks executed without replaying cached results. Task 22 remains `__in_progress__` for owning flow settlement.
