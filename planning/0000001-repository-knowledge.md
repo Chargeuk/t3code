@@ -2899,14 +2899,14 @@ Evidence: [batch outcome](../codeInfoTmp/reviews/0000001-rc-20261111T041207Z-a88
 
 - Repository Name: `Current Repository`
 - Task Dependencies: `Task 1, Task 2, Task 3, Task 4, Task 5, Task 6, Task 7, Task 8, Task 9, Task 10, Task 11, Task 12, Task 13, Task 14, Task 15, Task 16, Task 17`
-- Task Status: `__in_progress__`
+- Task Status: `__done__`
 - Review Task Role: `final_revalidation`
 - Review Cycle: `0000001-rc-20261111T041207Z-a881738b`
 - Created: `November 11, 2026 at 12:51:49 PM GMT [locale=en-US; timeZone=Europe/London]`
 
 #### Overview
 
-Revalidate the approved Repository Knowledge story after the three current-cycle repair commits. Five accepted findings are fixed and no actionable implementation remainder survives the applicable repair opportunities. The permitted normal build, coordinated checks and process-start/shutdown proof predate these repairs and remain to run on the final candidate. This task adds no implementation finding or external human acceptance gate.
+Revalidate the approved Repository Knowledge story after the three current-cycle repair commits. Five accepted findings are fixed and no actionable implementation remainder survives the applicable repair opportunities. The permitted normal build, coordinated checks and process-start/shutdown proof are complete for the recorded post-repair candidate. This task adds no implementation finding or external human acceptance gate.
 
 #### Affected Repositories
 
@@ -3041,7 +3041,7 @@ All items in this task remain unperformed at creation. Settlement ran no applica
 
 During execution, record actual candidate/working-diff identity, automated exits, selected checks, repairs/reruns and limitations. Keep external human acceptance pending and retain excluded/unrequested proof as unavailable, never passed or an agent blocker. K-13 remains a before-push obligation if a later publication candidate changes; this task does not authorize a push or PR.
 
-Settlement audit: readable harness names were recovered for batch `0000001-rw-20261111T073459Z-84047fcf` without changing job identities, usage or decisions. The non-blocking exclusion wording above was narrowed so unavailable permitted required proof stays open. Tasks 15–17 and all existing Created values are preserved; this task still has two unchecked hygiene items and six unchecked automated proof items. See the [independent settlement audit](../codeInfoTmp/reviews/0000001-rc-20261111T041207Z-a881738b/settlement/settlement-audit.md).
+Settlement audit: readable harness names were recovered for batch `0000001-rw-20261111T073459Z-84047fcf` without changing job identities, usage or decisions. The non-blocking exclusion wording above was narrowed so unavailable permitted required proof stays open. Tasks 15–17 and all existing Created values are preserved; at settlement this task had two unchecked hygiene items and six unchecked automated proof items. See the [independent settlement audit](../codeInfoTmp/reviews/0000001-rc-20261111T041207Z-a881738b/settlement/settlement-audit.md).
 
 Task 18 implementation pass: the scoped lint subtask completed with exit 0; 55 files checked, zero warnings/errors, and no story-owned findings or fixes. The scoped formatting subtask completed with exit 0 across 65 files; it left no files changed.
 
@@ -3050,3 +3050,5 @@ Task 18 automated proof: `npm run container:exec -- vp run --filter t3 build` ex
 Task 18 deep repair: the tester freshly reproduced the same format-only failure at HEAD `cfffb6f34398f04a51fae1c28f82e259cfcd959d` (tracked diff SHA-256 `2f0721730b749fd7b1b28d18fd126169f3089892ae3099aaa11477f6f4c50fd7`). `scripts/check-changed.ts` includes changed and untracked files in formatting, including this story-specific runtime metadata. The supported formatter exited 0 on `codeInfoStatus/flow-state/manual-testing-runtime.json`, collapsing two arrays; parsed JSON values are identical before/after. This is a same-task formatting repair, with no workflow, runtime, test assertion or production behavior change. The original coordinated check still requires a post-repair tester result.
 
 - **RESOLVED ISSUE** Coordinated `check:changed` passed on candidate HEAD `cfffb6f34398f04a51fae1c28f82e259cfcd959d` (tracked diff SHA-256 `c1d430c1141258e4ea6259330acb7c5f3447b04569f2490b47f56236ca98e4a5`): exit 0; all 9 categories passed—unused patches, format, lint, both Knip passes, GraphQL, typecheck (40 packages), tests (27 files; 418 passed), and React Compiler (9 files; 9 passed, 1,334 skipped). The prior formatting clarification is resolved: the supported formatter repair collapsed two arrays while preserving parsed JSON values; the coordinated format check now passes.
+
+Implementation-plus-proof audit: at HEAD `9c8956785546b2ea3f877319ad3f09d6918fbad9`, the fresh task packet and status parser confirm both subtasks and all six permitted automated Testing items complete, with no live blocker. The recorded post-repair check passed; Git shows only plan and runtime-metadata changes since its application-source HEAD `cfffb6f34398f04a51fae1c28f82e259cfcd959d`. This pass introduced no application-source or user-facing behavior change and found no remaining restoration work. Task 18 is done without rerunning proof or claiming manual, excluded, live-provider or external human acceptance. Optional manual guidance remains available and external human acceptance remains pending.
