@@ -1958,9 +1958,9 @@ Proof scope is `current_repository`: server Knowledge lifecycle/SQLite/delta/AST
 
 The affected tasks require the normal filtered build and `check:changed`. K-10 and repository guidance keep local checks focused; full/repo-wide suites remain with CI unless specifically requested. The existing wrapper selects owning tests and cross-file checks, including affected server/service/SQLite/AST/adapter, client permissions/settings, web browser cases, CLI-tooling tests and affected/dependent typechecks. Its actual reported categories are authoritative; do not call it a full suite, silently omit a failing permitted category, or add broad package suites merely because their scripts exist. Its supported setup uses the existing checkout container; use `npm run container:up` only if needed, without a worktree or new harness. Keep baseline failures outside the story explicitly distinguished from story-caused failures; no unrelated product repair is authorized.
 
-1. [ ] Run `npm run container:exec -- vp run --filter t3 build`. Record its numeric exit and candidate identity; this includes the web dependency, server bundle/assets and normal license/dependency path. A build alone does not prove bundled AST queries, live Chroma or embedding semantics.
+1. [x] Run `npm run container:exec -- vp run --filter t3 build`. Record its numeric exit and candidate identity; this includes the web dependency, server bundle/assets and normal license/dependency path. A build alone does not prove bundled AST queries, live Chroma or embedding semantics.
 
-2. [ ] Run `npm run container:dev` through the existing terminal tool in a retained PTY and await the actual dev-runner readiness output. Use the returned session ID for subsequent terminal reads and shutdown; this is automated process-start proof with isolated checkout state, not browser interaction. The following tool invocation is runnable in the current harness:
+2. [x] Run `npm run container:dev` through the existing terminal tool in a retained PTY and await the actual dev-runner readiness output. Use the returned session ID for subsequent terminal reads and shutdown; this is automated process-start proof with isolated checkout state, not browser interaction. The following tool invocation is runnable in the current harness:
 
    ```javascript
    const result = await tools.exec_command({
@@ -1973,9 +1973,9 @@ The affected tasks require the normal filtered build and `check:changed`. K-10 a
    text(result);
    ```
 
-3. [ ] Run `npm run container:exec -- vp run check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c`. The existing explicit-ref form covers the approved story and working changes. Record the actual tested candidate, numeric exit, selected tests, typechecks and cross-file results without adding cached/overlapping runs as unique coverage. This preserves K-13's publication obligation; this task does not itself push.
+3. [x] Run `npm run container:exec -- vp run check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c`. The existing explicit-ref form covers the approved story and working changes. Record the actual tested candidate, numeric exit, selected tests, typechecks and cross-file results without adding cached/overlapping runs as unique coverage. This preserves K-13's publication obligation; this task does not itself push.
 
-4. [ ] Send Ctrl+C through the captured PTY using the automated terminal-tool invocation below, then read that same session to terminal completion if it is still running. This stops only the normal runner started by item 2; retain the reusable checkout container and persistent data. No process matching, unrelated server shutdown or volume cleanup is permitted.
+4. [x] Send Ctrl+C through the captured PTY using the automated terminal-tool invocation below, then read that same session to terminal completion if it is still running. This stops only the normal runner started by item 2; retain the reusable checkout container and persistent data. No process matching, unrelated server shutdown or volume cleanup is permitted.
 
    ```javascript
    text(
@@ -1988,13 +1988,13 @@ The affected tasks require the normal filtered build and `check:changed`. K-10 a
    );
    ```
 
-5. [ ] After shutdown, run the supported scoped lint check below and fix authorized issues, using the supported autofix option before manual cleanup where applicable. If bytes change, rerun affected proof.
+5. [x] After shutdown, run the supported scoped lint check below and fix authorized issues, using the supported autofix option before manual cleanup where applicable. If bytes change, rerun affected proof.
 
    ```sh
    npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp lint --no-error-on-unmatched-pattern --report-unused-disable-directives'
    ```
 
-6. [ ] Run the supported scoped formatting check below. Use the formatter from Subtask 2 if needed and rerun proof affected by any formatting change. Record its actual exit; no old candidate's pass checks this item.
+6. [x] Run the supported scoped formatting check below. Use the formatter from Subtask 2 if needed and rerun proof affected by any formatting change. Record its actual exit; no old candidate's pass checks this item.
 
    ```sh
    npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp fmt --check --no-error-on-unmatched-pattern'
@@ -2016,10 +2016,18 @@ These scenarios are optional guidance, with no checkboxes, pass/fail gate or hum
 
 Created by complete-pass settlement after reconciling all three batch findings blocks, both normal repair outcomes and the two matching completed-review-fixes tasks. Tasks 1–13 remain done; only this task owns pending agent work. Its permitted build and changed-file checks predate both new repair commits, so focused repair passes do not replace them.
 
-No proof has run for this task. The initial status is to_do, both lint/format subtasks and all six automated Testing items are unchecked, and external human acceptance remains pending. Current Git at task creation is 528111c21e93c6c52e986ab6dbdf898d12f26d3d with existing dirty plan/flow-state documentation. Record the actual tested candidate during execution.
+At task creation, both lint/format subtasks and all six automated Testing items were unchecked; external human acceptance remained pending. Current Git at task creation was 528111c21e93c6c52e986ab6dbdf898d12f26d3d with existing dirty plan/flow-state documentation.
 
 Implementation pass: Task 14 Subtask 1's exact scoped lint command exited 0 on 55 files with 0 warnings and 0 errors; no source fixes were needed. Task 14 Subtask 2's exact scoped formatter command exited 0 after processing 65 files; it required no source formatting changes. Both subtasks are complete.
 
 Repository AGENTS.md and the affected Tasks 1–4/11 Testing contracts qualify the generic full-suite template: use the supported filtered normal build and explicit-base check:changed wrapper, not repository-wide suites/typechecks. Report its actual selected coverage honestly. Retain the owned normal-runtime startup/shutdown and supported scoped lint/format order. CodeInfo2 and Chroma introduce no additional implementation ownership.
+
+Task 14 automated proof candidate: HEAD `7dd253b1b8ca086a7c418fc6871a6bfeb9ef242c`; working tree was dirty, with flow-state and plan changes present. The filtered `t3 build` exited 0. `container:dev` reached Vite ready at `http://localhost:5733` and server listening at `127.0.0.1:13773`; Ctrl+C shut down the captured session (exit 130).
+
+- **RESOLVED ISSUE** Task 14 Testing item 3's initial formatter failure on `codeInfoStatus/flow-state/manual-testing-runtime.json` was resolved by the authorized repository formatter pass, with the coder reporting identical semantic SHA256 before/after (`1f6109e66e781f167d1c5417714cd85bc122528687f7587a91fb1d4441c9770c`). The exact item 3 command was rerun at HEAD `7dd253b1b8ca086a7c418fc6871a6bfeb9ef242c` with the worktree still dirty and exited 0. All categories passed: unused patches, format, lint, Knip (two batches), server GraphQL, typecheck, tests, and React Compiler. It selected 27 test files (416 passed), 40 package typechecks (40/40 cache hits; reused results, not new execution coverage), and React Compiler (9 passed, 1,334 skipped). This is changed-file wrapper coverage, not a full suite. Initial attempt evidence above remains historical.
+
+Task 14 item 5 scoped lint exited 0 (55 files, 0 warnings/errors). After the proof-note cleanup, item 6's exact scoped format check exited 0 (65 files, all matched files correctly formatted). No source fixes or formatting changes were made.
+
+Deep proof repair: the tester reproduced item 3's sole formatter failure on `codeInfoStatus/flow-state/manual-testing-runtime.json`. The wrapper includes changed JSON in its formatting category; normalizing this existing proof artifact with the repository formatter exited 0 and preserved its parsed JSON exactly. No product code, workflow, formatter configuration or assertions changed. Only item 3 and the closing scoped formatting check need fresh proof; build, runtime and source checks are unaffected by whitespace in flow-state data.
 
 Settlement does not run application tests/builds/typechecks/lint, runtime/provider/browser proof, test authoring, review, implementation repair, commit or push. Source review/repair and settlement routes remain active under the owning activity. Missing excluded execution stays unavailable, not passed and not an agent blocker.
