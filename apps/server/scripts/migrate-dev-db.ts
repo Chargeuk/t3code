@@ -263,15 +263,18 @@ const copySourceSlice = Effect.fn("copyDevDbSourceSlice")(function* (sourcePath:
       for (const { name } of tables) {
         if (cleared.has(name) || virtualTables.includes(name)) continue;
         const nullable = threadIdNullable.get(name);
-        const filter = !filtered
-          ? ""
-          : name === "orchestration_events"
-            ? // Two ranges let SQLite seek the (aggregate_kind, stream_id) index instead of scanning.
-              `WHERE (aggregate_kind = 'thread' AND stream_id IN (SELECT thread_id FROM copied_threads))
-                OR aggregate_kind < 'thread' OR aggregate_kind > 'thread'`
-            : nullable === undefined || name === PROVIDER_SESSIONS_TABLE
+        const filter =
+          name === "knowledge_runs"
+            ? "WHERE status NOT IN ('queued', 'running', 'cleanup')"
+            : !filtered
               ? ""
-              : `WHERE thread_id IN (SELECT thread_id FROM copied_threads)${nullable ? " OR thread_id IS NULL" : ""}`;
+              : name === "orchestration_events"
+                ? // Two ranges let SQLite seek the (aggregate_kind, stream_id) index instead of scanning.
+                  `WHERE (aggregate_kind = 'thread' AND stream_id IN (SELECT thread_id FROM copied_threads))
+                OR aggregate_kind < 'thread' OR aggregate_kind > 'thread'`
+                : nullable === undefined || name === PROVIDER_SESSIONS_TABLE
+                  ? ""
+                  : `WHERE thread_id IN (SELECT thread_id FROM copied_threads)${nullable ? " OR thread_id IS NULL" : ""}`;
         yield* sql.unsafe(`INSERT INTO main."${name}" SELECT * FROM src."${name}" ${filter}`)
           .unprepared;
       }
