@@ -16,6 +16,7 @@ import type {
 
 type Position = { row: number; column: number };
 type SyntaxNode = {
+  id: number;
   type: string;
   text: string;
   startPosition: Position;
@@ -335,11 +336,14 @@ function buildExportEdges(
 }
 
 function collectClauseTypeNames(node: SyntaxNode) {
-  const nameNodes = node.descendantsOfType([
-    "identifier",
-    "type_identifier",
-    "property_identifier",
-  ]);
+  const nameNodes = node
+    .descendantsOfType(["identifier", "type_identifier", "property_identifier"])
+    .filter((nameNode) => {
+      for (let parent = nameNode.parent; parent && parent.id !== node.id; parent = parent.parent) {
+        if (parent.type === "type_arguments") return false;
+      }
+      return true;
+    });
   return Array.from(new Set(nameNodes.map((nameNode) => getNodeText(nameNode)).filter(Boolean)));
 }
 

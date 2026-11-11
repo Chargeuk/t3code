@@ -80,6 +80,11 @@ function splitIntoProseBlocks(text: string): string[] {
   return blocks;
 }
 
+function sliceAtCodePointBoundary(text: string, length: number): string {
+  const cut = text.codePointAt(length - 1)! > 0xffff ? (length === 1 ? 2 : length - 1) : length;
+  return text.slice(0, cut);
+}
+
 function findLocalBoundaryCut(text: string, preferredLength: number): string {
   if (text.length <= preferredLength) return text;
   const searchWindow = Math.min(
@@ -105,7 +110,7 @@ function findLocalBoundaryCut(text: string, preferredLength: number): string {
     }
     if (bestCut !== undefined) break;
   }
-  return prefix.slice(0, bestCut ?? preferredLength).trimEnd();
+  return sliceAtCodePointBoundary(text, bestCut ?? preferredLength).trimEnd();
 }
 
 function sliceToFit(model: TokenModel, text: string, maxTokens: number, local: boolean) {
@@ -119,9 +124,12 @@ function sliceToFit(model: TokenModel, text: string, maxTokens: number, local: b
         : remaining.length;
       let candidate = local ? findLocalBoundaryCut(remaining, preferredLength) : remaining;
       if (local && candidate.trim().length === 0)
-        candidate = remaining.slice(0, preferredLength).trim();
+        candidate = sliceAtCodePointBoundary(remaining, preferredLength).trim();
       let tokens = yield* model.countTokens(candidate);
-      while (tokens > maxTokens && candidate.length > 1) {
+      while (
+        tokens > maxTokens &&
+        candidate.length > (candidate.codePointAt(0)! > 0xffff ? 2 : 1)
+      ) {
         preferredLength = local
           ? Math.max(1, Math.floor(candidate.length * 0.85))
           : Math.max(
@@ -130,9 +138,9 @@ function sliceToFit(model: TokenModel, text: string, maxTokens: number, local: b
             );
         candidate = local
           ? findLocalBoundaryCut(remaining, preferredLength)
-          : candidate.slice(0, preferredLength);
+          : sliceAtCodePointBoundary(candidate, preferredLength);
         if (local && candidate.trim().length === 0)
-          candidate = remaining.slice(0, preferredLength).trim();
+          candidate = sliceAtCodePointBoundary(remaining, preferredLength).trim();
         tokens = yield* model.countTokens(candidate);
       }
       const rest = remaining.slice(candidate.length);

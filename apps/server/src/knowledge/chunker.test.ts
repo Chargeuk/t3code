@@ -47,19 +47,25 @@ describe("Knowledge chunking", () => {
 
   it.effect("slices oversized content within token limits and skips whitespace slices", () =>
     Effect.gen(function* () {
-      const text = `${" ".repeat(45)}${"x".repeat(183)}`;
-      const chunks = yield* Stream.runCollect(chunkTextStream(text, model(40), { config }));
-      expect(chunks.length).toBeGreaterThan(1);
-      expect(chunks.every((chunk) => chunk.tokenCount <= 40 && chunk.text.trim().length > 0)).toBe(
-        true,
-      );
-      expect(chunks.map((chunk) => chunk.chunkIndex)).toEqual(chunks.map((_, index) => index));
-      expect(
-        chunks
-          .map((chunk) => chunk.text)
-          .join("")
-          .trim(),
-      ).toBe("x".repeat(183));
+      for (const { text, context } of [
+        { text: `${" ".repeat(45)}${"x".repeat(183)}`, context: 40 },
+        { text: "x😀".repeat(80), context: 40 },
+        { text: "😀".repeat(4), context: 2 },
+      ]) {
+        const chunks = yield* Stream.runCollect(chunkTextStream(text, model(context), { config }));
+        expect(chunks.length).toBeGreaterThan(1);
+        expect(
+          chunks.every((chunk) => chunk.tokenCount <= context && chunk.text.trim().length > 0),
+        ).toBe(true);
+        expect(chunks.every((chunk) => chunk.text.isWellFormed())).toBe(true);
+        expect(chunks.map((chunk) => chunk.chunkIndex)).toEqual(chunks.map((_, index) => index));
+        expect(
+          chunks
+            .map((chunk) => chunk.text)
+            .join("")
+            .trim(),
+        ).toBe(text.trim());
+      }
     }),
   );
 
@@ -104,6 +110,7 @@ describe("Knowledge chunking", () => {
       for (const text of [
         `${"A long sentence with several words. ".repeat(20)}\n\n${"Another sentence! ".repeat(10)}`,
         "x".repeat(250),
+        "x😀".repeat(83),
       ]) {
         const chunks = yield* Stream.runCollect(
           chunkTextStream(text, model(60), {
@@ -112,6 +119,7 @@ describe("Knowledge chunking", () => {
           }),
         );
         expect(chunks.length).toBeGreaterThan(1);
+        expect(chunks.every((chunk) => chunk.text.isWellFormed())).toBe(true);
         expect(
           chunks.every((chunk) => chunk.tokenCount <= 60 && chunk.text.trim().length > 0),
         ).toBe(true);

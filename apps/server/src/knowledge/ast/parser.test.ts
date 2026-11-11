@@ -253,6 +253,11 @@ describe("Knowledge AST parser", () => {
             "    return Inner;",
             "  }",
             "}",
+            "interface Arg {}",
+            "interface GenericFace<T> {}",
+            "class GenericBase<T> {}",
+            "class GenericChild extends GenericBase<Arg> implements GenericFace<Arg>, Face {}",
+            "class GenericParent extends GenericBase<GenericFace<Arg>> {}",
             "",
           ].join("\n"),
         );
@@ -291,6 +296,30 @@ describe("Knowledge AST parser", () => {
               edge.fromSymbolId === symbols.get("Outer")?.symbolId,
           ),
         ).toEqual([]);
+        for (const [from, expected] of [
+          [
+            "GenericChild",
+            [
+              ["EXTENDS", "GenericBase"],
+              ["IMPLEMENTS", "GenericFace"],
+              ["IMPLEMENTS", "Face"],
+            ],
+          ],
+          ["GenericParent", [["EXTENDS", "GenericBase"]]],
+        ] as const) {
+          expect(
+            result.edges
+              .filter(
+                (edge) =>
+                  (edge.type === "EXTENDS" || edge.type === "IMPLEMENTS") &&
+                  edge.fromSymbolId === symbols.get(from)?.symbolId,
+              )
+              .map((edge) => [
+                edge.type,
+                result.symbols.find((symbol) => symbol.symbolId === edge.toSymbolId)?.name,
+              ]),
+          ).toEqual(expected);
+        }
         expect(symbols.get("method")).toMatchObject({
           container: "Child",
           range: range(5, 3, 9, 4),
