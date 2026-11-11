@@ -1551,6 +1551,329 @@ The underlying review remains partial. Visual/blind-spot coverage and integrated
 - Example: A stage reporting the contract unavailable cannot be credited with reading it merely because a later stage locates the correctly cased file. The retained record supports a process limitation, without demonstrating a product failure caused by it.
 - Why ignored: The entire product-defect interpretation remains rejected. Preserve the review's partial coverage honestly; do not create product repair, workflow changes, a new gate or a task from this process evidence.
 
+## Code Review Findings
+
+- Findings recorded: `November 11, 2026 at 8:32:08 PM GMT [locale=en-US; timeZone=Europe/London]`
+- Review batch: `0000001-rw-20261111T141339Z-8965ba18`
+- Review cycle: `0000001-rc-20261111T141338Z-32fd4035`
+- Reviews attempted:
+  - Codex source review — Repository Knowledge, story 0000001 (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`) — completed source review; F1 supported, R1 rejected after verification.
+    - Input tokens: 0
+    - Cached input tokens: 0
+    - Output tokens: 0
+  - Cross-repository review — not applicable (`cross_repository_review`, job `story_review:cross_repository_review`, target cross-repository story scope) — completed no-work applicability decision; only `current_repository` assigned.
+    - Input tokens: 276,845
+    - Cached input tokens: 212,480
+    - Output tokens: 2,139
+  - OpenCode review — story 0000001 (`open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`) — completed source review of one 48-file bundle with 26 exclusions; no supported actionable findings.
+    - Input tokens: 5,395,805
+    - Cached input tokens: 5,222,400
+    - Output tokens: 16,109
+
+Reviewed repository: `current_repository`, `/home/dan/code/t3code`; HEAD `106c35ea169279b560f7b6d95c8119c3e22f804c`; comparison base `93293e1f0bd859ee93189be7a9e37d32cea0132c`. [Completed disposition](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T141339Z-8965ba18--head-106c35ea1692/reconciliation/disposition.md) records the independent decision and limits.
+
+Usage comes only from each job's single designated actual-review artifact. Native Codex reports zero counters, which do not independently measure consumption. OpenCode and cross-repository counters are harness-reported without raw provider accounting that independently verifies aggregation scope. Cached input is included in input and is never added. Wrapper, verifier, filtering and disposition usage are excluded.
+
+All three filtering gates were applicable and completed: negative scope {F1} → positive authorization {F1} → materiality {F1}. No later gate was deliberately inapplicable, and no whole finding was removed by these gates. The positive gate's exclusions of broader F1 remedies are preserved below. R1 was rejected before filtering and remains non-actionable. Source review and disposition are not fresh runtime, provider, client, deployment or acceptance proof.
+
+Settlement resolution: all accepted findings in this immutable batch are resolved in `current_repository` commit `0360d5c3ab4d379145d2848cf237c740f6c83790`, recorded by completed Task 19. Normal repair completed with permitted focused proof; stronger repair was deliberately inapplicable after positive completion. No research-owned remainder exists; historical matching coverage remains partial. Earlier disposition-time statements below describe that reviewed candidate and are historical, not current task work. All prior exclusions remain non-actionable; permitted final automated revalidation is assigned only by the following tasking step.
+
+### Accepted
+
+#### 1. Copied development state can resume pending Knowledge work
+
+- Finding ID: `F1`
+- Resolution: Fixed in `current_repository` commit `0360d5c3ab4d379145d2848cf237c740f6c83790`; completed Task 19. This is resolved historical acceptance, with no open implementation work.
+- Review harnesses:
+  - Codex source review — Repository Knowledge, story 0000001 (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`); native generation, wrapper inspection and verification belong to this same job, directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`.
+- Simple description: A development database copy retains pending Knowledge jobs. Starting that development server can repeat indexing or cleanup that was requested only in the original environment.
+- Example: A normal ingest is queued or running when a developer refreshes an isolated database with the destination server stopped. After startup, with the original root accessible and usable Chroma/embedding settings, the copied request can read and index that root again and potentially consume paid embedding calls, without a new request.
+- Why accepted: Comparison-base AGENTS.md:113 promises that development copies omit pending work, and its existing copier implements that isolation for earlier pending state. This story added Knowledge persistence/recovery without extending that boundary. Current HEAD still copies these runs and recovers them on service construction; the finding is unresolved and distinct from R1. The supported workflow demonstrates meaningful unintended duplicate work, proportionate to a local copy-query predicate. The exact authorized seam is `apps/server/scripts/migrate-dev-db.ts:263–276`: omit only `knowledge_runs` rows in existing `queued`, `running`, or `cleanup` states independently of thread filtering, retaining terminal runs, sources and index metadata. Current finalize transactions and their caller establish that committed file rows reference terminal runs. This restores an existing contract without new configuration or runtime policy and respects all Out of Scope restrictions, K-2 recovery and K-9 minimality. Apparently suitable for the normal repair attempt; stronger repair remains available if that attempt cannot settle it. No task or final implementation-task decision is created here. Successful external effects are conditional; no live incident or executed snapshot reproduction is claimed.
+- Source and target: `current_repository`; native location `apps/server/src/knowledge/RepositoryKnowledgeLive.ts:537–541`; corrective owner `apps/server/scripts/migrate-dev-db.ts`.
+
+### Ignored for This Story
+
+#### 2. C++ signature ranges allegedly misattribute body calls
+
+- Finding ID: `R1`
+- Review harnesses:
+  - Codex source review — Repository Knowledge, story 0000001 (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`); directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`. Native generation and wrapper range corroboration precede the same job's contradictory verification.
+- Simple description: The reviewer claimed that a C++ function's signature-only range causes calls in its body to be assigned to a module or class. The short range is observed, but that call-attribution consequence is unsupported.
+- Example: For `void f() { helper(); }`, the claim predicts a module/class CALLS edge for `helper()`. Retained verification shows that the pinned C++ tags query has no `reference.call` captures and only tag references feed call-edge construction, so this example does not establish the predicted misplaced edge.
+- Why ignored: Rejected by audited reconciliation before filtering. Preserve the technical signature-range observation and original native P2 label, but do not promote an independent range-contract defect or introduce call-capture machinery. No other harness corroborated the claimed consequence. No repair, task or review-loop continuation is warranted from R1.
+- Source and target: `current_repository`; `apps/server/src/knowledge/ast/parser.ts:473–474`. Only the claimed actionable consequence is rejected; the range observation remains evidence without an actionable defect.
+
+#### 3. Broader deletion or runtime changes associated with F1
+
+- Finding ID: `F1 / excluded remedies` — partial exclusion only; the accepted snapshot-copy defect remains item 1.
+- Review harnesses:
+  - Codex source review — Repository Knowledge, story 0000001 (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`); directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`. These are gate-recorded limits on that finding, not another reviewer finding or independent corroboration.
+- Simple description: Pending Knowledge jobs can cross the development-copy boundary. The evidence does not show that settled index metadata is inconsistent or that genuine production restart recovery is defective.
+- Example: A source can have committed file hashes from a completed ingest alongside a later pending re-ingest. Clearing the whole run table would also discard completed history and dependent file hashes; the supported snapshot contains no committed file hashes referencing its pending run.
+- Why ignored: The positive gate expressly excludes whole-table clearing and its dependent-data loss; its conditional “associated index state required for consistency” wording does not authorize deletion when the demonstrated repair needs none. Blanket index reset, Chroma cleanup, model-identity unlock, source deletion, invented terminal statuses/errors, new cancellation/recovery controls, configuration switches, runtime branches, admission gates or schedulers, and disabling production recovery remain non-actionable. They are unproven or exceed the smallest restoration and conflict with the applicable K-2/K-5/K-7/K-9 and Out of Scope constraints. Production corruption, cross-environment vector deletion and source-file loss are also unproven consequences. No removed meaning may be restored, fixed or tasked through this entry.
+- Source and target: `current_repository`; positive authorization and combined audit in this batch, concerning the `migrate-dev-db.ts` repair boundary. No materiality removal occurred; these are authorization/remedy exclusions, not a claim that F1 lacks realistic impact.
+
+## Code Review Findings
+
+- Findings recorded: `November 11, 2026 at 8:32:08 PM GMT [locale=en-US; timeZone=Europe/London]`
+- Review batch: `0000001-rw-20261111T152626Z-b1a0aff7`
+- Review cycle: `0000001-rc-20261111T141338Z-32fd4035`
+- Reviews attempted:
+  - Repository Knowledge — native Codex review (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`) — completed source review; two supported findings, selective coverage, no executable reproduction.
+    - Input tokens: 0
+    - Cached input tokens: 0
+    - Output tokens: 0
+  - OpenCode review — story 0000001 (Codex-owned reasoning) (`open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`) — completed usable source-review account; no supported actionable findings, partly self-reported reasoning order and breadth, no separate external OpenCode model review evidenced.
+    - Input tokens: 3,944,904
+    - Cached input tokens: 3,780,352
+    - Output tokens: 12,674
+  - Cross-repository review: not applicable (`cross_repository_review`, job `story_review:cross_repository_review`, target `cross-repository story scope`) — completed applicability assessment; no cross-repository source work because only `current_repository` is assigned.
+    - Input tokens: 385,035
+    - Cached input tokens: 311,424
+    - Output tokens: 2,655
+
+Reviewed HEAD: `0360d5c3ab4d379145d2848cf237c740f6c83790`; comparison base: `93293e1f0bd859ee93189be7a9e37d32cea0132c`; owner: `current_repository` (`/home/dan/code/t3code`). The scheduler assignment and immutable batch-launch.md agree. [Disposition](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T152626Z-b1a0aff7--head-0360d5c3ab4d/reconciliation/disposition.md) records the independent authorization/materiality decisions and bounded repair directions.
+
+Usage comes only from each direct job's designated `work/review-usage/` evidence. The native Markdown and terminal JSON describe one event, counted once; its zeros are provider-reported, not measured consumption. Other counters are harness-reported without raw receipts independently establishing aggregation or billing. Cached input remains part of input and is never added to it. Wrapper, audit, verification and disposition usage is excluded.
+
+The completed reconciliation audit and independent combined filtering audit retain exactly F1 and F2. Negative scope, positive authorization and materiality were all applicable and completed; no later filtering gate was skipped and no gate removed an entire finding or introduced a narrowed replacement. Earlier R1–R5 remain non-actionable. Cross-repository source review alone was deliberately not applicable. Source support is not executable proof, feature acceptance or evidence of production prevalence. Human acceptance remains external and pending.
+
+Settlement resolution: all accepted findings in this immutable batch are resolved in `current_repository` commit `c1d162c9a324205437b3edf9ce520dda5dd55a76`, recorded by completed Task 20. Normal repair completed with permitted focused proof; stronger repair was deliberately inapplicable after positive completion. No research-owned remainder exists; historical matching coverage remains partial. Earlier disposition-time statements below describe that reviewed candidate and are historical, not current task work. All prior exclusions remain non-actionable; permitted final automated revalidation is assigned only by the following tasking step.
+
+### Accepted
+
+#### 1. Dynamic superclass expressions create false inheritance records
+
+- Finding ID: `F1`
+- Resolution: Fixed in `current_repository` commit `c1d162c9a324205437b3edf9ce520dda5dd55a76`; completed Task 20. This is resolved historical acceptance, with no open implementation work.
+- Review harnesses:
+  - Repository Knowledge — native Codex review (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`) — generated by its native response; wrapper inspection and verification corroborated the mechanism within the same job, directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`.
+- Simple description: Indexing TypeScript or TSX can record a superclass relationship to names inside a factory call. Those names do not identify the class returned by that call, so the saved inheritance data is wrong.
+- Example: A repository contains `class Base {}; function factory(x: unknown) { return class {}; } class Child extends factory(Base) {}`. Normal ingestion can save Child-to-factory and Child-to-Base EXTENDS edges, although Child extends the returned anonymous class. This is source-traced, not an executed reproduction.
+- Why accepted: Current top-level K-4 requires persisted supported structural relationships; the Description owns structural AST indexing, K-8 owns its query seam, and K-9 requires minimal adaptation. Current HEAD's `apps/server/src/knowledge/ast/parser.ts:338–407` gathers call descendants as heritage targets. Discovery accepts this valid included text, the service parses it, and finalization persists the erroneous edges without correcting them. Wrong authoritative AST data meaningfully leaves K-4 incomplete. The existing `collectClauseTypeNames/buildHeritageEdges` syntax-node seam can extract direct static heritage while preserving direct/generic/interface paths, without compiler/runtime resolution, new policy, schema, dependencies or infrastructure. This bounded lasting complexity is proportionate to preventing repeatable wrong records. No comparison-base restoration or historical review authority is claimed. Distinct from F2 and still unresolved at HEAD; apparently suitable for the normal repair attempt. This is advisory routing, not a task decision. Production incidence and executable reproduction remain unestablished.
+
+#### 2. Long nested functions give calls the wrong owner
+
+- Finding ID: `F2`
+- Resolution: Fixed in `current_repository` commit `c1d162c9a324205437b3edf9ce520dda5dd55a76`; completed Task 20. This is resolved historical acceptance, with no open implementation work.
+- Review harnesses:
+  - Repository Knowledge — native Codex review (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`) — generated by its native response; wrapper inspection and verification corroborated the arithmetic and CALLS path within the same job, directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`.
+- Simple description: The parser estimates range size by treating each line as 10,000 columns. A long single-line inner function can therefore lose its calls to an enclosing outer function, giving the existing call-graph query the wrong result.
+- Example: A valid TypeScript file defines a helper outside an outer function. The outer function spans three lines, while its nested function contains a helper call and a single-line literal making its range 30,000 columns wide. The outer range scores 20,001 and wins over the inner range's 30,000, so querying the inner function omits its call and querying the outer function reports it. The sizes illustrate existing arithmetic, not an input cap or an observed incident.
+- Why accepted: Current top-level K-4 requires accurate structural relationships and exact ranges; K-8 already supplies the call-graph consumer and K-9 limits the mechanism. Current HEAD's `parser.ts:202–289` proves the approximation, selection and erroneous caller propagation. Included text source has no upstream column-width restriction; full-file parsing and SQLite finalization preserve the edge, and `RepositoryKnowledgeLive.ts:789–822` follows its wrong `fromSymbolId`. The supported inline-fixture/literal scenario produces meaningful incorrect stored/query results, despite unknown frequency. Existing start/end coordinates, `isPositionWithinRange` and `findEnclosingSymbol` can prefer the innermost containing candidate while preserving equivalent-candidate behavior, with no new scan, offset field, schema, control or acceptance policy. That lasting complexity is proportionate to the correctness value. No historical decision supplies authority or materiality. Distinct from F1 and unresolved at HEAD; apparently suitable for the normal repair attempt. No task or stronger-attempt requirement is decided here; no executable reproduction is claimed.
+
+### Ignored for This Story
+
+All entries below are complete earlier rejected concerns, retained for provenance only. They are not repair candidates, blockers, tasks or reasons to continue a review loop. Their source is the OpenCode job's reflection, not native numbered findings; R labels were assigned by reconciliation. The gate records introduced no additional whole-finding removals or materiality removals.
+
+#### 3. Additional vector rollback machinery
+
+- Finding ID or Review reference: `R1` — reconciled OpenCode reflection.
+- Review harnesses:
+  - OpenCode review — story 0000001 (Codex-owned reasoning) (`open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`) — source job directory `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`; reflection repeated in output and verification, not independent corroboration.
+- Simple description: The concern asks whether a changed or deleted vector failing during ingestion requires more rollback machinery.
+- Example: If a file changes and its vector update fails, a later ingestion must still recognize unfinished work. Retained review notes say file-hash invalidation already preserves that retry work; no actual lost retry was demonstrated.
+- Why ignored: Complete concern rejected before filtering; no supported missing behavior was established. Preserve the recorded existing retry protection without reopening the concern or authorizing additional rollback machinery.
+
+#### 4. Compiler-grade resolution of ambiguous names
+
+- Finding ID or Review reference: `R2` — reconciled OpenCode reflection.
+- Review harnesses:
+  - OpenCode review — story 0000001 (Codex-owned reasoning) (`open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`) — source job directory `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`; reflection repeated within the same job.
+- Simple description: Repeated symbol names can make structural call, reference or inheritance matching ambiguous.
+- Example: If separate declarations share a name, structural matching alone may not establish which declaration an expression denotes. Retained evidence supplies no concrete compiler-resolution failure beyond that general ambiguity; it does not refute F1's syntactic false targets or F2's containment error.
+- Why ignored: Complete general concern was not retained: K-4 explicitly excludes compiler-grade semantic claims, and Out of Scope excludes a semantic engine. No semantic-resolution project is authorized. F1/F2 remain only their distinct supported structural corrections.
+
+#### 5. A new cleanup retry control
+
+- Finding ID or Review reference: `R3` — reconciled OpenCode reflection.
+- Review harnesses:
+  - OpenCode review — story 0000001 (Codex-owned reasoning) (`open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`) — source job directory `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`; reflection repeated within the same job.
+- Simple description: A cleanup failure may leave durable cleanup intent waiting until restart.
+- Example: External cleanup fails during indexed-content removal; the saved cleanup intent remains so startup can resume it. The reflected concern proposes a separate retry control, but retained evidence does not demonstrate a required cleanup path losing its intent.
+- Why ignored: Complete concern rejected before filtering. Durable restart cleanup is the approved design; no new retry UI/control obligation was established. Its inconvenience alone does not authorize another product control.
+
+#### 6. Shared Chroma collections colliding across environments
+
+- Finding ID or Review reference: `R4` — reconciled OpenCode reflection.
+- Review harnesses:
+  - OpenCode review — story 0000001 (Codex-owned reasoning) (`open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`) — source job directory `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`; reflection repeated within the same job.
+- Simple description: The concern claims that different environments could interfere with each other's vectors in shared Chroma.
+- Example: Two environments use the same Chroma service and one removes its indexed content. The claim would require that deletion to affect the other environment; retained notes identify environment-derived collection names and supply no demonstrated collision or runtime reproduction.
+- Why ignored: Complete concern was not retained because distinct-environment interference was not demonstrated. This is an evidence limit, not a claim of executed isolation proof; no collection/ownership redesign is authorized.
+
+#### 7. Endpoint migration and automatic lost-vector recovery
+
+- Finding ID or Review reference: `R5` — reconciled OpenCode reflection.
+- Review harnesses:
+  - OpenCode review — story 0000001 (Codex-owned reasoning) (`open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`) — source job directory `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`; reflection repeated within the same job.
+- Simple description: Changing Chroma endpoints or losing external vector data raises a question about automatic migration or recovery.
+- Example: An indexed source points to vector data that was externally deleted, or the endpoint changes to an empty service. Automatic detection/rebuild would add behavior beyond existing remove-indexed-content and fresh-ingestion controls; retained evidence does not establish a supported automatic recovery failure.
+- Why ignored: Complete concern excluded/unproven before filtering. K-7 specifies recovery through existing removal and fresh ingestion, expressly excluding automatic detection or a recovery API; Out of Scope excludes automatic global rebuild. Endpoint migration adds no demonstrated current-story obligation. Connectivity, scale and real recovery coverage retain their original limits.
+
+Non-actionable mechanism limits, not additional findings or whole-finding removals: for F1, runtime/compiler/global resolution and a new target allowlist are outside the accepted repair; a target-kind-only filter would still falsely identify the Base argument. For F2, the review's alternative mention of actual offsets does not authorize persisted offsets, a migration or an offsets infrastructure project; existing ranges express the smallest repair. Separate distance/name-resolution heuristics, line-width caps, truncation, rejection and ingestion-skipping rules remain excluded. These parts must not be restored through later repair or settlement. Neither finding uses the unused-code or credible-security exceptions; both passed the supported-workflow route. No materiality removal is being relabelled as a technical rejection.
+
+## Code Review Findings
+
+- Findings recorded: `November 11, 2026 at 8:32:08 PM GMT [locale=en-US; timeZone=Europe/London]`
+- Review batch: `0000001-rw-20261111T170129Z-74b5d8ef`
+- Review cycle: `0000001-rc-20261111T141338Z-32fd4035`
+- Reviews attempted:
+  - codex_review [current_repository] (`codex_review`, job `target_reviews:current_repository:codex_review`, source directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`, target `current_repository`) — completed native source review; two source-supported findings; runtime reproduction incomplete.
+    - Input tokens: 0
+    - Cached input tokens: 0
+    - Output tokens: 0
+  - cross_repository_review (`cross_repository_review`, job `story_review:cross_repository_review`, source directory `e9e2c2e6cd32cd90fb9a724a5ed686138285d6d0c2db01d4fdb6dba9116f783c`, target cross-repository story scope: current_repository only) — completed applicability review; cross-repository work deliberately not applicable.
+    - Input tokens: 252,295
+    - Cached input tokens: 218,624
+    - Output tokens: 1,888
+  - open_code_review [current_repository] (`open_code_review`, job `target_reviews:current_repository:open_code_review`, source directory `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`, target `current_repository`) — completed agent-owned source review; zero supported findings in 49 reviewable patches; 27 paths omitted; no external OCR reviewer invoked.
+    - Input tokens: 6,430,980
+    - Cached input tokens: 6,253,440
+    - Output tokens: 17,850
+
+Usage comes only from each job's one designated work/review-usage artifact. Cached input is part of input and is not added again. Native Codex's terminal counters report zeros; these do not establish zero actual consumption or cost. The other two artifacts lack retained raw metering receipts. No wrapper, verification, filtering, disposition or plan-writing usage is substituted. These limits affect no finding decision.
+
+Reviewed HEAD: `c1d162c9a324205437b3edf9ce520dda5dd55a76`; comparison base: `93293e1f0bd859ee93189be7a9e37d32cea0132c`; repository/target: `current_repository`. Disposition completed for the assigned batch. Negative scope, positive authorization and materiality were all applicable and completed; the independent combined audit required no repairs. Both findings survived every gate unchanged; no later filtering gate was skipped. Source-level evidence supports these decisions; no fresh runtime/test/client or feature-acceptance pass is claimed.
+
+Disposition artifact: [disposition.md](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T170129Z-74b5d8ef--head-c1d162c9a324/reconciliation/disposition.md).
+
+Settlement resolution: all accepted findings in this immutable batch are resolved in `current_repository` commit `d8bd88084c69d392cf7236f0814c234d09591d40`, recorded by completed Task 21. Repeated-finding research supplied the stronger opportunity for both repeats; normal repair was no-work and a separate stronger retry is inapplicable. Preserve prior attempted repair `cfffb6f34398f04a51fae1c28f82e259cfcd959d`, the missing owner/class-form distinctions, partial history coverage, and the absence of demonstrated reversal. Earlier disposition-time statements below describe that reviewed candidate and are historical, not current task work. All prior exclusions remain non-actionable; permitted final automated revalidation is assigned only by the following tasking step.
+
+### Accepted
+
+#### 1. Keep Rust module functions classified as functions
+
+- Finding ID: `R1 / C/F1`; source finding F1; original P2; owner/target `current_repository`; parser.ts:470–477.
+- Resolution: Fixed in `current_repository` commit `d8bd88084c69d392cf7236f0814c234d09591d40`; completed Task 21. This is resolved historical acceptance, with no open implementation work.
+- Review harnesses:
+  - codex_review [current_repository] (flow `codex_review`, job instance `target_reviews:current_repository:codex_review`, source job `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`, target `current_repository`) — generated the finding; the same job's independent verification corroborated it. No second corroborating review job is established.
+- Simple description: Ordinary functions inside Rust modules are indexed as methods. A lookup filtered to functions therefore misses real function definitions.
+- Example: Ingest a fresh source containing a tracked src/helpers.rs with `mod nested { fn helper() {} }`. The collector stores helper as Method; a Function-filtered symbol list omits it, and a name-plus-Function definition lookup returns null.
+- Why accepted: Current top-level K-4 explicitly requires Rust structural records and exact ranges; K-8 exposes the affected shared AST queries. Default discovery and syntax checks accept this ordinary source, and normal successful ingestion persists the wrong kind without correction. Current reviewed HEAD still contains the broad declaration_list classifier. The existing collectDefinitions parent/type metadata, mutable definition node/kind and ID deduplication can distinguish module functions from actual impl/trait methods without a new model, dependency or policy. This supported lookup failure warrants a local refinement under K-9; K-10 permits extending the fitting Rust parser case for failing-first proof. Preserve real methods, exact ranges and one representation per function. Neither security nor the unused-code exception is needed.
+- Disposition: Apparently suitable for the normal repair attempt; unresolved and distinct from R2. Repair difficulty is advisory; no final implementation task is created here. Installed-grammar execution and failing-first proof remain outstanding.
+
+#### 2. Preserve heritage edges for captured class forms
+
+- Finding ID: `R2 / C/F2`; source finding F2; original P2; owner/target `current_repository`; parser.ts:364–367.
+- Resolution: Fixed in `current_repository` commit `d8bd88084c69d392cf7236f0814c234d09591d40`; completed Task 21. This is resolved historical acceptance, with no open implementation work.
+- Review harnesses:
+  - codex_review [current_repository] (flow `codex_review`, job instance `target_reviews:current_repository:codex_review`, source job `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`, target `current_repository`) — generated the finding; the same job's independent verification corroborated it. OpenCode and cross-repository review supply no specific corroboration.
+- Simple description: Abstract class declarations and named class expressions are captured as classes but skipped when collecting inheritance and implementation relationships. Their explicit local relationships are absent from the stored structural index.
+- Example: Ingest a fresh source with `class Base {} abstract class Child extends Base {}`, or `class Base {} const C = class Child extends Base {};`. Base and Child are captured, but Child's EXTENDS edge to Base is omitted.
+- Why accepted: Current top-level K-4 explicitly requires persisted supported JavaScript/TypeScript/TSX relationships. Valid tracked text follows default discovery, successful parsing and SQLite finalization; none of those checks synthesizes the missing edge. Current reviewed HEAD's buildHeritageEdges selector still excludes these captured forms. Its existing descendantsOfType array, clause handling and edge types can include them while retaining name/captured-symbol matching, local resolution, self-edge and generic-argument exclusions. Completing this explicit storage obligation has practical value proportionate to the local selector change under K-9; K-10 permits extending the fitting heritage parser case. No compiler engine, new API, schema or policy is authorized. Neither security nor the unused-code exception is needed.
+- Disposition: Apparently suitable for the normal repair attempt; unresolved and distinct from R1. This establishes incomplete persisted AST data, not a demonstrated heritage UI, call-graph or Questions failure. Repair difficulty is advisory; installed-grammar execution and failing-first proof remain outstanding.
+
+### Ignored for This Story
+
+No supported finding was rejected at disposition, and no applicable gate removed or narrowed a finding or remedy. The following source-linked review references preserve the reconciliation's already unpromoted scope expectations; they are not additional supported defect findings or repair candidates.
+
+#### 3. Automatic recovery from lost vectors remains excluded
+
+- Review reference: `reconciliation.md#rejected-or-unpromoted-material` — automatic lost-vector detection; complete expectation unpromoted.
+- Review harnesses:
+  - open_code_review [current_repository] (flow `open_code_review`, job instance `target_reviews:current_repository:open_code_review`, source job `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`, target `current_repository`) — expressly declined to promote this expectation.
+- Simple description: The review does not establish automatic detection or rebuilding of lost vectors as a required capability.
+- Example: If indexed vectors disappear, K-7 directs the user to remove indexed content and ingest the source again. No incident or automatic-detection failure was demonstrated by this review.
+- Why ignored: Current K-7 explicitly excludes automatic detection and a recovery API. Retain only the existing recovery workflow; no repair, task or review-loop continuation is authorized by this reference.
+
+#### 4. Mobile and native platform proof remains excluded
+
+- Review reference: `reconciliation.md#rejected-or-unpromoted-material` — mobile UI, other-OS and native-packaging expectations; complete expectation unpromoted.
+- Review harnesses:
+  - codex_review [current_repository] (flow `codex_review`, job instance `target_reviews:current_repository:codex_review`, source job `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`, target `current_repository`) — preserved the platform exclusions, without generating a matching defect.
+  - open_code_review [current_repository] (flow `open_code_review`, job instance `target_reviews:current_repository:open_code_review`, source job `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`, target `current_repository`) — expressly declined to promote mobile/native gaps.
+- Simple description: These reviews provide no mobile or native-packaging acceptance result.
+- Example: A Linux web/server review cannot establish that the Knowledge experience works on iOS, Android or an installed native package; no failing device operation was demonstrated.
+- Why ignored: The current Out of Scope contract expressly excludes Windows, macOS, iOS, Android and native-packaging support/proof. This is an excluded expectation and evidence limit, not a passed capability or an actionable defect.
+
+#### 5. Compiler-grade relationship resolution remains excluded
+
+- Review reference: `reconciliation.md#rejected-or-unpromoted-material` — compiler-grade relationship expectations; complete expectation unpromoted.
+- Review harnesses:
+  - codex_review [current_repository] (flow `codex_review`, job instance `target_reviews:current_repository:codex_review`, source job `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`, target `current_repository`) — its two findings and verification require structural collection only.
+  - open_code_review [current_repository] (flow `open_code_review`, job instance `target_reviews:current_repository:open_code_review`, source job `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`, target `current_repository`) — assessed name-based structural relationships without compiler-resolution claims.
+- Simple description: The structural index does not promise compiler-level relationship resolution.
+- Example: R2 concerns explicit heritage between two named symbols in the same file. The review provides no demonstrated failure requiring cross-file compiler resolution; that broader expectation cannot be inferred from the missing local edge.
+- Why ignored: K-4 and Out of Scope expressly prohibit compiler-grade semantic claims/engines. R2 remains limited to existing captured forms and local matching; no wider resolver or speculative dependency change is authorized.
+
+#### 6. A second implementation repository is not assigned
+
+- Review reference: `reconciliation.md#rejected-or-unpromoted-material` — missing second-repository compatibility; complete expectation unpromoted.
+- Review harnesses:
+  - cross_repository_review (flow `cross_repository_review`, job instance `story_review:cross_repository_review`, source job `e9e2c2e6cd32cd90fb9a724a5ed686138285d6d0c2db01d4fdb6dba9116f783c`, target cross-repository story scope: current_repository only) — completed the applicability review, with no compatibility finding.
+- Simple description: The assigned story has one implementation repository, so there is no second repository's integration to review.
+- Example: The target inventory contains only current_repository at /home/dan/code/t3code. CodeInfo2 is a behavior reference, not a second implementation target; no concrete cross-repository failure is established.
+- Why ignored: The current Description and immutable assigned inventory restrict implementation to this repository. Cross-repository review is deliberately not applicable, rather than unavailable coverage or a compatibility pass.
+
+## Code Review Findings
+
+- Findings recorded: `November 11, 2026 at 8:32:08 PM GMT [locale=en-US; timeZone=Europe/London]`
+- Review batch: `0000001-rw-20261111T184654Z-df7f122f`
+- Review cycle: `0000001-rc-20261111T141338Z-32fd4035`
+- Reviews attempted:
+  - Repository Knowledge — native Codex review (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`) — completed bounded native source review; zero supported findings.
+    - Input tokens: 0
+    - Cached input tokens: 0
+    - Output tokens: 0
+    - Source job directory: `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`; metadata: [job.md](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T184654Z-df7f122f--head-d8bd88084c69/jobs/2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da/job.md).
+  - OpenCode agent-mode review (`open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`) — completed bounded Codex-owned OCR source review; zero submitted findings; no separate external OpenCode reviewing model.
+    - Input tokens: 3199314
+    - Cached input tokens: 3066624
+    - Output tokens: 11242
+    - Source job directory: `1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b`; metadata: [job.md](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T184654Z-df7f122f--head-d8bd88084c69/jobs/1cee4e57270cfdf42a3c21492617207cfa2039e90ecab931eea15840c0b58f8b/job.md).
+  - Cross-repository review (`cross_repository_review`, job `story_review:cross_repository_review`, target `cross-repository story scope`) — completed applicability assessment; compatibility review not applicable because only one implementation repository was assigned.
+    - Input tokens: 150517
+    - Cached input tokens: 98560
+    - Output tokens: 1734
+    - Source job directory: `e9e2c2e6cd32cd90fb9a724a5ed686138285d6d0c2db01d4fdb6dba9116f783c`; metadata: [job.md](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T184654Z-df7f122f--head-d8bd88084c69/jobs/e9e2c2e6cd32cd90fb9a724a5ed686138285d6d0c2db01d4fdb6dba9116f783c/job.md).
+
+- Reviewed repository: `current_repository` at `d8bd88084c69d392cf7236f0814c234d09591d40`; comparison base `93293e1f0bd859ee93189be7a9e37d32cea0132c`.
+- Disposition: completed empty disposition; [batch decision record](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T184654Z-df7f122f--head-d8bd88084c69/reconciliation/disposition.md). The completed reconciliation and independent audits positively establish zero supported findings. No finding or narrowed remedy was removed at any gate or rejected during disposition.
+- Gate applicability: negative scope, positive authorization, and materiality were deliberately inapplicable because the audited pre-filter set was empty. Existing negative/positive artifacts are no-work records; the absent materiality artifact is deliberate, not an unavailable decision or approval.
+- Usage limits: counts are reported actual-review telemetry, not independent metering. Native 0/0/0 does not establish zero consumption. OCR's earlier usage.json says Not reported; the later explicitly designated reviewing invocation supplies the displayed categories, with that availability discrepancy retained. Cached input is part of input and is never added to it. Wrapper, verification, filtering and disposition usage are excluded.
+- Coverage limits: these were bounded source reviews, not fresh runtime or feature acceptance. OCR reviewed 49 of 76 changed paths with 27 exclusions; sibling native inspection does not establish exhaustive coverage. Remote/relay/tunnel, multi-device, physical crash, installed assets, performance, live providers and semantic quality were not freshly proved. Human acceptance remains external and pending; optional unrequested live-provider/eval proof remains unperformed. Recovered OCR artifact-validation failures, the corrected native poll count, configuration notices, incomplete probes and transcript limits remain recorded in reconciliation/audit.
+- Non-actionable residual uncertainty: OCR's unmeasured scaling concerns and approximate name-based structural relations remain unsubstantiated observations from `open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`. Native exploratory headings (C++ ownership, JS/TS AST handling, Chroma limits, stale counts, queue recovery and namespace matching) remain exploration from `codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`. Neither source supplies supported finding identities or concrete failures for these topics; no corroborating job is established. They are not findings rejected by a gate and are not accepted work, tasks, blockers or reasons for repair continuation.
+
+Settlement resolution: no fix was committed in this batch, no completed-review-fixes task applies, and no actionable finding remains. The audited empty set makes finding gates and repairs deliberately inapplicable. Partial or bounded review coverage is retained, without a whole-story acceptance claim. Earlier disposition-time statements below describe that reviewed candidate and are historical, not current task work. All prior exclusions remain non-actionable; permitted final automated revalidation is assigned only by the following tasking step.
+
+### Accepted
+
+- None.
+
+### Ignored for This Story
+
+- None.
+
+## Code Review Findings
+
+- Findings recorded: `November 11, 2026 at 8:32:08 PM GMT [locale=en-US; timeZone=Europe/London]`
+- Review batch: `0000001-rw-20261111T192209Z-e43e918a`
+- Review cycle: `0000001-rc-20261111T141338Z-32fd4035`
+- Reviews attempted:
+  - review_artifacts_main [current_repository] (`review_artifacts_main`, job `target_reviews:current_repository:review_artifacts_main`, target `current_repository`) — partial review; no supported actionable findings; verification completed with output provenance and usage clarifications.
+    - Input tokens: 6546807
+    - Cached input tokens: 5953152
+    - Output tokens: 41639
+    - Source job directory: `add5adb181d3d0428b0b8f60b21146c3f3409b9ffb37fc0a6c3bb679b2d8d399`; metadata: [job.md](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T192209Z-e43e918a--head-d8bd88084c69/jobs/add5adb181d3d0428b0b8f60b21146c3f3409b9ffb37fc0a6c3bb679b2d8d399/job.md).
+
+- Reviewed repository: `current_repository`, `/home/dan/code/t3code`, branch `feature/0000001-repository-knowledge`, HEAD `d8bd88084c69d392cf7236f0814c234d09591d40`; comparison base `93293e1f0bd859ee93189be7a9e37d32cea0132c`.
+- Disposition: completed empty disposition; [batch decision record](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T192209Z-e43e918a--head-d8bd88084c69/reconciliation/disposition.md). The completed reconciliation and independent audits positively establish zero supported findings. No finding or narrowed remedy was removed by a gate or rejected during disposition.
+- Gate applicability: negative scope, positive authorization, and materiality were deliberately inapplicable because the audited pre-filter set was empty. Existing negative/positive artifacts are no-work records. The absent materiality artifact is deliberate; it supplies neither an unavailable decision nor approval.
+- Usage limits: separate totals sum all six explicitly designated actual-review records (evidence, findings, visual, saturation, blind-spot and consolidation). Cached input is included in input and is never added to it. Administrative verification, filtering, reconciliation and disposition usage is excluded. These are reported metrics, not independently audited billing; individual records lack explicit batch/job IDs, with ownership established by their directory and flow/stage fields. Earlier five-record and “Not reported” statements are superseded by those six retained records.
+- Coverage limits: this remains a partial source review with 206 reported focused passes in 12 files from the evidence stage, not fresh disposition executions or whole-story acceptance. Current rendered-client, integrated runtime, physical crash/uncertain external-response ordering, real SDK/Chroma networking, remote/relay/tunnel/multi-device, scale and current-HEAD integrated checks remain unavailable or incomplete. Raw test launch/intermediate polling continuity is not retained. Workspace/pinned-plan task/query divergence, null pinned-helper story identity, 76 changed paths versus 72 retained patch paths and historical provenance corrections remain recorded in [reconciliation](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T192209Z-e43e918a--head-d8bd88084c69/reconciliation/batch-reconciliation.md) and its audits. Human acceptance remains external and pending; unrequested optional live providers and paid evals remain unperformed.
+- Non-actionable reporting trail: the reconciliation preserves challenged hypotheses about untracked discovery, Chroma URL prefixes, lifecycle/retrieval races, delta/editor saves, structural parser limits, excluded recovery/runtime mechanisms and SDK semantics. Source-only visual checks do not establish rendered approval; the historical alpha restart-loss diagnosis remains retracted. These are unsupported or excluded hypotheses and rejected inferences, not findings removed by a gate. Their sole established reporting job is the one listed above; no separate historical generating harness is inferred. They remain non-actionable evidence and create no repair, task, blocker or review-loop continuation.
+
+Settlement resolution: no fix was committed in this batch, no completed-review-fixes task applies, and no actionable finding remains. The audited empty set makes finding gates and repairs deliberately inapplicable. Partial or bounded review coverage is retained, without a whole-story acceptance claim. Earlier disposition-time statements below describe that reviewed candidate and are historical, not current task work. All prior exclusions remain non-actionable; permitted final automated revalidation is assigned only by the following tasking step.
+
+### Accepted
+
+- None.
+
+### Ignored for This Story
+
+- None.
+
 ## Review and checkpoint history
 
 Checkpoint at `660e9d33029f5542c1a8e155500e4ca5f41fc1b6` (tree `7ebbea05f3c7b40389846b764b4843d14c6974ed`) retains 70 files. The reviewed plan blob was `05be1a06cc49f84616451ae3310a37a58220d04b`; reviewer `research_agent` `b3f5f341-42f4-44c8-a5d9-79a2d878cd01` returned no required corrections and main adjudicated RETAIN. At that checkpoint, origin was last confirmed at `a7fc73a13d101b6ef824f4e1f33b3a79926fdb5b` and push was withheld; publication remains reserved for its later phase. At this candidate, `npm run container:exec -- vp run check:changed` exited 1: format, unused-patch, GraphQL, 40-package typecheck and tests (27 files, 406 tests) passed; React Compiler passed 9 tests with 1,334 skipped. Lint failed with 25 errors; the retained terminal transcript is truncated, so detailed diagnostics including the complete `EmbeddingModels.ts` output are unavailable. Knip task 1 found six unused grammar dependencies in `apps/server/package.json:80–85`; task 2 found unused exports in `discovery.ts:15` and `McpHttpServer.ts:1161`. These are separate findings. The read-only Knip follow-up by `research_agent` `5c6f365c-aba4-4457-a1d0-62a670057489` was active at this checkpoint; its subsequent findings and repairs are recorded below.
@@ -3056,3 +3379,334 @@ Implementation-plus-proof audit: at HEAD `9c8956785546b2ea3f877319ad3f09d6918fba
 - Manual testing on candidate `c4bec0a4477c2e4011cf7e02f18c90afa00c7ce2` expanded to full-story Linux proof because Task 18 is final and the fresh parser matched bound task 18 with both subtasks and all six Testing items checked and no live blocker. The supported fixture dev runner started and stopped successfully; UI proof covered sidebar/Settings entry points, ingestion, `.repos` exclusion, no-op/delta counts, reload persistence, queue position, cancellation and model-mismatch recovery. Normal authenticated Knowledge retrieval returned identical chunks and TS/Python AST records after T3/Chroma restart. Removal preserved files/source records, reduced real Chroma count from two to zero and unlocked an alternate-model ingest. Acceptance mapping and service/console/network/runtime evidence are under `codeInfoTmp/manual-testing/0000001/18/`, especially `support-outcome.json` and the before/after service JSON. No code, subtasks or Testing items were changed. Both captured dev sessions exited 130 after Ctrl-C and shutdown reconciliation; owned Chroma stopped with exit 0 and both app/server ports closed. Reusable checkout container and volumes remain. No stale application process was reused.
 - Manual testing skipped for retained screenshots and pixel-level visual comparison (`structural_proof_gap`, documented environmental skip). Tried: Playwright captures at `manual-testing/0000001/18/proof-01-ingested.png` and `proof-02-model-settings.png`, targeting direct-child screenshots under `codeInfoTmp/manual-testing/0000001/18/`; checked the harness output bind and recorded local-container copy-out. Observed: capture links were returned, but the first image was absent from both bind paths and `docker cp` reported file not found in `codeinfo2-playwright-mcp-local`. Why fuller proof was not possible: the supported artifact transport did not expose an inspectable image, and repairing that harness is outside this task. No screenshot is claimed saved or superseding earlier evidence; retain earlier visual and uniquely necessary seven-grammar/bundled-parser proof. Desktop semantic controls/scrolling and absence of document horizontal overflow were observed; full visual conformance remains unproved.
 - Story manual guidance was absent; Task 18 guidance supplied the deterministic/container/auth/artifact overlay without a story override. CodeInfo2 was used only as the existing supporting browser/artifact harness; its protected local stack was untouched. Current-navigation console had zero errors/warnings; network refusals during intentional shutdown and an initial incompatible manual RPC probe were explained in scratch evidence. No repository auth skip condition was hit. Excluded platform/live-provider/paid-eval proof and external human acceptance remain unperformed. The fresh completion gate and recorded functional proof plus the permitted screenshot-only skip leave Task 18 `__done__`; no follow-up implementation or automated-proof reopening was needed.
+
+### Task 19. Record Review Fixes From Batch 0000001-rw-20261111T141339Z-8965ba18
+
+- Repository Name: `Current Repository`
+- Affected Repositories: `current_repository` — this workspace
+- Task Dependencies: `None`
+- Task Status: `__done__`
+- Review Task Role: `completed_review_fixes`
+- Review Batch: `0000001-rw-20261111T141339Z-8965ba18`
+- Review Cycle: `0000001-rc-20261111T141338Z-32fd4035`
+- Git Commits: `0360d5c3ab4d379145d2848cf237c740f6c83790`
+- Created: `November 11, 2026 at 3:24:42 PM GMT [locale=en-US; timeZone=Europe/London]`
+
+#### Overview
+
+Record the completed normal repair of copied development databases resuming pending Knowledge work. The existing snapshot query now omits queued/running/cleanup Knowledge runs while retaining terminal history, source records and index metadata. This is completed batch repair evidence; whole-story acceptance and later complete-pass settlement remain separate.
+
+#### Review Harnesses
+
+- Codex source review — Repository Knowledge, story 0000001 (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`), source directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`. Native generation, wrapper source inspection and verification are stages of this same job. No other review harness generated or corroborated the addressed finding; OpenCode's no-findings result and the cross-repository no-work result are preserved in the batch outcome.
+
+#### Addresses Findings
+
+- `F1` — Copied development state can resume pending Knowledge work; owner `current_repository`. Original observation: `apps/server/src/knowledge/RepositoryKnowledgeLive.ts:537–541`; corrective seam: `apps/server/scripts/migrate-dev-db.ts`. A normal isolated refresh copied pending ingests that startup could execute without a new request. The accepted core alone was repaired; R1 and F1's broader excluded remedies remain non-actionable.
+
+#### Subtasks
+
+1. [x] Omit only existing nonterminal Knowledge run statuses in the existing snapshot copy query, independently of thread filtering, preserving production recovery and settled source/index data.
+2. [x] Extend the existing snapshot pending-work case across queued, running and cleanup, assert terminal/source/hash/AST/embedding-identity retention, and commit the two-file repair as `0360d5c3ab4d379145d2848cf237c740f6c83790`.
+
+#### Testing
+
+Scope restriction (non-checkbox): Story 0000001 Repository Knowledge targets Linux web/server/shared behavior only; worktrees and other-OS, mobile, native executable, and archive proof are excluded. Human-reserved acceptance/testing remains external and pending, never agent-passed or a missing agent proof obligation. Live LM Studio/OpenAI smoke and paid/live evals are optional only after a later explicit user request. Earlier proposal/self-assessment read-only and Markdown-only saving limits applied to those activities; they do not cancel K-10–K-13 proof in their authorized phases. K-9 requires minimum verified reuse, without speculative helpers, refactors, new gates, approvals, or launch prerequisites, while preserving correctness, authorization, required contributor checks, and native review phases. This conversion authorizes only source/template inspection, this Markdown conversion, the specified plan helpers/context preparation, and focused Markdown formatting/verification; it does not authorize application checks/tests/builds/typechecks/lint, runtime/provider/browser/manual/native flows, reviews, or test authoring. Later native implementation/local/PR review/repair phases remain in their owning stages.
+
+The quoted conversion-only restrictions remain scoped to that earlier conversion activity. The separately assigned review repair permitted focused test authoring, necessary test repair, proof execution, formatting and lint; the normal repair audit records those decisions independently. This task records actual executions from that repair, and this outcome step ran no application proof. Excluded or external proof has no checkbox and is not represented as passed.
+
+1. [x] `npm run container:exec -- vp test run apps/server/scripts/migrate-dev-db.test.ts` — exit 0, 11/11 passed after repair, and again after formatting, 11/11 passed.
+2. [x] `npm run container:exec -- vp run --filter t3 typecheck` — exit 0, no errors; 490 non-blocking suggestions were retained without unrelated cleanup.
+3. [x] `npm run container:exec -- vp lint --report-unused-disable-directives apps/server/scripts/migrate-dev-db.ts apps/server/scripts/migrate-dev-db.test.ts` — exit 0; zero warnings/errors.
+4. [x] `npm run container:exec -- vp fmt --check apps/server/scripts/migrate-dev-db.ts apps/server/scripts/migrate-dev-db.test.ts` — exit 0; both files correctly formatted.
+
+#### Implementation Notes
+
+- Normal contribution: sole repair commit `0360d5c3ab4d379145d2848cf237c740f6c83790` in `current_repository`, direct child of reviewed/initial-repair HEAD `106c35ea169279b560f7b6d95c8119c3e22f804c`; final HEAD is `0360d5c3ab4d379145d2848cf237c740f6c83790`. Title: `fix(knowledge): [0000001] omit pending runs from development snapshots`; recorded commit time `2026-11-11T15:16:11Z`. Changed files: `apps/server/scripts/migrate-dev-db.ts` and `apps/server/scripts/migrate-dev-db.test.ts` only.
+- The one mutating formatter command actually ran: `npm run container:exec -- vp fmt apps/server/scripts/migrate-dev-db.ts apps/server/scripts/migrate-dev-db.test.ts`, exit 0. Before commit, `git diff --check` and `git diff --cached --check` also exited 0. The outcome writer verified Git parentage/file scope and reopened the retained focused logs; it did not rerun proof.
+- Stronger contribution: deliberately skipped because normal repair positively established the accepted material remainder was empty. No stronger commit or unresolved finding is hidden. Repeated research: no eligible candidate assigned and no invocation/commit; routing's partial 15-record historical index found no demonstrated same-behavior accepted match with attempted-repair evidence. Preserve that partial coverage; no earlier repair reversal for F1 was established and no research result is invented.
+- Authorization comes from comparison-base `93293e1f0bd859ee93189be7a9e37d32cea0132c` AGENTS.md's pending-work omission contract and existing copier; the story added durable Knowledge work outside that exclusion. Materiality follows the supported refresh/startup path and meaningful duplicate indexing/embedding, proportionate to the existing query predicate. Historical review/task/commit/test records are evidence only. The actual repair matches the authorized/material core; no gate conflict was established.
+- Keep R1's rejected C++ call-attribution claim and F1's whole-table clearing, broad index deletion, runtime controls/recovery shutdown and unproven stronger harms non-actionable. No excluded mechanism was implemented. Production recovery, queue admission/cancellation and existing completed/index state are preserved.
+- Evidence: [batch outcome](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T141339Z-8965ba18--head-106c35ea1692/reconciliation/batch-outcome.md), sibling `normal-repair-audit.md`, `repeated-findings.md`, `disposition.md`, the three applicable gate records and `scope-filter-audit.md`; source job `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da` output and verification. Raw focused logs were also available in the temporary directory recorded by `normal-repair-audit.md`; durable audit prose/transcript remains the evidence if temporary logs disappear.
+- Factual order: this immutable batch's launch, source review, gates/disposition, routing, normal repair commit, then outcome/task recording. This task follows existing earlier completed tasks and creates no unresolved implementation or final revalidation work. The new committed HEAD makes another source review useful; that review was not performed here. Human acceptance remains external and pending.
+
+Failing-first evidence (historical, not a passing test): `npm run container:exec -- vp test run apps/server/scripts/migrate-dev-db.test.ts -t 'keeps stopped and settled thread families and clears pending work'` — expected pre-fix exit 1: all three pending-status rows failed because copied pending work remained; eight unrelated cases filtered out. This records a reproduced failure, not a green test.
+
+Additional actual focused runtime proof, recorded without a placeholder command checkbox: disposable migrated source/destination databases exercised normal runMigrateDevDb/Effect/SQLite. Pending work was omitted, terminal/hash data retained, foreign-key violations absent, and source bytes unchanged; exit 0. The normal-repair audit preserves the complete executable JavaScript and invocation plus the short runtime transcript. This did not run an app server, external embedding provider or live database.
+
+The three new status rows exercise V2-thread-filtered snapshots; predicate placement before !filtered supports the other selection branch, without claiming a synthetic Knowledge-without-V2 runtime case. Existing pre-V2 upgrade coverage passed in the owning file. No new browser, production-restart, Chroma persistence, embedding-quality, remote/multi-device, bundled-build, full-suite or whole-story pass is claimed. No visible frontend change or model-facing text changed. `check:changed` remains required before a later push; no push or such check occurred in this repair.
+
+### Task 20. Record Review Fixes From Batch 0000001-rw-20261111T152626Z-b1a0aff7
+
+- Repository Name: `Current Repository`
+- Task Dependencies: `Task 2`
+- Task Status: `__done__`
+- Review Task Role: `completed_review_fixes`
+- Review Batch: `0000001-rw-20261111T152626Z-b1a0aff7`
+- Review Cycle: `0000001-rc-20261111T141338Z-32fd4035`
+- Git Commits: `c1d162c9a324205437b3edf9ce520dda5dd55a76`
+- Created: `November 11, 2026 at 5:00:16 PM GMT [locale=en-US; timeZone=Europe/London]`
+
+#### Overview
+
+Record the completed normal repair of false inheritance edges from TypeScript/TSX factory calls and incorrect CALLS ownership in long nested functions. Both accepted material findings were fixed in the existing parser and covered by extensions of existing regression cases. This task records completed work, not new implementation or whole-story revalidation.
+
+#### Affected Repositories
+
+- `current_repository` — this workspace, branch `feature/0000001-repository-knowledge`; sole changed implementation target.
+- Reviewed and initial normal-repair HEAD: `0360d5c3ab4d379145d2848cf237c740f6c83790`. Final normal-repair/outcome HEAD and sole repair commit: `c1d162c9a324205437b3edf9ce520dda5dd55a76`, its direct child, committed `2026-11-11T16:52:01+00:00`. Comparison base: `93293e1f0bd859ee93189be7a9e37d32cea0132c`.
+- CodeInfo2 is an unchanged behavior reference, not another implementation or affected repository.
+
+#### Review Harnesses
+
+- **Repository Knowledge — native Codex review**, flow `codex_review`, exact source job `target_reviews:current_repository:codex_review`, directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`, target `current_repository`, generated both F1/F2; wrapper inspection and verification corroborated them within the same job.
+- No other generating or specifically corroborating harness is established for either addressed finding. OpenCode's completed no-findings account and the cross-repository applicability/no-work result remain in the batch outcome, without being promoted to corroboration.
+
+#### Addresses Findings
+
+- `F1` — Dynamic superclass expressions create false inheritance records; owner `current_repository`. Valid `class Dynamic extends factory(Base) {}` produced EXTENDS targets for the callee and its argument. The repair omits those inferred targets while retaining existing static/generic/interface extraction.
+- `F2` — Long nested functions give calls the wrong owner; owner `current_repository`. Fixed 10,000-column scoring preferred an outer function over a long single-line inner function. The existing selector now orders actual range coordinates and retains equal-coordinate behavior.
+- Current top-level K-4 authorizes accurate persisted structural relationships and exact ranges; the Description owns structural indexing, K-8 owns AST queries, and K-9 limits mechanisms to existing seams. Ordinary included source reaches parser/finalization without superclass-expression or line-width rejection. Wrong persisted inheritance and current call-graph results supply meaningful materiality, with proportionate local syntax/comparator changes. Historical findings/tasks/commits/tests are evidence only; no authorization or materiality conflict was established.
+- R1–R5 and excluded compiler/runtime/global resolution, target allowlist, persisted-offset infrastructure, unrelated distance heuristics, line-width cap/truncation/rejection and ingestion-skipping remedies remain non-actionable and are not addressed or restored.
+
+#### Subtasks
+
+- [x] Correct direct static heritage extraction so dynamic TypeScript/TSX superclass calls do not become false EXTENDS targets; preserve generic/interface and qualified static compatibility in the existing relationship case.
+- [x] Replace fixed-width enclosing-range ranking with existing-coordinate ordering, remove only newly unused rangeSpan and extend the existing large-TypeScript case for inner/outer caller ownership and exclusive-end boundaries.
+- [x] Complete failing-first and permitted passing focused proof and commit only `apps/server/src/knowledge/ast/parser.ts` and `apps/server/src/knowledge/ast/parser.test.ts` as `c1d162c9a324205437b3edf9ce520dda5dd55a76`.
+
+#### Testing
+
+Scope restriction (non-checkbox): Story 0000001 Repository Knowledge targets Linux web/server/shared behavior only; worktrees and other-OS, mobile, native executable, and archive proof are excluded. Human-reserved acceptance/testing remains external and pending, never agent-passed or a missing agent proof obligation. Live LM Studio/OpenAI smoke and paid/live evals are optional only after a later explicit user request. Earlier proposal/self-assessment read-only and Markdown-only saving limits applied to those activities; they do not cancel K-10–K-13 proof in their authorized phases. K-9 requires minimum verified reuse, without speculative helpers, refactors, new gates, approvals, or launch prerequisites, while preserving correctness, authorization, required contributor checks, and native review phases. This conversion authorizes only source/template inspection, this Markdown conversion, the specified plan helpers/context preparation, and focused Markdown formatting/verification; it does not authorize application checks/tests/builds/typechecks/lint, runtime/provider/browser/manual/native flows, reviews, or test authoring. Later native implementation/local/PR review/repair phases remain in their owning stages.
+
+The preceding paragraph is preserved verbatim from affected Task 2's complete Testing section; Tasks 15 and 17 carry the same restriction. Its proposal/self-assessment/conversion exclusions remain activity-scoped. The separately assigned normal repair performed permitted focused K-10 proof; this outcome step only records existing execution and reruns no application command. No excluded proof is created, checked or claimed passed.
+
+- [x] `npm run container:exec -- vp test run apps/server/src/knowledge/ast/parser.test.ts` — exit 0 after both fixes, 32 passed, zero failed/skipped; normal audit chunks 5b6e9f/b3a8f0.
+- [x] `npm run container:exec -- vp run --filter t3 typecheck` — owning server package exit 0; existing non-failing schemaClassMissingBrand suggestions remain. Temporary typecheck.log was reopened during outcome recording.
+- [x] `npm run container:exec -- vp fmt --check apps/server/src/knowledge/ast/parser.ts apps/server/src/knowledge/ast/parser.test.ts` — exit 0, both files correctly formatted.
+- [x] `npm run container:exec -- vp lint --report-unused-disable-directives apps/server/src/knowledge/ast/parser.ts apps/server/src/knowledge/ast/parser.test.ts` — exit 0, zero warnings/errors.
+
+Failing-first evidence: before production edits, the selected existing cases command `npm run container:exec -- vp test run apps/server/src/knowledge/ast/parser.test.ts -t 'extracts real typescript|preserves call, import'` exited 1 with two intended failures and 30 selection-skipped (chunks 368af4/d9ebc6): false Dynamic-to-factory/Base edges and absent inner CALLS ownership. These deliberate failures are not checked passes. The subsequent full-file pass resolves both.
+
+The normal audit's **Source-runtime transcript** retains the complete runnable `npm run container:exec -- sh -c` / installed `parseAstSource` program and output, exit 0 after formatting, chunk cd70af: `ts EXTENDS [["Static","Base"]]`, `tsx EXTENDS [["Static","Base"]]`, and `CALLS [["inner","helper"],["outer","helper"]]`. This is native source-runtime parser/query proof without mocks, not fresh bundled-server, persistence, Chroma or client proof. Exact commands/results/chunk references are durable in the audit; separate raw test/probe tool transcripts are not retained in this batch. Git proves committed code, not execution.
+
+The formatter run on the two repair files exited 0 and changed neither after passing tests; pre-commit `git diff --check -- apps/server/src/knowledge/ast/parser.ts apps/server/src/knowledge/ast/parser.test.ts` exited 0. No permitted required focused repair command remains failed or unavailable. No new integrated client, bundled build/assets, SQLite/Chroma lifecycle/restart, deployment, scale, remote/multi-device or live semantic proof is claimed. Historical integrated proof retains its candidate/scope. Excluded other-OS/mobile/native executable/archive/worktree proof remains excluded; human acceptance remains external/pending, live provider/paid eval proof unrequested. No repo-wide check ran; check:changed remains required before a later push, and no push occurred.
+
+#### Implementation Notes
+
+- Normal contribution: commit `c1d162c9a324205437b3edf9ce520dda5dd55a76`, `fix(knowledge): [0000001] preserve structural heritage and call ownership`. Exactly `apps/server/src/knowledge/ast/parser.ts` and `apps/server/src/knowledge/ast/parser.test.ts` changed, 42 insertions/nine deletions. Current HEAD and direct parentage to `0360d5c3ab4d379145d2848cf237c740f6c83790` were independently checked.
+- F1 checks the existing extends value, traverses static member objects and avoids dynamic expression descendants before the existing name collection. Existing generic-argument exclusion and interface extraction remain. Existing cases extend js/jsx coverage to ts/tsx with a declared factory and preserve qualified generic targets. No compiler/runtime evaluation, new schema/configuration/dependency/control or source-wide scan was added.
+- F2 sorts already-containing ranges by descending start line/column, then ascending end line/column, leaving identical coordinates equal. Removed only now-unused rangeSpan; the separate distanceFromPosition heuristic is unchanged. Existing fixtures exercise ASCII/supplementary long text and distinguish inner and outer helper calls beyond the exclusive end.
+- Stronger contribution: deliberately skipped because normal repair positively established that both accepted findings were resolved and the material remainder was empty. No stronger commit or unavailable unresolved attempt is hidden. Repeated research: no eligible assignment/invocation/commit. Routing history coverage was partial (15 accepted descriptions). Earlier F1-related generic-argument repair `a8ead87c889f2fd829ee925cfa8a6cd8b53b6fc4` addressed a different trigger, not a prior attempt to repair factory-call descendants; F2 had no established same-trigger attempted repair. No prior reversal is established or invented. Partial historical coverage is preserved without manufacturing research work.
+- No gate conflict was found. All three filtering gates completed with F1/F2 retained; earlier R1–R5 and all mechanism restrictions remain non-actionable. Existing indexed payloads are not migrated or automatically corrected; the fix applies when source is parsed/re-ingested.
+- Evidence: [batch outcome](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T152626Z-b1a0aff7--head-0360d5c3ab4d/reconciliation/batch-outcome.md), sibling `normal-repair-audit.md`, `repeated-findings.md`, `disposition.md`, reconciliation/audit, all three gate records and `scope-filter-audit.md`; source job `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da` output/verification. The temporary typecheck log at the location recorded in `normal-repair-audit.md` remains supplementary; durable audit prose carries focused proof if it disappears.
+- Factual order: this batch's immutable launch, review/verification, reconciliation/gates/disposition, ordinary routing, normal repair proof and commit, then outcome and this task. This task follows Task 19's earlier batch record and creates no unresolved-finding implementation or final revalidation work. The new committed HEAD makes another review useful; this outcome step performs no review or repair. Human acceptance stays external and pending.
+
+### Task 21. Record Review Fixes From Batch 0000001-rw-20261111T170129Z-74b5d8ef
+
+- Repository Name: `Current Repository`
+- Task Dependencies: `Task 2`
+- Task Status: `__done__`
+- Review Task Role: `completed_review_fixes`
+- Review Batch: `0000001-rw-20261111T170129Z-74b5d8ef`
+- Review Cycle: `0000001-rc-20261111T141338Z-32fd4035`
+- Git Commits: `d8bd88084c69d392cf7236f0814c234d09591d40`
+- Created: `November 11, 2026 at 6:45:20 PM GMT [locale=en-US; timeZone=Europe/London]`
+
+#### Overview
+
+Record the completed repeated-finding research repair of Rust module-function classification and heritage edges for already captured abstract/named class forms. The research contribution fixed both accepted material findings, extended fitting regression cases and committed the proven parser files. This task records completed batch work, not new implementation or whole-story revalidation.
+
+#### Affected Repositories
+
+- `current_repository` — this workspace, branch `feature/0000001-repository-knowledge`; sole changed implementation repository.
+- Reviewed and initial research-repair HEAD: `c1d162c9a324205437b3edf9ce520dda5dd55a76`. Final research HEAD, initial/final normal-repair HEAD, outcome HEAD and sole repair commit: `d8bd88084c69d392cf7236f0814c234d09591d40`, direct child of reviewed HEAD, committed `2026-11-11T18:04:01+00:00`.
+- Comparison base: `93293e1f0bd859ee93189be7a9e37d32cea0132c`. CodeInfo2 is an unchanged behavior reference, not another implementation target.
+
+#### Review Harnesses
+
+- **codex_review [current_repository] — Repository Knowledge native Codex source review**, flow `codex_review`, exact instance `target_reviews:current_repository:codex_review`, source job directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`, target `current_repository`, generated both findings; same-job independent verification corroborated both.
+- No other generating or specifically corroborating review harness is established for either finding. OpenCode's scoped no-findings account and single-target cross-repository inapplicability remain in the outcome without being promoted to corroboration.
+
+#### Addresses Findings
+
+- `R1 / C/F1` — ordinary Rust module functions were stored as Method and omitted by Function-filtered symbol/definition retrieval; owner `current_repository`. Existing function capture normalization/deduplication now distinguishes impl/trait owners from module functions, preserving exact ranges and calls.
+- `R2 / C/F2` — captured abstract classes and named class expressions lost explicit local EXTENDS and applicable IMPLEMENTS edges; owner `current_repository`. The existing heritage selector now includes those forms while preserving local matching, generic/dynamic/nested/anonymous safeguards.
+- Current top-level Description and K-4 authorize supported structural records, exact ranges and relationships; K-8 exposes AST services, K-9 bounds mechanisms and K-10 permits focused proof. Ordinary included valid source reaches successful parser/finalization without correcting these errors. Wrong current Function retrieval and materially incomplete required persisted relationships justify the proportionate local classifier/selector corrections. All three gates retained both findings unchanged; no authorization or materiality conflict is established. Historical acceptance/repair/tests establish history only.
+- Automatic vector-loss recovery, mobile/native/other-OS proof, compiler semantics and a fabricated second target remain non-actionable. No removal or narrowed-away remedy was restored.
+
+#### Subtasks
+
+- [x] Normalize/deduplicate Rust function nodes and classify by existing declaration-list owner; extend the existing Rust case for module/nested Function identity, trait defaults, exact ranges and outgoing calls while retaining actual Method behavior.
+- [x] Include already captured abstract/named class forms in the existing heritage selector; extend the fitting js/jsx/ts/tsx relationship case with EXTENDS/IMPLEMENTS and retained generic, dynamic, nested and anonymous safeguards.
+- [x] Complete failing-first and permitted passing focused research proof, review the actual diff and commit only parser.ts/parser.test.ts as `d8bd88084c69d392cf7236f0814c234d09591d40`.
+
+#### Testing
+
+Scope restriction (non-checkbox): Story 0000001 Repository Knowledge targets Linux web/server/shared behavior only; worktrees and other-OS, mobile, native executable, and archive proof are excluded. Human-reserved acceptance/testing remains external and pending, never agent-passed or a missing agent proof obligation. Live LM Studio/OpenAI smoke and paid/live evals are optional only after a later explicit user request. Earlier proposal/self-assessment read-only and Markdown-only saving limits applied to those activities; they do not cancel K-10–K-13 proof in their authorized phases. K-9 requires minimum verified reuse, without speculative helpers, refactors, new gates, approvals, or launch prerequisites, while preserving correctness, authorization, required contributor checks, and native review phases. This conversion authorizes only source/template inspection, this Markdown conversion, the specified plan helpers/context preparation, and focused Markdown formatting/verification; it does not authorize application checks/tests/builds/typechecks/lint, runtime/provider/browser/manual/native flows, reviews, or test authoring. Later native implementation/local/PR review/repair phases remain in their owning stages.
+
+The preceding scope restriction is carried verbatim from affected Task 2's complete Testing section. Its proposal/self-assessment/conversion limits are activity-scoped; the separately authorized research repair performed permitted focused Linux server proof. This task/outcome step records existing execution and runs no new application proof. No excluded proof is created, checked or claimed passed.
+
+- [x] `npm run container:exec -- vp test run apps/server/src/knowledge/ast/parser.test.ts` — research exit 0, all 32 passed, zero failed/skipped; research-proof/final-1-parser-tests.log.
+- [x] `npm run container:exec -- vp run --filter t3 typecheck` — owning server package research exit 0; 238 non-failing suggestion diagnostic lines, zero error diagnostic lines; final-2-server-typecheck.log.
+- [x] `npm run container:exec -- vp fmt --check apps/server/src/knowledge/ast/parser.ts apps/server/src/knowledge/ast/parser.test.ts` — research exit 0, both files correctly formatted; final-3-format-check.log.
+- [x] `npm run container:exec -- vp lint --report-unused-disable-directives apps/server/src/knowledge/ast/parser.ts apps/server/src/knowledge/ast/parser.test.ts` — research exit 0, zero warnings/errors; final-4-lint.log.
+- [x] `git diff --check -- apps/server/src/knowledge/ast/parser.ts apps/server/src/knowledge/ast/parser.test.ts` — research exit 0; final-5-diff-check.log.
+
+Failing-first command `npm run container:exec -- vp test run apps/server/src/knowledge/ast/parser.test.ts -t 'extracts real rust|preserves call, import'` exited 1 before production edits: two intended failures and 30 selection-skipped, not a passing test. phase-red-parser-test.log shows module_fn/nested_fn wrongly stored as Method and missing Named/NamedInner heritage. The later full-file pass includes these extended cases; no unique test count is added.
+
+The formatter command `npm run container:exec -- vp fmt apps/server/src/knowledge/ast/parser.ts apps/server/src/knowledge/ast/parser.test.ts` exited 0 before final proof (phase2-format.log). No lint autofix was needed. Before/after proof hashes match the committed/current bytes. The complete runnable container Bash/Node installed-source parseAstSource program and output are retained in research-proof/final-6-parser-runtime-transcript.log: corrected invocation exit 0 shows Rust Function/Method/calls and JS/TS named/abstract EXTENDS/IMPLEMENTS. An initial shell-quoting failure exited 1 before parsing and was corrected without product or harness edits. This is source-runtime parser proof, not a new bundle, persistence or client pass.
+
+The installed pre-commit hook was skipped during the commit-only worker phase; neither that hook nor repository-wide Knip is claimed run/passed. Two-file lint/format passed independently. No repo-wide check ran; K-13/check:changed remains required before a later push, and no push occurred. No new bundled assets/build, SQLite/Chroma ingestion/restart, real-client, remote/multi-device/environment or whole-story acceptance proof is claimed. Excluded platform/worktree proof remains excluded; human acceptance remains external/pending; live provider/paid eval proof remains unrequested.
+
+#### Implementation Notes
+
+- Research contribution: sole commit `d8bd88084c69d392cf7236f0814c234d09591d40`, `fix(knowledge): [0000001] preserve module functions and captured class heritage`, exactly `apps/server/src/knowledge/ast/parser.ts` and `apps/server/src/knowledge/ast/parser.test.ts`, 76 insertions/15 deletions. Coding and testing workers performed their separated research phases; the research parent reviewed actual source/diffs/raw proof and authorized the commit. This is research work, not normal-agent work.
+- Normal contribution: completed no-work at `d8bd88084c69d392cf7236f0814c234d09591d40`, no ordinary-owned findings, new commit or proof execution. Research's invocation satisfies the stronger opportunity for both assigned repeats under repeated-review-repair.md. A separate stronger attempt/audit was deliberately unnecessary because both were positively resolved. No accepted actionable remainder or unavailable assigned repair coverage remains.
+- History: R1 matches historical Accepted F2/native R2 and R2 historical F1/native R1 in batch `0000001-rw-20261111T073459Z-84047fcf`, cycle `0000001-rc-20261111T041207Z-a881738b`. Exact prior attempted-repair commit `cfffb6f34398f04a51fae1c28f82e259cfcd959d` fixed capture normalization/direct JavaScript heritage but omitted declaration-owner/class-form distinctions. Research retained those useful fixes and added the missing distinctions rather than replaying the incomplete approach. No historical reversal/revert or motive was demonstrated; earlier tests omitted these triggers. Historical index coverage remains partial despite complete positive matches/repair evidence for both candidates.
+- Source SHA-256 `01ce23198aeafc298cfcc332d12968b88173a1d182e9f13c77fa8de1c4e17de1` and test SHA-256 `87f4d27f35a1c10979add21d94fc033c012f26cccef2f95e1784618ceb8698ff` match research's before/after proof snapshots and committed/current clean files. No persisted AST payload migration or automatic rebuild was introduced; corrected output applies on parse/re-ingestion.
+- Evidence: [batch outcome](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/batches/0000001-rw-20261111T170129Z-74b5d8ef--head-c1d162c9a324/reconciliation/batch-outcome.md), sibling repeated-findings.md (complete research/history/ownership), research-proof/worker-handoffs.json and eight raw proof logs plus hash snapshots, normal-repair-audit.md, disposition.md, reconciliation/audit, all filtering records and scope-filter-audit.md, and the generating job's output/verification. Original source review still has OpenCode's 27 omitted paths/no external OCR model and Codex's failed individual lookups; local parser execution closes only the accepted-trigger proof.
+- Factual order: immutable launch/review at `c1d162c9a324205437b3edf9ce520dda5dd55a76`, verification/reconciliation/gates/disposition, repeat routing, research red proof/source repair/formatting/final proof, direct-child commit `d8bd88084c69d392cf7236f0814c234d09591d40`, normal no-work audit, outcome and this task. This task follows Task 20's earlier batch record. The new committed HEAD makes another review useful; no unresolved implementation task or final revalidation task is created here, and complete-pass settlement retains those decisions.
+
+### Task 22. Revalidate Repository Knowledge after review cycle 0000001-rc-20261111T141338Z-32fd4035
+
+- Repository Name: `Current Repository`
+- Task Dependencies: `Task 1, Task 2, Task 3, Task 4, Task 5, Task 6, Task 7, Task 8, Task 9, Task 10, Task 11, Task 12, Task 13, Task 14, Task 15, Task 16, Task 17, Task 18, Task 19, Task 20, Task 21`
+- Task Status: `__in_progress__`
+- Review Task Role: `final_revalidation`
+- Review Cycle: `0000001-rc-20261111T141338Z-32fd4035`
+- Created: `November 11, 2026 at 8:34:01 PM GMT [locale=en-US; timeZone=Europe/London]`
+
+#### Overview
+
+Revalidate the permitted Linux server/web/shared story graph after the development-snapshot and parser repairs in Tasks 19–21. The latest candidate is `d8bd88084c69d392cf7236f0814c234d09591d40`. Focused repairs and the later 206 reported review-stage passes do not replace the normal bundle build and coordinated changed-file proof on the final candidate. No implementation finding remains. This task owns practical same-task repairs of story-caused failures exposed by its checks and reruns proof made stale by those repairs.
+
+#### Affected Repositories
+
+`current_repository` only, branch `feature/0000001-repository-knowledge`, comparison base `93293e1f0bd859ee93189be7a9e37d32cea0132c`. CodeInfo2 is unchanged supporting tooling/reference material, not a second implementation target.
+
+Whole-story inventory: server Knowledge lifecycle/repository/SQLite migration, native grammar/query asset packaging, AST/parser/chunker/discovery/embedding adapters, WS/MCP/authorization/settings/secrets and tool budget; development snapshot/CLI scripts; web Knowledge/settings/source form/navigation/sidebar/command palette/browser cases; client-runtime RPC/permission/state; contracts and shared settings; dependency/externalization/license/Knip configuration and relevant documentation. Latest fixes touch only `apps/server/scripts/migrate-dev-db.ts`, its test, and `apps/server/src/knowledge/ast/parser.ts`, its test. Reconcile actual story-owned paths before proof. Desktop consumes web/shared server behavior; native/other-OS/mobile support and proof remain expressly excluded. No provider chat adapter or new wire contract changed during this review pass.
+
+Repository script evidence: root package.json, apps/server/package.json (`t3`), apps/web/package.json, packages/client-runtime/package.json, packages/contracts/package.json, packages/shared/package.json, scripts/package.json; scripts/check-changed.ts and scripts/dev-container.mjs. The normal `t3` build includes web dependencies/assets. `check:changed <base>` selects changed paths, affected/dependent typechecks, nearby server/script/client/contracts/shared/web unit/browser tests and cross-file categories (including Knip, GraphQL and applicable budget/compiler checks). It is not a full suite. Repository AGENTS.md expressly forbids repo-wide checks without a request; retain its supported wrapper instead of generic full-suite or all-platform commands. Full suite/test categories in those manifests remain CI-owned. Do not add another independent suite, native build or paid eval merely because a review lists missing coverage.
+
+#### Task Exit Criteria
+
+Complete the permitted automated lifecycle below on the final story-owned bytes and record candidate, commands, numeric terminal outcomes, wrapper categories/caches, repairs and limits. Never infer process completion from an initial running session. The build must cover bundle-relative grammar/query assets, and the changed-file check must include the snapshot regression as well as parser and affected consumer tests. Preserve history rather than counting repeated or cached test totals as unique cases. Run cleanup even if proof fails; retain only the process session actually spawned by this task. Do not reopen historical completed fix tasks to own new validation work.
+
+No excluded execution, optional manual/browser/screenshot scenario, unrequested live model/eval or externally owned human acceptance is a completion gate. The owning native flow retains every required review, repair and settlement phase; this task does not bypass them. Existing automated proof requirements remain active; an actual story-caused failure in a permitted command is handled within this owner with bounded diagnosis/repair/rerun, not waived as a coverage caveat.
+
+#### Review Cycle Coverage
+
+- `0000001-rw-20261111T141339Z-8965ba18` / Task 19 — normal snapshot repair `0360d5c3ab4d379145d2848cf237c740f6c83790`, F1; owning snapshot regression must remain included.
+- `0000001-rw-20261111T152626Z-b1a0aff7` / Task 20 — normal parser repair `c1d162c9a324205437b3edf9ce520dda5dd55a76`, F1/F2 dynamic heritage and enclosing caller ownership.
+- `0000001-rw-20261111T170129Z-74b5d8ef` / Task 21 — repeated-finding research repair `d8bd88084c69d392cf7236f0814c234d09591d40`, R1/C/F1 and R2/C/F2 module Function identity and captured class heritage. Research supplied the stronger opportunity; normal repair was no-work. Preserve prior repair `cfffb6f34398f04a51fae1c28f82e259cfcd959d` from batch `0000001-rw-20261111T073459Z-84047fcf`, its incomplete owner/class-form approach, partial historical matching and no demonstrated reversal. Do not reattempt the same resolved findings.
+- Both later source/deep-review batches inspected the final repair HEAD with no supported actionable remainder. Their bounded/partial review and the 206 reported focused passes do not replace this permitted final build/check lifecycle. Historical Tasks 11/14/18 retain their candidates, proof and exclusions.
+- Each repaired finding was generated/corroborated by its batch-local Codex source review (`codex_review`, exact job `target_reviews:current_repository:codex_review`, source directory `2335ad631923e8c9fed2b47b4b6f973e035c58c9381640a3ba7fe8f8210487da`, target `current_repository`). Do not turn sibling no-findings or applicability assessments into extra corroborators.
+- Evidence: [settlement recommendation](../codeInfoTmp/reviews/0000001-rc-20261111T141338Z-32fd4035/settlement/recommendation.md), its batch inventory and each exact immutable batch's outcome/repair/research audits. Accepted historical findings are resolved; no implementation remainder is assigned here. Earlier gate removals remain non-actionable.
+
+#### Documentation Locations
+
+- [Repository development and checking rules](../AGENTS.md).
+- [Linux container workflow](../docs/internals/devcontainer.md).
+- [Development and reusable dev credential](../docs/operations/development.md).
+- [Existing automated testing conventions](../docs/internals/testing.md).
+- Owning scripts/manifests: `package.json`, `scripts/check-changed.ts`, `scripts/dev-container.mjs`, and the server/web/client-runtime/contracts/shared/scripts package manifests.
+
+#### Subtasks
+
+Final-task repair scope: this task owns whole-story validation. If lint, formatting, or testing exposes a story-caused issue in code implemented by any earlier task, fix it within this final task when practical and rerun the affected checks. Do not reopen an older task solely to own that repair.
+
+Scope the commands below to actual story-owned changed paths. Reconcile the inventory before proof if new authorized files appear.
+
+- [x] In `current_repository`, run supported lint, using `--fix` before manual cleanup where applicable, and fix story-owned issues:
+
+  ```sh
+  npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp lint --fix --no-error-on-unmatched-pattern --report-unused-disable-directives'
+  ```
+
+- [x] In `current_repository`, run supported formatting and fix story-owned formatting issues:
+
+  ```sh
+  npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp fmt --no-error-on-unmatched-pattern'
+  ```
+
+#### Testing
+
+Final-task repair scope: the whole approved story is in scope for failures found by these checks. Fix story-caused issues within this final task when practical, including issues in code delivered by earlier tasks, and rerun every affected check. Do not reopen older tasks solely because their implementation is implicated.
+
+Scope restriction inherited from affected Tasks 1–4 and 19–21 (checkbox-free): Linux web/server/shared behavior only. Creating or using worktrees, other-OS, mobile, native executable and archive support/proof are excluded. Human-reserved acceptance/testing remains external and pending, never agent-passed or a missing agent proof obligation. Live LM Studio/OpenAI smoke and paid/live evals require a later explicit user request. Earlier proposal/self-assessment read-only and Markdown-only conversion restrictions govern those activities; they do not cancel later authorized K-10–K-13 proof, reviews, source repairs or settlement. Do not author, repair, run or check excluded proof. Excluded proof and unrequested live-provider or paid/live-eval proof remain unperformed, never passed and not agent blockers. Unavailable permitted required proof remains explicitly open in this task; unavailability does not waive it or imply success. K-9 minimum verified reuse, correctness, authorization, no new gates/approvals/speculative infrastructure and shared-checkout constraints remain binding.
+
+Affected Tasks 2 and 3 have the same explicit original Testing restriction, preserved verbatim below for the current snapshot/parser repairs and whole-story consumers. Tasks 1 and 4 carry that same restriction. Its conversion-only prohibitions apply to conversion, while this separately assigned final revalidation retains permitted proof in its owning phase.
+
+Scope restriction (non-checkbox): Story 0000001 Repository Knowledge targets Linux web/server/shared behavior only; worktrees and other-OS, mobile, native executable, and archive proof are excluded. Human-reserved acceptance/testing remains external and pending, never agent-passed or a missing agent proof obligation. Live LM Studio/OpenAI smoke and paid/live evals are optional only after a later explicit user request. Earlier proposal/self-assessment read-only and Markdown-only saving limits applied to those activities; they do not cancel K-10–K-13 proof in their authorized phases. K-9 requires minimum verified reuse, without speculative helpers, refactors, new gates, approvals, or launch prerequisites, while preserving correctness, authorization, required contributor checks, and native review phases. This conversion authorizes only source/template inspection, this Markdown conversion, the specified plan helpers/context preparation, and focused Markdown formatting/verification; it does not authorize application checks/tests/builds/typechecks/lint, runtime/provider/browser/manual/native flows, reviews, or test authoring. Later native implementation/local/PR review/repair phases remain in their owning stages.
+
+The affected tasks and repository instructions require the normal filtered build and coordinated changed-file checks. Full/repository-wide suites belong to CI unless specifically requested; do not generate them from generic final-task guidance or call `check:changed` a full suite. The explicit-base wrapper includes story-owned changed files and working changes, affected/dependent typechecks, nearby tests and required cross-file checks. Preserve each actual permitted result, including applicable server/service/SQLite/AST/SDK-boundary, client permission/settings, contracts/shared settings, web unit/browser and CLI-tooling coverage; do not count overlapping/cached results as additional unique tests. No new paid/live eval or unrelated suite is authorized.
+
+Use the existing repository container at the same mounted path with isolated checkout `.t3`. If unavailable, the supported prerequisite setup is `npm run container:up`; leave the reusable container running. Do not start against live userdata, set VITE origins, create a worktree or add a harness. The following items are automated process/check execution; optional browser and screenshot scenarios remain in Manual Testing Guidance.
+
+##### current_repository — server, web and shared proof
+
+- [ ] Build the affected normal server/web graph and package assets:
+
+  ```sh
+  npm run container:exec -- vp run --filter t3 build
+  ```
+
+- [ ] Start the normal supported dev process through the automated terminal tool, retain its returned numeric session, and read that same session until actual dev-runner readiness. This is process-start proof:
+
+  ```javascript
+  const result = await tools.exec_command({
+    cmd: "npm run container:dev",
+    tty: true,
+    yield_time_ms: 1000,
+    max_output_tokens: 1000,
+  });
+  store("repository_knowledge_cycle_141338_revalidation_session", result.session_id);
+  text(result);
+  ```
+
+- [ ] Run the supported coordinated story checks, recording actual categories and candidate identity:
+
+  ```sh
+  npm run container:exec -- vp run check:changed 93293e1f0bd859ee93189be7a9e37d32cea0132c
+  ```
+
+- [ ] Shut down only the captured process, including if an earlier check failed. Read the same terminal session to completion if still running; preserve reusable containers and volumes:
+
+  ```javascript
+  text(
+    await tools.write_stdin({
+      session_id: load("repository_knowledge_cycle_141338_revalidation_session"),
+      chars: "\u0003",
+      yield_time_ms: 1000,
+      max_output_tokens: 1000,
+    }),
+  );
+  ```
+
+- [ ] After shutdown, run supported scoped lint and fix authorized issues, using supported autofix before manual cleanup where applicable. Rerun proof affected by any changed bytes:
+
+  ```sh
+  npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp lint --no-error-on-unmatched-pattern --report-unused-disable-directives'
+  ```
+
+- [ ] Run supported scoped formatting verification; use the formatter subtask if needed and rerun affected proof:
+
+  ```sh
+  npm run container:exec -- bash -o pipefail -c 'git diff --name-only --diff-filter=ACMR -z 93293e1f0bd859ee93189be7a9e37d32cea0132c -- apps/server apps/web packages/client-runtime packages/contracts packages/shared scripts docs docker-compose.yml knip.jsonc pnpm-lock.yaml pnpm-workspace.yaml third-party-licenses.config.json planning/0000001-repository-knowledge.md | xargs -0 -r vp fmt --check --no-error-on-unmatched-pattern'
+  ```
+
+#### Manual Testing Guidance
+
+Optional, checkbox-free and non-blocking. Preserve earlier candidate-specific functional web and real SQLite/Chroma/restart proof and its honest screenshot transport limitation. No current rendered approval, screenshot success, live-provider result or human acceptance is inferred from source inspection or review-stage tests.
+
+If a later separately assigned manual pass is useful, use `test-t3-app` in the existing shared Linux checkout. Read current runtime handoff by meaning, start the existing container/normal supported dev stack, use the printed actual ports and existing dev credential/pairing path without publishing secrets, keep isolated checkout `.t3`, and use existing deterministic embedding fixtures at the supported service boundary plus the existing Chroma Compose service. Do not add a second stack, production mock mode, auth bypass, origin overrides, worktree, or real provider. Source lifecycle/reload, delta/no-op, retained AST relationships/ranges and removal/source preservation can be observed through the normal UI/service; newer parser forms require re-ingestion rather than an automatic old-payload migration. A manual-only stack must be stopped only through its captured session/owned service, preserving reusable volumes.
+
+Task-level optional logs/screenshots belong in `codeInfoTmp/manual-testing/0000001/22/` and must not be committed. Playwright screenshots stage in its relative output directory, then look first in `$CODEINFO_ROOT/playwright-output-local/<relative-path>` on the host and transfer into this ignored task destination. Inspect current runtime handoff by meaning for any different artifact-source/fallback location. Record artifact-transport limits rather than claiming an image exists. Later closeout may curate uniquely useful evidence into `codeInfoStatus/manual-proof/0000001/`. No design assets are specified by this story, so do not invent design comparison obligations. All optional scenarios and external human acceptance stay outside automated gates. Live LM Studio/OpenAI or paid/live evals still require a later explicit user request.
+
+#### Implementation Notes
+
+Created by complete-pass settlement. No application proof was executed in this task yet. All automated checklist items remain open; optional manual proof, excluded platforms/worktrees, unrequested live providers/evals and external human acceptance are not agent completion gates. Record actual final candidate, proof results/caches, scoped repairs and limitations here during execution.
+
+- Task 22 Subtask 1: automated testing agent ran the specified scoped lint with `--fix`; exit 0, 57 files, zero warnings/errors, and no repair required.
+- Task 22 Subtask 2: automated testing agent ran the specified scoped formatter; exit 0, 67 files formatted, with no reported formatting findings.
