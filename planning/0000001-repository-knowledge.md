@@ -2006,6 +2006,36 @@ The following seven entries preserve pre-filter exclusions and corrected history
 - Example: In the supplied history, alpha removal completed at 02:46:08.085Z and the 02:46:08.090Z retrieval hit the indexed-source guard; beta retained its two original vectors and retrieval after restart. This batch did not rerun the scenario.
 - Why ignored: Preserve the whole historical rejected suspicion. The corrected ordering does not support restart data loss. It is supplied historical evidence, not a fresh runtime pass or a newly resolved defect; no repair follows from it.
 
+## Code Review Findings
+
+- Findings recorded: `November 12, 2026 at 1:22:23 AM GMT [locale=en-US; timeZone=Europe/London]`
+- Review batch: `0000001-rw-20261112T003006Z-ce409d01`
+- Review cycle: `0000001-rc-20261112T003005Z-f5fcebe3`
+- Reviews attempted:
+  - pr_agent_review [current_repository] (`pr_agent_review`, job `pr_target_reviews:current_repository:pr_agent_review`, target `current_repository / Chargeuk/t3code`) — partial; PR preparation and feedback collection supported, substantive remote review unavailable
+    - Input tokens: Not reported
+    - Cached input tokens: Not reported
+    - Output tokens: Not reported
+- Reviewed HEAD: `7ac99716638c6fc8485c8f5ec3681aa979f2be96`
+- Comparison base: `93293e1f0bd859ee93189be7a9e37d32cea0132c`
+- Source job directory: `/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261112T003005Z-f5fcebe3/batches/0000001-rw-20261112T003006Z-ce409d01--head-7ac99716638c/jobs/ffc12eeb8847d0e171999ac6e16ccb35c914af88b19029bd91b6c9446353ec73`
+- Disposition: [disposition.md](../codeInfoTmp/reviews/0000001-rc-20261112T003005Z-f5fcebe3/batches/0000001-rw-20261112T003006Z-ce409d01--head-7ac99716638c/reconciliation/disposition.md). Disposition of recoverable findings is completed and empty; batch coverage remains partial.
+- Audited evidence: [reconciliation](../codeInfoTmp/reviews/0000001-rc-20261112T003005Z-f5fcebe3/batches/0000001-rw-20261112T003006Z-ce409d01--head-7ac99716638c/reconciliation/reconciliation.md), [reconciliation audit](../codeInfoTmp/reviews/0000001-rc-20261112T003005Z-f5fcebe3/batches/0000001-rw-20261112T003006Z-ce409d01--head-7ac99716638c/reconciliation/reconciliation-audit.md), and [combined filtering audit](../codeInfoTmp/reviews/0000001-rc-20261112T003005Z-f5fcebe3/batches/0000001-rw-20261112T003006Z-ce409d01--head-7ac99716638c/reconciliation/scope-filter-audit.md). The combined audit's corrections are the current derived evidence.
+- Gate applicability: negative scope, positive authorization and materiality all remained applicable and partial. No later gate was deliberately inapplicable: unavailable substantive review does not establish a trustworthy complete empty survivor set.
+- Available-evidence accounting: zero recoverable findings, zero material survivors, zero removed findings and zero narrowed-away remedies across all applicable gates. These counts describe retained evidence only. Missing review completion is neither approval nor materiality promotion, and no finding is routed to repair, task creation or review-loop continuation.
+- Coverage example: the retained inline comments/replies, review bodies and conversation comments each contain one successfully collected empty page; no reviewer acknowledgement or completed no-findings result establishes substantive review. The actual remotely reviewed head is Unknown. Configured Macroscope and CodeRabbit execution remains unestablished; configuration and the Macroscope label lookup's HTTP 404 do not establish a completed or failed review.
+- Evidence limitations: the context inventory predates later plan closeout; the retained remote plan is an excerpt; validation is historical rather than a fresh exact-head run; latest screenshot export is unavailable; human acceptance remains external/pending. Remote facts are retained snapshots. Optional live-provider/paid-eval proof was not requested. Token usage is absent, not zero. These are coverage limitations, not implementation findings or new blockers.
+- Scope authority: only current top-level Description, Acceptance Criteria and Out of Scope, or comparison-base proof of preserved behavior, could authorize a repair. Historical review/task/proof records provide no authorization or materiality. No candidate exists for a remedy-seam, unused-code, supported-workflow or credible-security decision; no mechanism or new policy is inferred.
+- Complete-pass settlement: no new agent work; substantive review remains partial/unavailable. The sole immutable batch, both factual launch records and the direct review job are accounted for. No repair commit or actionable material survivor exists, so no completed-fix recovery, implementation task or final testing task applies. Preserve all 14 historical completed-fix records, including research contributions, and completed Task 22. Excluded and unrequested proof remains unperformed, never passed or an agent blocker; external human acceptance stays pending. See the [settlement recommendation](../codeInfoTmp/reviews/0000001-rc-20261112T003005Z-f5fcebe3/settlement/recommendation.md) and [applied settlement](../codeInfoTmp/reviews/0000001-rc-20261112T003005Z-f5fcebe3/settlement/application.md).
+
+### Accepted
+
+- None.
+
+### Ignored for This Story
+
+- None.
+
 ## Review and checkpoint history
 
 Checkpoint at `660e9d33029f5542c1a8e155500e4ca5f41fc1b6` (tree `7ebbea05f3c7b40389846b764b4843d14c6974ed`) retains 70 files. The reviewed plan blob was `05be1a06cc49f84616451ae3310a37a58220d04b`; reviewer `research_agent` `b3f5f341-42f4-44c8-a5d9-79a2d878cd01` returned no required corrections and main adjudicated RETAIN. At that checkpoint, origin was last confirmed at `a7fc73a13d101b6ef824f4e1f33b3a79926fdb5b` and push was withheld; publication remains reserved for its later phase. At this candidate, `npm run container:exec -- vp run check:changed` exited 1: format, unused-patch, GraphQL, 40-package typecheck and tests (27 files, 406 tests) passed; React Compiler passed 9 tests with 1,334 skipped. Lint failed with 25 errors; the retained terminal transcript is truncated, so detailed diagnostics including the complete `EmbeddingModels.ts` output are unavailable. Knip task 1 found six unused grammar dependencies in `apps/server/package.json:80–85`; task 2 found unused exports in `discovery.ts:15` and `McpHttpServer.ts:1161`. These are separate findings. The read-only Knip follow-up by `research_agent` `5c6f365c-aba4-4457-a1d0-62a670057489` was active at this checkpoint; its subsequent findings and repairs are recorded below.
