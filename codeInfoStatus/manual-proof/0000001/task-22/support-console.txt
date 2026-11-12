@@ -1,4 +1,0 @@
-Total messages: 6 (Errors: 0, Warnings: 1)
-Returning 1 messages for level "warning"
-
-[WARNING] [legend-list] recycleItems was not provided, so it defaults to false. Set recycleItems explicitly to true for better performance with recycling-aware rows, or false to preserve remount-on-reuse behavior. @ http://localhost:5733/node_modules/.vite/deps/@legendapp_list_react.js?v=ff2926fb:836
