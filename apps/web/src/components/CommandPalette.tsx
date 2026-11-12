@@ -55,6 +55,7 @@ import {
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import {
   ArrowLeftIcon,
+  BookOpenIcon,
   BugIcon,
   ChartNoAxesColumnIcon,
   CheckIcon,
@@ -1594,6 +1595,17 @@ function OpenCommandPaletteDialog(props: {
       },
     });
   }
+
+  actionItems.push({
+    kind: "action",
+    value: "action:knowledge",
+    searchTerms: ["knowledge", "repository", "index", "ingest", "embeddings"],
+    title: "Open Knowledge",
+    icon: <BookOpenIcon className={ITEM_ICON_CLASS} />,
+    run: async () => {
+      await navigate({ to: "/knowledge" });
+    },
+  });
 
   actionItems.push({
     kind: "action",

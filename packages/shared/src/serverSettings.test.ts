@@ -84,6 +84,48 @@ describe("fallbackTextGenerationModelSelection", () => {
 });
 
 describe("serverSettings helpers", () => {
+  it("merges Knowledge patches while replacing filters and clearing the embedding selection", () => {
+    const configured = applyServerSettingsPatch(decodeServerSettings({}), {
+      knowledge: {
+        includes: ["ts", "md"],
+        excludes: ["generated"],
+        embedding: { provider: "openai", model: "text-embedding-3-small" },
+        openaiApiKey: "fixture-key",
+        chromaUrl: "http://chroma.test:8000",
+      },
+    });
+    const changed = applyServerSettingsPatch(
+      configured,
+      decodeServerSettingsPatch({
+        knowledge: {
+          includes: ["py"],
+          excludes: [],
+          embedding: { provider: "lmstudio", model: "fixture-embedding" },
+        },
+      }),
+    );
+    expect(changed.knowledge).toEqual({
+      ...configured.knowledge,
+      includes: ["py"],
+      excludes: [],
+      embedding: { provider: "lmstudio", model: "fixture-embedding" },
+    });
+    const cleared = applyServerSettingsPatch(changed, {
+      knowledge: { includes: [], embedding: null, openaiApiKey: "" },
+    });
+    expect(cleared.knowledge).toEqual({
+      ...changed.knowledge,
+      includes: [],
+      embedding: null,
+      openaiApiKey: "",
+    });
+    expect(cleared.providerInstances).toEqual(configured.providerInstances);
+    expect(cleared.defaultModelSelection).toEqual(configured.defaultModelSelection);
+    expect(applyServerSettingsPatch(cleared, { reviewGuidesEnabled: false }).knowledge).toEqual(
+      cleared.knowledge,
+    );
+  });
+
   it("translates a shipped client's idle compaction switch into a mode", () => {
     const off = applyServerSettingsPatch(DEFAULT_SERVER_SETTINGS, { idleCompaction: "off" });
     expect([off.idleCompaction, off.compactIdleThreads]).toEqual(["off", false]);

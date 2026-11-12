@@ -340,6 +340,15 @@
       }
     },
     {
+      "name": "tiktoken",
+      "version": "1.0.22",
+      "sourceUrl": "https://github.com/dqbd/tiktoken/blob/4c8b748e07992c00386f3180af5c574b27b65139/LICENSE",
+      "generatedNotice": {
+        "licenseId": "MIT",
+        "copyrights": ["Copyright (c) 2022 OpenAI, Shantanu Jain"]
+      }
+    },
+    {
       "name": "@react-native-async-storage/async-storage",
       "version": "3.1.1",
       "sourceUrl": "https://github.com/react-native-async-storage/async-storage",

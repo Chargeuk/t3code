@@ -42,6 +42,16 @@ describe("shouldBundleCliDependency", () => {
       "koffi",
       "@clerk/electron-passkeys",
       "node-addon-api",
+      "tree-sitter",
+      "tree-sitter-javascript",
+      "tree-sitter-typescript/queries/tags.scm",
+      "tree-sitter-python/queries/tags.scm",
+      "tree-sitter-c-sharp",
+      "tree-sitter-cpp",
+      "tree-sitter-rust",
+      "tiktoken",
+      "tiktoken/lite",
+      "tiktoken/tiktoken_bg.wasm",
     ]) {
       assert.strictEqual(shouldBundleCliDependency(id), false, id);
     }
@@ -49,6 +59,27 @@ describe("shouldBundleCliDependency", () => {
 
   it("treats prefix-matched siblings as external", () => {
     assert.strictEqual(shouldBundleCliDependency("node-gyp-build-optional-packages"), false);
+  });
+
+  it("stages Knowledge filesystem-backed packages while bundling its API clients", () => {
+    const dependencies = {
+      "tree-sitter": "0.21.1",
+      "tree-sitter-javascript": "0.23.1",
+      "tree-sitter-typescript": "0.23.2",
+      tiktoken: "1.0.22",
+      "@lmstudio/sdk": "1.5.0",
+      openai: "7.25.0",
+      chromadb: "3.1.6",
+    };
+    assert.deepStrictEqual(selectCliRuntimeExternalDependencies(dependencies), {
+      "tree-sitter": "0.21.1",
+      "tree-sitter-javascript": "0.23.1",
+      "tree-sitter-typescript": "0.23.2",
+      tiktoken: "1.0.22",
+    });
+    for (const id of ["@lmstudio/sdk", "openai", "chromadb"]) {
+      assert.strictEqual(shouldBundleCliDependency(id), true, id);
+    }
   });
 });
 

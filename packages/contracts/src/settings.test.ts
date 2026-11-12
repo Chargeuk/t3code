@@ -2,6 +2,7 @@ import { describe, expect, it } from "vite-plus/test";
 import * as Schema from "effect/Schema";
 
 import { type CommandId, ProjectId } from "./baseSchemas.ts";
+import { AuthSettingsWriteScope } from "./auth.ts";
 import {
   ProviderDriverKind,
   ProviderInstanceEnvironment,
@@ -16,6 +17,7 @@ import {
   idleCompactionPatch,
   PROJECT_SCOPED_SERVER_SETTING_KEYS,
   requiredScopesForProjectMutation,
+  requiredScopesForServerSettingsPatch,
   resolveIdleCompaction,
   resolveProjectProviderInstanceEnabled,
   resolveProviderInstanceEnabled,
@@ -40,6 +42,19 @@ const decodeServerSettingsPatch = Schema.decodeUnknownSync(ServerSettingsPatch);
 const encodeServerSettings = Schema.encodeSync(ServerSettings);
 const encodeServerSettingsPatch = Schema.encodeSync(ServerSettingsPatch);
 const decodeClaudeSettings = Schema.decodeUnknownSync(ClaudeSettings);
+
+it("requires settings-write for Knowledge configuration and credentials", () => {
+  expect(
+    requiredScopesForServerSettingsPatch(
+      decodeServerSettingsPatch({
+        knowledge: {
+          chromaUrl: "http://chroma.test:8000",
+          openaiApiKey: "fixture-key",
+        },
+      }),
+    ),
+  ).toEqual([AuthSettingsWriteScope]);
+});
 
 describe("storage cleanup settings", () => {
   it("keeps cleanup disabled for existing installations", () => {

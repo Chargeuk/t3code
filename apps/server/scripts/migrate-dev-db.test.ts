@@ -105,37 +105,71 @@ const createFixtureSource = Effect.fn("createMigrateDevDbFixtureSource")(functio
 });
 
 it.layer(NodeServices.layer)("migrate-dev-db", (it) => {
-  it.effect("keeps stopped and settled thread families and clears pending work", () =>
-    Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-      const path = yield* Path.Path;
-      const sourceDir = yield* fs.makeTempDirectoryScoped({ prefix: "migrate-dev-db-src-" });
-      const destDir = yield* fs.makeTempDirectoryScoped({ prefix: "migrate-dev-db-dest-" });
-      const source = yield* createFixtureSource(sourceDir);
-
-      const result = yield* runMigrateDevDb(
-        { baseDir: destDir, source, projects: 5, threadsPerProject: 2 },
-        { sharedHome: sourceDir },
-      );
-
-      assert.equal(result.databasePath, path.join(destDir, "userdata", "statev2.sqlite"));
-      const kept = yield* withDatabase(
-        result.databasePath,
-        Effect.gen(function* () {
+  it.effect.each(["queued", "running", "cleanup"] as const)(
+    "keeps stopped and settled thread families and clears pending work (%s)",
+    (pendingStatus) =>
+      Effect.gen(function* () {
+        const fs = yield* FileSystem.FileSystem;
+        const path = yield* Path.Path;
+        const sourceDir = yield* fs.makeTempDirectoryScoped({ prefix: "migrate-dev-db-src-" });
+        const destDir = yield* fs.makeTempDirectoryScoped({ prefix: "migrate-dev-db-dest-" });
+        const source = yield* createFixtureSource(sourceDir);
+        yield* withDatabase(
+          source,
+          Effect.gen(function* () {
+            const sql = yield* SqlClient.SqlClient;
+            yield* sql`INSERT INTO knowledge_sources
+            (source_id, root, created_at, updated_at, indexed_at, file_count, chunk_count)
+            VALUES ('knowledge-source', '/tmp/kept', '2026-08-01', '2026-08-01', '2026-08-01', 1, 1)`;
+            for (const status of ["completed", "failed", "cancelled", pendingStatus]) {
+              yield* sql`INSERT INTO knowledge_runs
+              (run_id, source_id, operation, status, cleanup_intent, counts_json, admitted_at, updated_at)
+              VALUES (${`knowledge-${status}`}, 'knowledge-source',
+                ${status === "cleanup" ? "remove" : "ingest"}, ${status},
+                ${status === "cleanup" ? "remove" : null}, '{}', '2026-08-01', '2026-08-01')`;
+            }
+            yield* sql`INSERT INTO knowledge_files (source_id, rel_path, run_id, file_hash)
+            VALUES ('knowledge-source', 'index.ts', 'knowledge-completed', 'committed-hash')`;
+            yield* sql`INSERT INTO knowledge_ast_files (source_id, rel_path, payload_json)
+            VALUES ('knowledge-source', 'index.ts', '{"symbols":[],"edges":[]}')`;
+            yield* sql`INSERT INTO knowledge_embedding_identity (singleton, identity_json)
+            VALUES (1, '{"provider":"openai","model":"text-embedding-3-small","dimensions":1536}')`;
+          }),
+        );
+        const readKnowledgeIndex = Effect.gen(function* () {
           const sql = yield* SqlClient.SqlClient;
-          const threads = yield* sql<{ thread_id: string }>`
+          return {
+            sources: yield* sql`SELECT * FROM knowledge_sources ORDER BY source_id`,
+            files: yield* sql`SELECT * FROM knowledge_files ORDER BY source_id, rel_path`,
+            ast: yield* sql`SELECT * FROM knowledge_ast_files ORDER BY source_id, rel_path`,
+            identity: yield* sql`SELECT * FROM knowledge_embedding_identity`,
+          };
+        });
+        const sourceIndex = yield* withDatabase(source, readKnowledgeIndex);
+
+        const result = yield* runMigrateDevDb(
+          { baseDir: destDir, source, projects: 5, threadsPerProject: 2 },
+          { sharedHome: sourceDir },
+        );
+
+        assert.equal(result.databasePath, path.join(destDir, "userdata", "statev2.sqlite"));
+        const kept = yield* withDatabase(
+          result.databasePath,
+          Effect.gen(function* () {
+            const sql = yield* SqlClient.SqlClient;
+            const threads = yield* sql<{ thread_id: string }>`
             SELECT thread_id FROM orchestration_v2_projection_threads ORDER BY thread_id`;
-          const events = yield* sql<{ stream_id: string }>`
+            const events = yield* sql<{ stream_id: string }>`
             SELECT stream_id FROM orchestration_events ORDER BY stream_id`;
-          const sessions = yield* sql<{ provider_session_id: string }>`
+            const sessions = yield* sql<{ provider_session_id: string }>`
             SELECT provider_session_id FROM orchestration_v2_projection_provider_sessions`;
-          const [leftovers] = yield* sql<{
-            auth: number;
-            tasks: number;
-            webhooks: number;
-            transfers: number;
-            links: number;
-          }>`
+            const [leftovers] = yield* sql<{
+              auth: number;
+              tasks: number;
+              webhooks: number;
+              transfers: number;
+              links: number;
+            }>`
             SELECT
               (SELECT COUNT(*) FROM auth_sessions) AS auth,
               (SELECT COUNT(*) FROM scheduled_tasks) AS tasks,
@@ -143,29 +177,45 @@ it.layer(NodeServices.layer)("migrate-dev-db", (it) => {
                 (SELECT COUNT(*) FROM scheduled_task_webhook_pending) AS webhooks,
               (SELECT COUNT(*) FROM orchestration_v2_projection_context_transfers) AS transfers,
               (SELECT COUNT(*) FROM peer_environment_links) AS links`;
-          return { threads, events, sessions, leftovers };
-        }),
-      );
-      assert.deepStrictEqual(
-        kept.threads.map((row) => row.thread_id),
-        ["fork-thread", "settled-thread", "stopped-thread"],
-      );
-      assert.deepStrictEqual(
-        kept.events.map((row) => row.stream_id),
-        ["fork-thread", "settled-thread", "stopped-thread"],
-      );
-      assert.deepStrictEqual(
-        kept.sessions.map((row) => row.provider_session_id),
-        ["session-shared"],
-      );
-      assert.deepStrictEqual(kept.leftovers, {
-        auth: 0,
-        tasks: 0,
-        webhooks: 0,
-        transfers: 0,
-        links: 0,
-      });
-    }),
+            return { threads, events, sessions, leftovers };
+          }),
+        );
+        assert.deepStrictEqual(
+          kept.threads.map((row) => row.thread_id),
+          ["fork-thread", "settled-thread", "stopped-thread"],
+        );
+        assert.deepStrictEqual(
+          kept.events.map((row) => row.stream_id),
+          ["fork-thread", "settled-thread", "stopped-thread"],
+        );
+        assert.deepStrictEqual(
+          kept.sessions.map((row) => row.provider_session_id),
+          ["session-shared"],
+        );
+        assert.deepStrictEqual(kept.leftovers, {
+          auth: 0,
+          tasks: 0,
+          webhooks: 0,
+          transfers: 0,
+          links: 0,
+        });
+        const runs = yield* withDatabase(
+          result.databasePath,
+          Effect.gen(function* () {
+            const sql = yield* SqlClient.SqlClient;
+            return yield* sql<{ status: string }>`
+            SELECT status FROM knowledge_runs ORDER BY admission_order`;
+          }),
+        );
+        assert.deepStrictEqual(
+          runs.map((row) => row.status),
+          ["completed", "failed", "cancelled"],
+        );
+        assert.deepStrictEqual(
+          yield* withDatabase(result.databasePath, readKnowledgeIndex),
+          sourceIndex,
+        );
+      }),
   );
 
   it.effect("never copies an archived thread, and new events append after the source's", () =>

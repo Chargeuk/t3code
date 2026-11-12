@@ -33,6 +33,7 @@ import {
   ProviderOptionSelections,
 } from "./model.ts";
 import { ModelSelection } from "./modelSelection.ts";
+import { KnowledgeEmbeddingSelection } from "./knowledge.ts";
 import { ProjectScript, type ProjectMutation } from "./project.ts";
 import { DEFAULT_RUNTIME_MODE, RuntimeMode } from "./providerPolicy.ts";
 import { BrowserProfile, BrowserProfileId, DEFAULT_BROWSER_PROFILE_ID } from "./browserProfile.ts";
@@ -1247,6 +1248,28 @@ export const CloudSpeechCredentials = Schema.Struct({
   openrouter: CloudSpeechCredential,
 });
 
+export const KnowledgeSettings = Schema.Struct({
+  // Empty includes use discovery defaults; nonempty includes replace them. Excludes extend defaults.
+  includes: Schema.Array(TrimmedNonEmptyString).pipe(
+    Schema.withDecodingDefault(Effect.succeed([])),
+  ),
+  excludes: Schema.Array(TrimmedNonEmptyString).pipe(
+    Schema.withDecodingDefault(Effect.succeed([])),
+  ),
+  embedding: Schema.NullOr(KnowledgeEmbeddingSelection).pipe(
+    Schema.withDecodingDefault(Effect.succeed(null)),
+  ),
+  lmStudioBaseUrl: TrimmedNonEmptyString.pipe(
+    Schema.withDecodingDefault(Effect.succeed("http://127.0.0.1:1234")),
+  ),
+  openaiBaseUrl: TrimmedString.pipe(Schema.withDecodingDefault(Effect.succeed(""))),
+  openaiApiKey: SettingsSecretValue.pipe(Schema.withDecodingDefault(Effect.succeed(""))),
+  chromaUrl: TrimmedNonEmptyString.pipe(
+    Schema.withDecodingDefault(Effect.succeed("http://127.0.0.1:8000")),
+  ),
+});
+export type KnowledgeSettings = typeof KnowledgeSettings.Type;
+
 export const ServerSettings = Schema.Struct({
   // Null means unmigrated; empty is authoritative and must not resurrect cleared preferences.
   favorites: Schema.NullOr(ModelFavorites).pipe(Schema.withDecodingDefault(Effect.succeed(null))),
@@ -1274,6 +1297,9 @@ export const ServerSettings = Schema.Struct({
   enableAgentBrowserAccess: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(true))),
   cloudSpeechCredentials: CloudSpeechCredentials.pipe(
     Schema.withDecodingDefault(Effect.succeed({ openai: "", xai: "", openrouter: "" })),
+  ),
+  knowledge: KnowledgeSettings.pipe(
+    Schema.withDecodingDefault(Effect.succeed(Schema.decodeSync(KnowledgeSettings)({}))),
   ),
   speechModelId: Schema.String.pipe(
     Schema.withDecodingDefault(Effect.succeed("handy-computer/parakeet-unified-en-0.6b-gguf")),
@@ -1696,6 +1722,17 @@ export const ServerSettingsPatch = Schema.Struct({
       openai: Schema.optionalKey(SettingsSecretValue),
       xai: Schema.optionalKey(SettingsSecretValue),
       openrouter: Schema.optionalKey(SettingsSecretValue),
+    }),
+  ),
+  knowledge: Schema.optionalKey(
+    Schema.Struct({
+      includes: Schema.optionalKey(Schema.Array(TrimmedNonEmptyString)),
+      excludes: Schema.optionalKey(Schema.Array(TrimmedNonEmptyString)),
+      embedding: Schema.optionalKey(Schema.NullOr(KnowledgeEmbeddingSelection)),
+      lmStudioBaseUrl: Schema.optionalKey(TrimmedNonEmptyString),
+      openaiBaseUrl: Schema.optionalKey(TrimmedString),
+      openaiApiKey: Schema.optionalKey(SettingsSecretValue),
+      chromaUrl: Schema.optionalKey(TrimmedNonEmptyString),
     }),
   ),
   speechModelId: Schema.optionalKey(Schema.String),

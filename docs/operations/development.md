@@ -62,6 +62,28 @@ To stop a worktree's dev stack when its thread settles, import the **Dev** actio
 keybinding. Its `stopOnSettle` option lets T3 stop the terminal and its child processes.
 Running `vp run dev` through an agent's own shell tool does not attach it to this lifecycle.
 
+### Repository Knowledge and Chroma
+
+Start the repository's persistent Chroma service from the repository root with
+`docker compose -f docker-compose.yml up -d chroma`. It uses the `chroma-data` volume and publishes
+port 8000 by default. If that host port is occupied, choose another published port, for example:
+
+```sh
+CHROMA_PORT=8201 docker compose -f docker-compose.yml up -d chroma
+```
+
+In **Settings → Repository knowledge**, set the Chroma URL to an address reachable from the T3
+server. For local fixture-backed development, start the existing container dev runner with:
+
+```sh
+npm run container:exec -- env T3CODE_DEV_KNOWLEDGE_FIXTURES=true vp run dev
+```
+
+This development setting substitutes deterministic data only at the embedding boundary; ingestion,
+SQLite, Chroma, and retrieval still use the Knowledge service. The default dev setup uses the real
+embedding adapters. Read the actual `[dev-runner]` output for the origin, ports, and pairing URL.
+Keep development state isolated and never run against the live `~/.t3/userdata`.
+
 ### State and ports
 
 Linked worktrees default to their own `.t3/userdata`, even when `T3CODE_HOME` is set.

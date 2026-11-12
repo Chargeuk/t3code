@@ -6,6 +6,7 @@ import {
   OrchestrationV2SearchThreadsResult,
 } from "./orchestrationV2.ts";
 import { OrchestrationDispatchCommandError } from "./orchestrationDispatch.ts";
+import * as Knowledge from "./knowledge.ts";
 import {
   McpAppCallToolInput,
   McpAppCallToolResult,
@@ -603,6 +604,21 @@ export const WS_METHODS = {
   projectCloneCancel: "projectClone.cancel",
   projectCloneRetry: "projectClone.retry",
   subscribeProjectClones: "subscribeProjectClones",
+
+  knowledgeList: "knowledge.list",
+  knowledgeResolve: "knowledge.resolve",
+  knowledgeAdmit: "knowledge.admit",
+  knowledgeCancel: "knowledge.cancel",
+  knowledgeRemove: "knowledge.remove",
+  knowledgeWaitTerminal: "knowledge.waitTerminal",
+  knowledgeSubscribe: "knowledge.subscribe",
+  knowledgeRetrieve: "knowledge.retrieve",
+  knowledgeAstListSymbols: "knowledge.astListSymbols",
+  knowledgeAstFindDefinition: "knowledge.astFindDefinition",
+  knowledgeAstFindReferences: "knowledge.astFindReferences",
+  knowledgeAstCallGraph: "knowledge.astCallGraph",
+  knowledgeAstModuleImports: "knowledge.astModuleImports",
+  knowledgeEmbeddingModels: "knowledge.embeddingModels",
 
   subscribeVcsStatus: "subscribeVcsStatus",
   subscribeWorktreeSetup: "subscribeWorktreeSetup",
@@ -1300,6 +1316,80 @@ const WsSubscribeProjectClonesRpc = Rpc.make(WS_METHODS.subscribeProjectClones, 
   success: ProjectCloneListEvent,
   error: EnvironmentAuthorizationError,
   stream: true,
+});
+
+const KnowledgeRpcError = Schema.Union([Knowledge.KnowledgeError, EnvironmentAuthorizationError]);
+
+const WsKnowledgeListRpc = Rpc.make(WS_METHODS.knowledgeList, {
+  payload: Knowledge.KnowledgeListInput,
+  success: Knowledge.KnowledgeSnapshot,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeResolveRpc = Rpc.make(WS_METHODS.knowledgeResolve, {
+  payload: Knowledge.KnowledgeResolveInput,
+  success: Knowledge.KnowledgeResolveResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeAdmitRpc = Rpc.make(WS_METHODS.knowledgeAdmit, {
+  payload: Knowledge.KnowledgeAdmitInput,
+  success: Knowledge.KnowledgeAdmitResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeCancelRpc = Rpc.make(WS_METHODS.knowledgeCancel, {
+  payload: Knowledge.KnowledgeCancelInput,
+  success: Knowledge.KnowledgeCancelResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeRemoveRpc = Rpc.make(WS_METHODS.knowledgeRemove, {
+  payload: Knowledge.KnowledgeRemoveInput,
+  success: Knowledge.KnowledgeRemoveResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeWaitTerminalRpc = Rpc.make(WS_METHODS.knowledgeWaitTerminal, {
+  payload: Knowledge.KnowledgeWaitTerminalInput,
+  success: Knowledge.KnowledgeTerminalRun,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeSubscribeRpc = Rpc.make(WS_METHODS.knowledgeSubscribe, {
+  payload: Knowledge.KnowledgeSubscribeInput,
+  success: Knowledge.KnowledgeSnapshot,
+  error: KnowledgeRpcError,
+  stream: true,
+});
+const WsKnowledgeRetrieveRpc = Rpc.make(WS_METHODS.knowledgeRetrieve, {
+  payload: Knowledge.KnowledgeRetrieveInput,
+  success: Knowledge.KnowledgeRetrieveResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeAstListSymbolsRpc = Rpc.make(WS_METHODS.knowledgeAstListSymbols, {
+  payload: Knowledge.KnowledgeAstListSymbolsInput,
+  success: Knowledge.KnowledgeAstListSymbolsResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeAstFindDefinitionRpc = Rpc.make(WS_METHODS.knowledgeAstFindDefinition, {
+  payload: Knowledge.KnowledgeAstFindDefinitionInput,
+  success: Knowledge.KnowledgeAstFindDefinitionResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeAstFindReferencesRpc = Rpc.make(WS_METHODS.knowledgeAstFindReferences, {
+  payload: Knowledge.KnowledgeAstFindReferencesInput,
+  success: Knowledge.KnowledgeAstFindReferencesResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeAstCallGraphRpc = Rpc.make(WS_METHODS.knowledgeAstCallGraph, {
+  payload: Knowledge.KnowledgeAstCallGraphInput,
+  success: Knowledge.KnowledgeAstCallGraphResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeAstModuleImportsRpc = Rpc.make(WS_METHODS.knowledgeAstModuleImports, {
+  payload: Knowledge.KnowledgeAstModuleImportsInput,
+  success: Knowledge.KnowledgeAstModuleImportsResult,
+  error: KnowledgeRpcError,
+});
+const WsKnowledgeEmbeddingModelsRpc = Rpc.make(WS_METHODS.knowledgeEmbeddingModels, {
+  payload: Knowledge.KnowledgeEmbeddingModelsInput,
+  success: Knowledge.KnowledgeEmbeddingModelsResult,
+  error: KnowledgeRpcError,
 });
 
 const WsSourceControlPublishRepositoryRpc = Rpc.make(WS_METHODS.sourceControlPublishRepository, {
@@ -2124,6 +2214,20 @@ export const WsRpcGroup = RpcGroup.make(
   WsProjectCloneCancelRpc,
   WsProjectCloneRetryRpc,
   WsSubscribeProjectClonesRpc,
+  WsKnowledgeListRpc,
+  WsKnowledgeResolveRpc,
+  WsKnowledgeAdmitRpc,
+  WsKnowledgeCancelRpc,
+  WsKnowledgeRemoveRpc,
+  WsKnowledgeWaitTerminalRpc,
+  WsKnowledgeSubscribeRpc,
+  WsKnowledgeRetrieveRpc,
+  WsKnowledgeAstListSymbolsRpc,
+  WsKnowledgeAstFindDefinitionRpc,
+  WsKnowledgeAstFindReferencesRpc,
+  WsKnowledgeAstCallGraphRpc,
+  WsKnowledgeAstModuleImportsRpc,
+  WsKnowledgeEmbeddingModelsRpc,
   WsProjectsListEntriesRpc,
   WsProjectsListIgnoredFilesRpc,
   WsProjectsReadFileRpc,
