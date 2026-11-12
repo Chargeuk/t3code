@@ -320,20 +320,12 @@
       ],
       "excluded_surfaces": [
         {
-          "names": [
-            "Mobile",
-            "Windowed Electron",
-            "Other OS",
-            "Native executable/archive proof"
-          ],
+          "names": ["Mobile", "Windowed Electron", "Other OS", "Native executable/archive proof"],
           "reason": "Explicit story/task exclusions; container has no display/mobile SDK. These existing product surfaces are excluded, not missing implementation.",
           "source": "Task 22 Testing; story Out Of Scope; docs/internals/devcontainer.md"
         },
         {
-          "names": [
-            "Marketing",
-            "Remote/relay/tunnel/multi-device proof"
-          ],
+          "names": ["Marketing", "Remote/relay/tunnel/multi-device proof"],
           "reason": "No separate proof obligation for Task 22. Normal web remains single-origin; container does not provision tailnet tooling.",
           "source": "Task 22 Manual Testing Guidance; docs/internals/devcontainer.md; package.json"
         }
@@ -423,10 +415,7 @@
       ],
       "excluded_surfaces": [
         {
-          "names": [
-            "CodeInfo2 main UI/API/chat/agents product stack",
-            "CodeInfo2 Chroma"
-          ],
+          "names": ["CodeInfo2 main UI/API/chat/agents product stack", "CodeInfo2 Chroma"],
           "reason": "Not dependencies of fixture-backed T3 product proof; supporting source research needs no product launch or lifecycle.",
           "source": "T3 test-t3-app skill; supporting AGENTS.md and README.md"
         }
