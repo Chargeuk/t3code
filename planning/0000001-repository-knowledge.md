@@ -3890,7 +3890,6 @@ Created by complete-pass settlement. The scoped lint and formatting subtasks are
 3. Ingestion canonicalizes roots and queues work durably, deduplicating queued targets and reusing unchanged-file hashes so only changed content is re-embedded. A global embedding-model lock keeps one vector space consistent, while AST extraction records structural ownership and references.
 4. Reviewers should focus on snapshot isolation, parser ownership for dynamic class heritage and enclosing callers, and lifecycle boundaries around queue recovery, cancellation, delta updates, model locking, and vector removal. The final recorded `check:changed` pass succeeded, including 429 tests across 28 files; bounded review coverage and external human acceptance remain limited/pending. Curated manual evidence is in `codeInfoStatus/manual-proof/0000001/`.
 
-
 ## Final Summary
 
 1. Implemented Repository Knowledge across the server, shared contracts, and web UI, including repository-source lifecycle, durable ingestion, SQLite-backed state, Chroma vectors, delta indexing, AST extraction, embedding adapters, and settings. Review repairs addressed development-database snapshot isolation and parser ownership for dynamic class inheritance and enclosing callers.
