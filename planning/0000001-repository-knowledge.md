@@ -1874,6 +1874,139 @@ Settlement resolution: no fix was committed in this batch, no completed-review-f
 
 - None.
 
+## Code Review Findings
+
+- Findings recorded: `November 11, 2026 at 11:37:35 PM GMT [locale=en-US; timeZone=Europe/London]`
+- Review batch: `0000001-rw-20261111T215006Z-c3078be9`
+- Review cycle: `0000001-rc-20261111T215004Z-8e2e8ba9`
+- Reviews attempted:
+  - Repository Knowledge — native Codex review (`codex_review`, job `target_reviews:current_repository:codex_review`, target `current_repository`) — completed bounded source review; no concrete introduced bugs identified; no runtime or acceptance proof.
+    - Input tokens: 0
+    - Cached input tokens: 0
+    - Output tokens: 0
+  - Cross-repository review: not applicable (`cross_repository_review`, job `story_review:cross_repository_review`, target `cross-repository story scope`) — completed applicability assessment; inspection deliberately not applicable to the single assigned repository; no correctness or compatibility pass.
+    - Input tokens: 334,761
+    - Cached input tokens: 289,664
+    - Output tokens: 2,198
+  - Repository Knowledge — OpenCode review (`open_code_review`, job `target_reviews:current_repository:open_code_review`, target `current_repository`) — completed bounded Codex-owned OCR source review; no supported actionable findings; ancillary command audit partial; no runtime or acceptance proof.
+    - Input tokens: 4,450,841
+    - Cached input tokens: 4,279,296
+    - Output tokens: 13,418
+- Reviewed HEAD: `7c5699d406d4319c6dbaeddbc66ac19974d74226`.
+- Settlement: cycle `0000001-rc-20261111T215004Z-8e2e8ba9` closes with no new work. This batch committed no fixes and has no material actionable remainder; no completed-fixes, implementation, or final testing task applies. Bounded/partial coverage and external human acceptance remain as recorded. See [applied settlement](../codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/settlement/application.md).
+- Disposition: completed, empty supported-finding set. The independently audited reconciliation positively established zero supported actionable findings before filtering. The combined filtering audit therefore marks negative scope, positive authorization and materiality deliberately inapplicable. The existing negative-scope no-work record removes and narrows nothing; absent authorization/materiality artifacts require no reconstruction.
+- Evidence: [disposition](/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T215006Z-c3078be9--head-7c5699d406d4/reconciliation/disposition.md), [reconciliation](/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T215006Z-c3078be9--head-7c5699d406d4/reconciliation/reconciliation.md), [reconciliation audit](/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T215006Z-c3078be9--head-7c5699d406d4/reconciliation/audit.md), [combined filtering audit](/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T215006Z-c3078be9--head-7c5699d406d4/reconciliation/scope-filter-audit.md).
+- Earlier non-actionable evidence: C1–C7 remain prior rejected/non-promoted source-review concerns, not gate removals or new disposition findings. Their complete identities, descriptions, source harness, rejection reasons and evidence-limited examples are conserved in the disposition's non-actionable prior-concerns section; native investigative topics do not establish another generating/corroborating defect harness. No candidate is restored, repaired, tasked or used to continue review.
+- Usage provenance: only each job's designated actual-review record under `work/review-usage/` is counted, with one recorded reviewing invocation per job. Cached input is included within input and is never added to it. Native zeros are reported values, not proof of no consumption. OCR/cross-repository raw usage streams are unavailable for remeasurement; OCR's later designated usage does not erase its earlier “Not reported” provenance.
+- Coverage limits: OCR excludes 27 of 76 changed entries; its ancillary help-command audit is partial and full source-read chronology is unavailable. Native missing-file reads and nonfatal configuration warnings, missing raw orchestration wait history and source-only routing coverage remain disclosed. No new tests, builds, runtime/browser/Chroma/provider proof or human acceptance is claimed. Human acceptance remains external and pending; unrequested live-provider/eval proof is neither passed nor open agent work.
+
+### Accepted
+
+- None.
+
+### Ignored for This Story
+
+- None. No supported finding entered disposition, and no applicable gate removed or narrowed a finding or remedy. Prior non-promoted concerns remain evidence only at the linked disposition, rather than invented current acceptance/rejection decisions.
+
+
+## Code Review Findings
+
+- Findings recorded: `November 11, 2026 at 11:37:35 PM GMT [locale=en-US; timeZone=Europe/London]`
+- Review batch: `0000001-rw-20261111T223007Z-286136d1`
+- Review cycle: `0000001-rc-20261111T215004Z-8e2e8ba9`
+- Reviews attempted:
+  - review_artifacts_main [current_repository] (`review_artifacts_main`, job `target_reviews:current_repository:review_artifacts_main`, target `current_repository`) — partial; usable output independently verified, no supported actionable findings.
+    - Input tokens: 6,295,589
+    - Cached input tokens: 5,729,536
+    - Output tokens: 40,716
+- Reviewed HEAD: `7c5699d406d4319c6dbaeddbc66ac19974d74226`
+- Settlement: cycle `0000001-rc-20261111T215004Z-8e2e8ba9` closes with no new work. This batch committed no fixes and has no material actionable remainder; no completed-fixes, implementation, or final testing task applies. Bounded/partial coverage and external human acceptance remain as recorded. See [applied settlement](../codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/settlement/application.md).
+- Disposition: `/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T223007Z-286136d1--head-7c5699d406d4/reconciliation/disposition.md`
+
+Completed empty disposition of a partial review. The completed reconciliation audit positively established zero supported findings. The combined filtering audit therefore marks negative scope, positive authorization, and materiality deliberately inapplicable; their existing no-work records introduce no decisions, removals, or narrowed remedies. There is no material survivor to assess for normal or stronger repair. No task or review-loop continuation is created by a finding.
+
+The six designated reviewing-model usage artifacts supply all three categories; cached input is part of input, not an additional amount. Stages belong to one direct job and are not independent harnesses. Usage lacks raw provider-request IDs, so request-level attribution remains unverified. Administrative work is excluded.
+
+This batch does not establish fresh real-client rendering/integration, installed bundle assets, persistent Chroma restart, remote/relay/tunnel round trips, production-scale behavior, or live-provider semantics. Retained evidence reports 226 selected tests in 17 files; original terminal envelopes and poll sequences are unavailable. The historical codeinfo2/codeInfo2 access disagreement remains unresolved. Historical proof does not become fresh acceptance, and human acceptance remains external and pending.
+
+### Accepted
+
+- None.
+
+### Ignored for This Story
+
+The following seven entries preserve pre-filter exclusions and corrected history; they are not newly accepted findings or new gate rejections. Each complete candidate remains non-actionable. No gate removed or narrowed a supported finding in this batch.
+
+#### 1. Worker recovery after infrastructure failure
+
+- Review reference: `0000001-rw-20261111T223007Z-286136d1:C1`
+- Review harnesses:
+  - review_artifacts_main [current_repository] (`review_artifacts_main`, job `target_reviews:current_repository:review_artifacts_main`, target `current_repository`) — generating/repeating job; stage reports are not additional independent corroboration.
+- Source and target: `/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T223007Z-286136d1--head-7c5699d406d4/reconciliation/evidence.json` candidate `C1`; current_repository: Knowledge service worker and persistence recovery.
+- Simple description: An unexpected infrastructure failure could stop ingestion processing. The review did not demonstrate a supported recoverable failure that leaves ordinary work stuck.
+- Example: Evidence-limited scenario: a SQLite or runtime failure outside handled ingest results could end the worker. No concrete recoverable failure with subsequent queued work stranded was demonstrated; recorded cleanup failures instead persist an error directing restart.
+- Why ignored: Preserve the whole unsupported candidate. Reconciliation found no realistic failure or violated stronger recovery guarantee, and the combined audit retained that exclusion. This is uncertainty, not proof of safety or a materiality rejection. No retry or recovery policy is authorized by this record.
+
+#### 2. Vectors and AST can reflect different ingestion stages
+
+- Review reference: `0000001-rw-20261111T223007Z-286136d1:C2`
+- Review harnesses:
+  - review_artifacts_main [current_repository] (`review_artifacts_main`, job `target_reviews:current_repository:review_artifacts_main`, target `current_repository`) — generating/repeating job; stage reports are not additional independent corroboration.
+- Source and target: `/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T223007Z-286136d1--head-7c5699d406d4/reconciliation/evidence.json` candidate `C2`; current_repository: Knowledge ingestion/retrieval; downstream Questions owns citation construction.
+- Simple description: Vectors are replaced incrementally while file hashes and AST metadata commit together at completion. The review raised whether a reader could require both stores to represent one whole-index snapshot.
+- Example: During re-ingestion of changed files, Chroma can hold replacement vectors while SQLite still exposes the prior completed AST. The record identifies no consumer requiring a single whole-index snapshot or a resulting incorrect answer; hash and run associations remain available.
+- Why ignored: Preserve the whole unsupported candidate. No violated snapshot requirement or concrete harmful consumer path was established. The blind-spot stage did not deeply reopen this hypothesis; repetition is not independent corroboration. No snapshot mechanism or downstream Questions repair is routed from it.
+
+#### 3. Edits during ingestion might affect hash and AST consistency
+
+- Review reference: `0000001-rw-20261111T223007Z-286136d1:C3`
+- Review harnesses:
+  - review_artifacts_main [current_repository] (`review_artifacts_main`, job `target_reviews:current_repository:review_artifacts_main`, target `current_repository`) — generating/repeating job; stage reports are not additional independent corroboration.
+- Source and target: `/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T223007Z-286136d1--head-7c5699d406d4/reconciliation/evidence.json` candidate `C3`; current_repository: per-file ingestion and atomic metadata finalization.
+- Simple description: The review questioned whether an editor save during ingestion could make stored file content, hashes, and AST disagree. It retained no committed mismatch.
+- Example: A developer saves a tracked file while it is being ingested. Selected tests cover changed and unchanged files, and source review found no inconsistent committed bytes/hash/AST association; no failing save sequence was recorded. This does not prove a repository-wide filesystem snapshot.
+- Why ignored: Preserve the whole unsupported candidate and the missing reproduction. The audit established no supported defect, and the blind-spot stage did not deeply re-review it. No new filesystem snapshot, freshness gate, or behavior change is authorized.
+
+#### 4. Structural AST relationships have semantic limits
+
+- Review reference: `0000001-rw-20261111T223007Z-286136d1:C4`
+- Review harnesses:
+  - review_artifacts_main [current_repository] (`review_artifacts_main`, job `target_reviews:current_repository:review_artifacts_main`, target `current_repository`) — generating/repeating job; stage reports are not additional independent corroboration.
+- Source and target: `/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T223007Z-286136d1--head-7c5699d406d4/reconciliation/evidence.json` candidate `C4`; current_repository: AST parser and query contract.
+- Simple description: AST relationships use structural, name-based information. The review did not show that this approximation violates the supported AST behavior.
+- Example: An AST query returns a name-based relationship rather than compiler-resolved identity. The record supplies no concrete incorrect structural range or supported relationship and no promised compiler-resolution result that failed.
+- Why ignored: Preserve the whole unsupported candidate. K-4 expressly limits the feature to structural AST behavior, and compiler-grade semantics are Out of Scope. The audit retained no violated bounded promise; deeper semantic resolution is not accepted work.
+
+#### 5. Large summary and AST reads may be expensive
+
+- Review reference: `0000001-rw-20261111T223007Z-286136d1:C5`
+- Review harnesses:
+  - review_artifacts_main [current_repository] (`review_artifacts_main`, job `target_reviews:current_repository:review_artifacts_main`, target `current_repository`) — generating/repeating job; stage reports are not additional independent corroboration.
+- Source and target: `/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T223007Z-286136d1--head-7c5699d406d4/reconciliation/evidence.json` candidate `C5`; current_repository: Knowledge summaries, AST query implementation and client subscriptions.
+- Simple description: Full source summaries, AST snapshots, and repeated list reads may increase processing and transport work. The review retained no measured regression or supported operation that fails because of that cost.
+- Example: Evidence-limited scenario: ingestion progress can trigger repeated source-list reads and summary traffic, while an AST query may load a full snapshot. No source size, profile, measured slowdown, or concrete bounded failure was retained to show harmful scale.
+- Why ignored: Preserve the whole unsupported candidate. The completed audit conserves the missing performance evidence rather than promoting speculation. No quotas, worker caps, pagination contract, or architectural machinery is routed for repair; this was excluded before materiality, not established as positively authorized and then rejected there.
+
+#### 6. Changing the Chroma endpoint can leave the index elsewhere
+
+- Review reference: `0000001-rw-20261111T223007Z-286136d1:C6`
+- Review harnesses:
+  - review_artifacts_main [current_repository] (`review_artifacts_main`, job `target_reviews:current_repository:review_artifacts_main`, target `current_repository`) — generating/repeating job; stage reports are not additional independent corroboration.
+- Source and target: `/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T223007Z-286136d1--head-7c5699d406d4/reconciliation/evidence.json` candidate `C6`; current_repository: environment settings and vector-store lifecycle.
+- Simple description: Embedding identity is stored separately from the configured Chroma endpoint. Switching to a different store does not move the existing vectors.
+- Example: A user changes the endpoint from a store containing indexed vectors to an empty store while SQLite still holds the embedding identity. The recorded recovery uses removal of indexed content and fresh ingestion; automatic detection or migration was not demonstrated or promised.
+- Why ignored: Preserve the entire design-boundary observation, with no repair requested. K-7 specifies existing removal and fresh ingestion for lost vectors and excludes automatic detection or a recovery API. K-9 and Out of Scope also exclude new freshness gates and speculative infrastructure; an endpoint check, automatic recovery, or migration is not authorized by this record.
+
+#### 7. The earlier Chroma restart-loss suspicion was corrected
+
+- Review reference: `0000001-rw-20261111T223007Z-286136d1:C7`
+- Review harnesses:
+  - review_artifacts_main [current_repository] (`review_artifacts_main`, job `target_reviews:current_repository:review_artifacts_main`, target `current_repository`) — generating/repeating job; stage reports are not additional independent corroboration.
+- Source and target: `/home/dan/code/t3code/codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/batches/0000001-rw-20261111T223007Z-286136d1--head-7c5699d406d4/reconciliation/evidence.json` candidate `C7`; current_repository: historical Knowledge/Chroma lifecycle evidence.
+- Simple description: An earlier missing-retrieval report was attributed to Chroma restart loss. Supplied history instead shows that the source was deliberately removed before that retrieval.
+- Example: In the supplied history, alpha removal completed at 02:46:08.085Z and the 02:46:08.090Z retrieval hit the indexed-source guard; beta retained its two original vectors and retrieval after restart. This batch did not rerun the scenario.
+- Why ignored: Preserve the whole historical rejected suspicion. The corrected ordering does not support restart data loss. It is supplied historical evidence, not a fresh runtime pass or a newly resolved defect; no repair follows from it.
+
 ## Review and checkpoint history
 
 Checkpoint at `660e9d33029f5542c1a8e155500e4ca5f41fc1b6` (tree `7ebbea05f3c7b40389846b764b4843d14c6974ed`) retains 70 files. The reviewed plan blob was `05be1a06cc49f84616451ae3310a37a58220d04b`; reviewer `research_agent` `b3f5f341-42f4-44c8-a5d9-79a2d878cd01` returned no required corrections and main adjudicated RETAIN. At that checkpoint, origin was last confirmed at `a7fc73a13d101b6ef824f4e1f33b3a79926fdb5b` and push was withheld; publication remains reserved for its later phase. At this candidate, `npm run container:exec -- vp run check:changed` exited 1: format, unused-patch, GraphQL, 40-package typecheck and tests (27 files, 406 tests) passed; React Compiler passed 9 tests with 1,334 skipped. Lint failed with 25 errors; the retained terminal transcript is truncated, so detailed diagnostics including the complete `EmbeddingModels.ts` output are unavailable. Knip task 1 found six unused grammar dependencies in `apps/server/package.json:80–85`; task 2 found unused exports in `discovery.ts:15` and `McpHttpServer.ts:1161`. These are separate findings. The read-only Knip follow-up by `research_agent` `5c6f365c-aba4-4457-a1d0-62a670057489` was active at this checkpoint; its subsequent findings and repairs are recorded below.
@@ -1882,9 +2015,11 @@ At that checkpoint, authored but not yet verified repairs included: integration 
 
 Publication checkpoint `0fa7e3e087a86a7f788fc4f43cfefd054cdd4cee` (parent `660e9d33029f5542c1a8e155500e4ca5f41fc1b6`, tree `e9ca4e8c83ecac7522de9db7703f9448b1385b07`) committed 12 files, including this plan. No fresh application proof ran at publication; the validation hook was disabled under that stage’s no-tests/repairs restriction. The next-publication K-13 check remains pending. Push was not attempted. The origin branch was last read back at `a7fc73a13d101b6ef824f4e1f33b3a79926fdb5b` and was two commits behind at that checkpoint; this is not a fresh remote read. Main’s repository ingestion later completed run `aeb076ca-0d7c-4541-97be-8ae69e9b98e7` for source/resolvedRepositoryId `/home/dan/code/t3code`: 12 files, 160 chunks, 160 embedded, `errorCode` null. This is CodeInfo2 source-indexing evidence only, not Knowledge-product proof; exhaustive or per-path coverage was not established. This audit note remains uncommitted until an existing authorized publication stage.
 
+Review cycle `0000001-rc-20261111T215004Z-8e2e8ba9` is settled with no new work after batches `0000001-rw-20261111T215006Z-c3078be9` and `0000001-rw-20261111T223007Z-286136d1` reviewed HEAD `7c5699d406d4319c6dbaeddbc66ac19974d74226`. All four direct review jobs and six launch records are accounted for; bounded/partial coverage remains explicit. Neither batch committed a fix or retained an actionable material survivor, so no completed-fix recovery, implementation task, or new final revalidation task applies. The 14 earlier completed-fix tasks, including repeated-research contributions, and completed Task 22 retain their exact evidence, creation points, and testing exclusions. Excluded and unrequested proof remains unperformed, never passed or an agent blocker; external human acceptance stays pending. See the [settlement recommendation](../codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/settlement/recommendation.md) and [applied settlement](../codeInfoTmp/reviews/0000001-rc-20261111T215004Z-8e2e8ba9/settlement/application.md).
+
 # Tasks
 
-The pre-conversion plan had four numbered items and no formal task statuses; its original implementation and acceptance checkbox markers were unchecked while its progress notes recorded completed local work. The structured statuses below record that local outcome separately. Each original item body and its checkbox markers are retained in the corresponding task’s Implementation notes. Task 4 remains in progress only for the existing next-publication K-13 check.
+The pre-conversion plan had four numbered items and no formal task statuses; its original implementation and acceptance checkbox markers were unchecked while its progress notes recorded completed local work. The structured statuses below record that local outcome separately. Each original item body and its checkbox markers are retained in the corresponding task’s Implementation notes. The subsequent Task 4 publication check and Task 22 revalidation are recorded complete below; external human acceptance remains pending.
 
 ### Task 1. Agree contracts and shared ownership
 
@@ -3718,3 +3853,11 @@ Created by complete-pass settlement. The scoped lint and formatting subtasks are
 - Implementation and automated-proof audit at `3248dd1992`: both subtasks and all six permitted Testing items are complete from the recorded results, with no parser-visible blocker. The pass changed only the plan and runtime handoff; application code is unchanged from `d8bd88084c`, so this pass introduced no product behavior drift. Task 22 is `__done__`; optional manual proof and external human acceptance remain pending, and excluded or unrequested execution is not claimed. Later review and settlement phases retain their ownership.
 - Manual proof on `1e1555dda2778c4196a6185d7f834f02447f7c22` expanded to full-story scope because Task 22 is final and fully checked/unblocked. Fresh fixture-enabled web/server and persistent Chroma proved Settings/sidebar/command-palette entry, ingestion, seven grammar groups, AST references, delta/no-op, persisted errors/settings, cancellation/queue progression, identical retrieval after both services restarted, model lock/unlock, filters and removal preserving source records/files. Scratch evidence is in `codeInfoTmp/manual-testing/0000001/22/`, especially `support-functional.json` and `support-runtime.log`. Captured sessions 62817/71028 stopped with Ctrl+C, exit 130; Chroma stopped with exit 0; no dev processes remained. Reusable workspace container and protected CodeInfo2 browser harness stayed running. No application code, subtasks or Testing items changed. Fresh parser completion gate remained 0 unchecked/0 blockers; task stays `__done__`. Story manual guidance was absent; task guidance applied without overrides. Native/live-provider/human acceptance remains unperformed.
 - Manual testing skipped for screenshot export and retained pixel-level review (`structural_proof_gap`, documented skip). Tried: staged `manual-testing/0000001/22/proof-01-ingested-source.png` for transfer to `codeInfoTmp/manual-testing/0000001/22/proof-01-ingested-source.png`, checked both documented host binds and copied from the recorded local Playwright container; three other UI captures and their intended destinations are listed in `support-functional.json`. Observed: tools reported captures, but the export bind and container copy-out source lacked the file. Why fuller proof was not possible: the browser artifact transport is outside this T3 task's supported repair scope; the single bounded transport diagnosis exhausted the documented paths. No screenshot is claimed saved or visually approved, and earlier uniquely necessary screenshots/bundled-parser evidence are not superseded. This limitation alone adds no implementation work or blocker.
+
+
+## Final Summary
+
+1. Implemented Repository Knowledge across the server, shared contracts, and web UI: source lifecycle and durable ingestion, SQLite-backed run/source/AST/model-lock state, persistent Chroma vectors, delta indexing, seven grammar families, embedding adapters and settings. Later review repairs corrected development-database snapshot isolation and parser ownership of dynamically inherited classes and enclosing callers.
+2. These changes let users index repositories, retrieve current code context, and manage ingestion and embedding settings; the review repairs address supported correctness findings in snapshot and AST behavior.
+3. Ingestion canonicalizes roots and queues work durably, deduplicating queued targets and reusing unchanged-file hashes so only changed content is re-embedded. A global embedding-model lock keeps one vector space consistent, while AST extraction records structural ownership and references.
+4. Reviewers should focus on snapshot isolation, parser ownership for dynamic class heritage and enclosing callers, and lifecycle boundaries around queue recovery, cancellation, delta updates, model locking, and vector removal. The final recorded `check:changed` pass succeeded, including 429 tests across 28 files; bounded review coverage and external human acceptance remain limited/pending. Curated manual evidence is in `codeInfoStatus/manual-proof/0000001/`.
