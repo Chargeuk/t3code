@@ -13,5 +13,6 @@
 
 ## Review Status
 
-- The final recorded `check:changed` pass succeeded, including 429 tests across 28 files. This is changed-file validation, not a repository-wide suite.
-- The latest review cycle closed with no supported actionable findings or new work. Source-review coverage remains bounded/partial; external human acceptance remains pending.
+- The recorded filtered build and final coordinated `check:changed` pass succeeded, including 429 tests across 28 files. All 22 tasks and their permitted testing items are complete; validation covers the selected changed files and affected checks.
+- The latest review settlement created no new work from zero recoverable findings. Substantive remote review was unavailable, so review coverage remains partial and does not establish approval.
+- Latest screenshot export was unavailable; the manual-proof bundle retains earlier visual evidence. External human acceptance remains pending.
